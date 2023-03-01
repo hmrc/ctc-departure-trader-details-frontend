@@ -46,7 +46,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
       "when Declaration Type is TIR (Option 4)" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(DeclarationTypePage)(Option4)
+          .setValue(DeclarationTypePage, Option4)
           .unsafeSetVal(TirIdentificationYesNoPage)(false)
           .unsafeSetVal(NamePage)(name)
           .unsafeSetVal(CountryPage)(country)
@@ -63,7 +63,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         DeclarationType.values.filterNot(_ == Option4).foreach {
           declarationType =>
             val userAnswers = emptyUserAnswers
-              .unsafeSetVal(DeclarationTypePage)(declarationType)
+              .setValue(DeclarationTypePage, declarationType)
               .unsafeSetVal(EoriYesNoPage)(false)
               .unsafeSetVal(NamePage)(name)
               .unsafeSetVal(CountryPage)(country)

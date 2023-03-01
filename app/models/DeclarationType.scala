@@ -33,7 +33,4 @@ object DeclarationType extends EnumerableType[DeclarationType] {
     Option4,
     Option5
   )
-
-  override def valuesU(userAnswers: UserAnswers): Seq[DeclarationType] =
-    values
 }

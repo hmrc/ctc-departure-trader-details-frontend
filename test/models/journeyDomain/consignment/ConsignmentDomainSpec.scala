@@ -43,8 +43,8 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
       "when has the minimum consignment fields complete" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(DeclarationTypePage)(nonOption4DeclarationType)
-          .unsafeSetVal(SecurityDetailsTypePage)(NoSecurityDetails)
+          .setValue(DeclarationTypePage, nonOption4DeclarationType)
+          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
           .unsafeSetVal(ApprovedOperatorPage)(true)
           .unsafeSetVal(MoreThanOneConsigneePage)(true)
 
@@ -61,8 +61,8 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
       "when the consignor fields are complete" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(DeclarationTypePage)(nonOption4DeclarationType)
-          .unsafeSetVal(SecurityDetailsTypePage)(EntrySummaryDeclarationSecurityDetails)
+          .setValue(DeclarationTypePage, nonOption4DeclarationType)
+          .setValue(SecurityDetailsTypePage, EntrySummaryDeclarationSecurityDetails)
           .unsafeSetVal(ApprovedOperatorPage)(true)
           .unsafeSetVal(consignor.EoriYesNoPage)(false)
           .unsafeSetVal(consignor.NamePage)(name)
@@ -91,8 +91,8 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
       "when the consignor fields are populated but we don't want security details but have the ApprovedOperatorPage as Yes" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(DeclarationTypePage)(nonOption4DeclarationType)
-          .unsafeSetVal(SecurityDetailsTypePage)(NoSecurityDetails)
+          .setValue(DeclarationTypePage, nonOption4DeclarationType)
+          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
           .unsafeSetVal(ApprovedOperatorPage)(true)
           .unsafeSetVal(MoreThanOneConsigneePage)(true)
 
@@ -109,8 +109,8 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
       "when the consignor fields are populated we do not want security details and have the ApprovedOperatorPage as No" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(DeclarationTypePage)(nonOption4DeclarationType)
-          .unsafeSetVal(SecurityDetailsTypePage)(NoSecurityDetails)
+          .setValue(DeclarationTypePage, nonOption4DeclarationType)
+          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
           .unsafeSetVal(ApprovedOperatorPage)(false)
           .unsafeSetVal(consignor.EoriYesNoPage)(false)
           .unsafeSetVal(consignor.NamePage)(name)
@@ -139,8 +139,8 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
       "when the consignor fields are populated but we don't want security details but have the ApprovedOperatorPage as Yes, but we have an option4 declarationType" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(DeclarationTypePage)(DeclarationType.Option4)
-          .unsafeSetVal(SecurityDetailsTypePage)(NoSecurityDetails)
+          .setValue(DeclarationTypePage, DeclarationType.Option4)
+          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
           .unsafeSetVal(consignor.EoriYesNoPage)(false)
           .unsafeSetVal(consignor.NamePage)(name)
           .unsafeSetVal(consignor.CountryPage)(country)
@@ -171,8 +171,8 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
       "when Reduced data set page is missing" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(DeclarationTypePage)(nonOption4DeclarationType)
-          .unsafeSetVal(SecurityDetailsTypePage)(securityDetailsType)
+          .setValue(DeclarationTypePage, nonOption4DeclarationType)
+          .setValue(SecurityDetailsTypePage, securityDetailsType)
 
         val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain].run(userAnswers)
 

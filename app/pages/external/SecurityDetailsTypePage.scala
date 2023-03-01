@@ -17,13 +17,12 @@
 package pages.external
 
 import models.SecurityDetailsType
-import pages.{QuestionPage, ReadOnlyPage}
-import pages.sections.external.PreTaskListSection
+import pages.ReadOnlyPage
 import play.api.libs.json.JsPath
 
 case object SecurityDetailsTypePage extends ReadOnlyPage[SecurityDetailsType] {
 
-  override def path: JsPath = PreTaskListSection.path \ toString
+  override def path: JsPath = preTaskListPath \ toString
 
   override def toString: String = "securityDetailsType"
 

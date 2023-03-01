@@ -45,8 +45,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
       "when has the minimum fields complete" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(DeclarationTypePage)(nonOption4DeclarationType)
-          .unsafeSetVal(SecurityDetailsTypePage)(NoSecurityDetails)
+          .setValue(DeclarationTypePage, nonOption4DeclarationType)
+          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
           .unsafeSetVal(hot.EoriYesNoPage)(false)
           .unsafeSetVal(hot.NamePage)(holderOfTransitName)
           .unsafeSetVal(hot.CountryPage)(holderOfTransitCountry)
@@ -82,8 +82,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
       "when ActingAsRepresentativePage is missing" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(DeclarationTypePage)(DeclarationType.Option4)
-          .unsafeSetVal(SecurityDetailsTypePage)(NoSecurityDetails)
+          .setValue(DeclarationTypePage, DeclarationType.Option4)
+          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
           .unsafeSetVal(hot.TirIdentificationYesNoPage)(false)
           .unsafeSetVal(hot.NamePage)(holderOfTransitName)
           .unsafeSetVal(hot.CountryPage)(holderOfTransitCountry)
@@ -99,8 +99,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
         "and consignor EORI yes/no is missing" in {
 
           val userAnswers = emptyUserAnswers
-            .unsafeSetVal(DeclarationTypePage)(DeclarationType.Option4)
-            .unsafeSetVal(SecurityDetailsTypePage)(NoSecurityDetails)
+            .setValue(DeclarationTypePage, DeclarationType.Option4)
+            .setValue(SecurityDetailsTypePage, NoSecurityDetails)
             .unsafeSetVal(hot.TirIdentificationYesNoPage)(false)
             .unsafeSetVal(hot.NamePage)(holderOfTransitName)
             .unsafeSetVal(hot.CountryPage)(holderOfTransitCountry)
@@ -118,8 +118,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
         "and reduced data set is missing" in {
 
           val userAnswers = emptyUserAnswers
-            .unsafeSetVal(DeclarationTypePage)(nonOption4DeclarationType)
-            .unsafeSetVal(SecurityDetailsTypePage)(NoSecurityDetails)
+            .setValue(DeclarationTypePage, nonOption4DeclarationType)
+            .setValue(SecurityDetailsTypePage, NoSecurityDetails)
             .unsafeSetVal(hot.EoriYesNoPage)(false)
             .unsafeSetVal(hot.NamePage)(holderOfTransitName)
             .unsafeSetVal(hot.CountryPage)(holderOfTransitCountry)
@@ -137,8 +137,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
             "and more than one consignee is missing" in {
 
               val userAnswers = emptyUserAnswers
-                .unsafeSetVal(DeclarationTypePage)(nonOption4DeclarationType)
-                .unsafeSetVal(SecurityDetailsTypePage)(NoSecurityDetails)
+                .setValue(DeclarationTypePage, nonOption4DeclarationType)
+                .setValue(SecurityDetailsTypePage, NoSecurityDetails)
                 .unsafeSetVal(hot.EoriYesNoPage)(false)
                 .unsafeSetVal(hot.NamePage)(holderOfTransitName)
                 .unsafeSetVal(hot.CountryPage)(holderOfTransitCountry)
@@ -157,8 +157,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
             "and consignor EORI yes/no is missing" in {
 
               val userAnswers = emptyUserAnswers
-                .unsafeSetVal(DeclarationTypePage)(nonOption4DeclarationType)
-                .unsafeSetVal(SecurityDetailsTypePage)(NoSecurityDetails)
+                .setValue(DeclarationTypePage, nonOption4DeclarationType)
+                .setValue(SecurityDetailsTypePage, NoSecurityDetails)
                 .unsafeSetVal(hot.EoriYesNoPage)(false)
                 .unsafeSetVal(hot.NamePage)(holderOfTransitName)
                 .unsafeSetVal(hot.CountryPage)(holderOfTransitCountry)
@@ -178,8 +178,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
           "and consignor EORI yes/no is missing" in {
 
             val userAnswers = emptyUserAnswers
-              .unsafeSetVal(DeclarationTypePage)(nonOption4DeclarationType)
-              .unsafeSetVal(SecurityDetailsTypePage)(someSecurityType)
+              .setValue(DeclarationTypePage, nonOption4DeclarationType)
+              .setValue(SecurityDetailsTypePage, someSecurityType)
               .unsafeSetVal(hot.EoriYesNoPage)(false)
               .unsafeSetVal(hot.NamePage)(holderOfTransitName)
               .unsafeSetVal(hot.CountryPage)(holderOfTransitCountry)
