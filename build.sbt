@@ -3,13 +3,8 @@ import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 
 lazy val appName: String = "ctc-departure-trader-details-frontend"
 
-lazy val root = Project(appName, file("."))
+lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
-  .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
-  .settings(majorVersion := 0)
-  .settings(
-    ThisBuild / useSuperShell := false,
-  )
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .configs(A11yTest)
   .settings(inConfig(A11yTest)(org.scalafmt.sbt.ScalafmtPlugin.scalafmtConfigSettings): _*)
@@ -20,9 +15,7 @@ lazy val root = Project(appName, file("."))
     majorVersion        := 0,
     scalaVersion        := "2.13.8",
     name := appName,
-    RoutesKeys.routesImport ++= Seq(
-      "models._"
-    ),
+    RoutesKeys.routesImport ++= Seq("models._"),
     TwirlKeys.templateImports ++= Seq(
       "play.twirl.api.HtmlFormat",
       "play.twirl.api.HtmlFormat._",
@@ -45,12 +38,17 @@ lazy val root = Project(appName, file("."))
       "-Wconf:src=routes/.*:s",
       "-Wconf:cat=unused-imports&src=html/.*:s",
     ),
+    Concat.groups := Seq(
+      "javascripts/application.js" -> group(Seq("javascripts/app.js"))
+    ),
+    uglifyCompressOptions := Seq("unused=false", "dead_code=false", "warnings=false"),
+    Assets / pipelineStages := Seq(digest, concat, uglify),
     ThisBuild / useSuperShell := false,
+    uglify / includeFilter := GlobFilter("application.js"),
     ThisBuild / scalafmtOnCompile := true
   )
   .settings(resolvers += Resolver.jcenterRepo)
   .settings(CodeCoverageSettings.settings: _*)
-
 
 lazy val testSettings: Seq[Def.Setting[_]] = Seq(
   fork := true,
