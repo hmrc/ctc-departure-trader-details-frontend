@@ -17,7 +17,7 @@
 package controllers.representative
 
 import controllers.actions.Actions
-import controllers.{NavigatorOps, SettableOps,SettableOpsRunner}
+import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
 import forms.NameFormProvider
 import models.{LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}

@@ -20,24 +20,17 @@ import models.reference.Country
 import models.{CountryList, Enumerable, LocalReferenceNumber}
 import play.api.data.FieldMapping
 import play.api.data.Forms.of
-import play.api.data.format.Formats.ignoredFormat
 
 trait Mappings extends Formatters with Constraints {
 
   protected def text(errorKey: String = "error.required", args: Seq[Any] = Seq.empty): FieldMapping[String] =
     of(stringFormatter(errorKey, args))
 
-  protected def trimmedText(errorKey: String = "error.required", args: Seq[Any] = Seq.empty): FieldMapping[String] =
-    of(trimmedStringFormatter(errorKey, args))
-
   protected def textWithSpacesRemoved(errorKey: String = "error.required"): FieldMapping[String] =
     of(spacelessStringFormatter(errorKey))
 
   protected def formattedPostcode(errorKey: String = "error.required", args: Seq[Any] = Seq.empty): FieldMapping[String] =
     of(postcodeFormatter(errorKey, args))
-
-  protected def mandatoryIfBoolean(errorKey: String = "error.required", condition: Boolean, defaultValue: Boolean): FieldMapping[Boolean] =
-    if (condition) boolean(errorKey) else of(ignoredFormat(defaultValue))
 
   protected def int(
     requiredKey: String = "error.required",

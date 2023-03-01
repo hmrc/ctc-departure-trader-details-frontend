@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-package models
+package navigation
 
-import models.reference.Country
-import play.api.libs.json.{Json, OFormat}
+import config.FrontendAppConfig
+import models.{Mode, UserAnswers}
+import play.api.mvc.Call
 
-case class PostalCodeAddress(
-  streetNumber: String,
-  postalCode: String,
-  country: Country
-) {
-
-  override def toString: String = Seq(streetNumber, postalCode, country.description).mkString("<br>")
+class FakeNavigator(desiredRoute: Call) extends Navigator {
+  override def nextPage(userAnswers: UserAnswers): Call = desiredRoute
 }
 
-object PostalCodeAddress {
-  implicit val format: OFormat[PostalCodeAddress] = Json.format[PostalCodeAddress]
+class FakeTraderDetailsNavigator(desiredRoute: Call, mode: Mode)(implicit config: FrontendAppConfig) extends TraderDetailsNavigator(mode) {
+  override def nextPage(userAnswers: UserAnswers): Call = desiredRoute
 }

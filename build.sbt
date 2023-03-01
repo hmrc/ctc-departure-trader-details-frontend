@@ -10,6 +10,12 @@ lazy val root = Project(appName, file("."))
   .settings(
     ThisBuild / useSuperShell := false,
   )
+  .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
+  .configs(A11yTest)
+  .settings(inConfig(A11yTest)(org.scalafmt.sbt.ScalafmtPlugin.scalafmtConfigSettings): _*)
+  .settings(inConfig(Test)(testSettings): _*)
+  .settings(headerSettings(A11yTest): _*)
+  .settings(automateHeaderSettings(A11yTest))
   .settings(
     majorVersion        := 0,
     scalaVersion        := "2.13.8",
@@ -40,9 +46,11 @@ lazy val root = Project(appName, file("."))
       "-Wconf:cat=unused-imports&src=html/.*:s",
     ),
     ThisBuild / useSuperShell := false,
+    ThisBuild / scalafmtOnCompile := true
   )
   .settings(resolvers += Resolver.jcenterRepo)
   .settings(CodeCoverageSettings.settings: _*)
+
 
 lazy val testSettings: Seq[Def.Setting[_]] = Seq(
   fork := true,

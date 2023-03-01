@@ -28,7 +28,6 @@ object DeclarationType extends RadioModelU[DeclarationType] {
   case object Option4 extends WithName("TIR") with DeclarationType
   case object Option5 extends WithName("T") with DeclarationType
 
-
   override val values: Seq[DeclarationType] = Seq(
     Option1,
     Option2,

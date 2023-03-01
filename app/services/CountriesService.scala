@@ -26,7 +26,6 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class CountriesService @Inject() (referenceDataConnector: ReferenceDataConnector)(implicit ec: ExecutionContext) {
 
-
   def getCountries()(implicit hc: HeaderCarrier): Future[CountryList] =
     getCountries(Nil)
 
@@ -41,8 +40,6 @@ class CountriesService @Inject() (referenceDataConnector: ReferenceDataConnector
 
   def doesCountryRequireZip(country: Country)(implicit hc: HeaderCarrier): Future[Boolean] =
     getCountriesWithoutZip().map(!_.contains(country.code))
-
-
 
   private def sort(countries: Seq[Country]): CountryList =
     CountryList(countries.sortBy(_.description.toLowerCase))

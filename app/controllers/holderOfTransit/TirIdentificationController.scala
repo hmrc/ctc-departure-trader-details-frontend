@@ -17,7 +17,7 @@
 package controllers.holderOfTransit
 
 import controllers.actions.Actions
-import controllers.{NavigatorOps, SettableOps,SettableOpsRunner}
+import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
 import forms.TirIdNumberFormProvider
 import models.{LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}

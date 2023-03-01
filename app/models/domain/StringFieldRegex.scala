@@ -20,12 +20,12 @@ import scala.util.matching.Regex
 
 object StringFieldRegex {
 
-  val stringFieldRegex: Regex         = "[\\sa-zA-Z0-9&'@/.\\-? ]*".r
-  val alphaNumericRegex: Regex        = "^[a-zA-Z0-9]*$".r
+  val stringFieldRegex: Regex              = "[\\sa-zA-Z0-9&'@/.\\-? ]*".r
+  val alphaNumericRegex: Regex             = "^[a-zA-Z0-9]*$".r
   val telephoneNumberCharacterRegex: Regex = "^[0-9+ ]+$".r
   val telephoneNumberFormatRegex: Regex    = "^\\+[0-9 ]+$".r
-  val tirIdNumberCharacterRegex: Regex = "^[a-zA-Z0-9/]+$".r
-  val tirIdNumberFormatRegex: Regex    = "^[a-zA-Z]{3}\\/[0-9]{3}\\/[0-9]{0,9}$".r
-  val alphaNumericWithSpacesRegex: Regex = "^[a-zA-Z\\s0-9]*$".r
+  val tirIdNumberCharacterRegex: Regex     = "^[a-zA-Z0-9/]+$".r
+  val tirIdNumberFormatRegex: Regex        = "^[a-zA-Z]{3}\\/[0-9]{3}\\/[0-9]{0,9}$".r
+  val alphaNumericWithSpacesRegex: Regex   = "^[a-zA-Z\\s0-9]*$".r
 
 }
