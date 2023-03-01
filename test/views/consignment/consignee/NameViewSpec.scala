@@ -23,7 +23,7 @@ import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import viewModels.InputSize
 import views.behaviours.InputTextViewBehaviours
-import views.html.traderDetails.consignment.consignee.NameView
+import views.html.consignment.consignee.NameView
 
 class NameViewSpec extends InputTextViewBehaviours[String] {
 

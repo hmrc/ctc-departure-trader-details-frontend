@@ -28,7 +28,7 @@ import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.html.traderDetails.holderOfTransit.EoriYesNoView
+import views.html.holderOfTransit.EoriYesNoView
 
 import scala.concurrent.Future
 

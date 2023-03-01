@@ -22,7 +22,7 @@ import models.{DynamicAddress, NormalMode}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behaviours.DynamicAddressViewBehaviours
-import views.html.traderDetails.consignment.consignee.AddressView
+import views.html.consignment.consignee.AddressView
 
 class AddressViewSpec extends DynamicAddressViewBehaviours with Generators {
 

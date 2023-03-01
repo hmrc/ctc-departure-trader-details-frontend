@@ -30,7 +30,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
 import services.CountriesService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.traderDetails.consignment.consignor.AddressView
+import views.html.consignment.consignor.AddressView
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}

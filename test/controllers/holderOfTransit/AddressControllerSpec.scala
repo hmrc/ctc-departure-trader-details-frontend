@@ -32,7 +32,7 @@ import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.CountriesService
-import views.html.traderDetails.holderOfTransit.AddressView
+import views.html.holderOfTransit.AddressView
 
 import scala.concurrent.Future
 

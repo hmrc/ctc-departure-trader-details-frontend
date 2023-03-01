@@ -21,7 +21,7 @@ import models.NormalMode
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behaviours.TelephoneNumberViewBehaviours
-import views.html.traderDetails.consignment.consignor.contact.TelephoneNumberView
+import views.html.consignment.consignor.contact.TelephoneNumberView
 
 class TelephoneNumberViewSpec extends TelephoneNumberViewBehaviours {
 

@@ -23,7 +23,7 @@ import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import viewModels.InputSize
 import views.behaviours.InputTextViewBehaviours
-import views.html.traderDetails.holderOfTransit.TirIdentificationView
+import views.html.holderOfTransit.TirIdentificationView
 
 class TirIdentificationViewSpec extends InputTextViewBehaviours[String] {
 

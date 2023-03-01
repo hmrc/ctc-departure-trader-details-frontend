@@ -20,7 +20,7 @@ import models.NormalMode
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behaviours.YesNoViewBehaviours
-import views.html.traderDetails.consignment.MoreThanOneConsigneeView
+import views.html.consignment.MoreThanOneConsigneeView
 
 class MoreThanOneConsigneeViewSpec extends YesNoViewBehaviours {
 

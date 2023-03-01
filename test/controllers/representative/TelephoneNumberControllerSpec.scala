@@ -27,7 +27,7 @@ import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.html.traderDetails.representative.TelephoneNumberView
+import views.html.representative.TelephoneNumberView
 
 import scala.concurrent.Future
 

@@ -23,7 +23,7 @@ import org.scalacheck.Arbitrary
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behaviours.InputSelectViewBehaviours
-import views.html.traderDetails.consignment.consignor.CountryView
+import views.html.consignment.consignor.CountryView
 
 class CountryViewSpec extends InputSelectViewBehaviours[Country] {
 

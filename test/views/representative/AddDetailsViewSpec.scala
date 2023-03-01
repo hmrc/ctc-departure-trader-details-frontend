@@ -20,7 +20,7 @@ import models.NormalMode
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behaviours.YesNoViewBehaviours
-import views.html.traderDetails.representative.AddDetailsView
+import views.html.representative.AddDetailsView
 
 class AddDetailsViewSpec extends YesNoViewBehaviours {
 

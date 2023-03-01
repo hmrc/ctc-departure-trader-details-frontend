@@ -28,7 +28,7 @@ import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.html.traderDetails.holderOfTransit.AddContactView
+import views.html.holderOfTransit.AddContactView
 
 import scala.concurrent.Future
 
