@@ -37,7 +37,7 @@
 @mainTemplate(
     title = messages("traderDetails.consignment.consignor.address.title"),
     showBackLink = true,
-    lrn = Some(lrn)
+    lrn = lrn
 ) {
 
     @formHelper(action = routes.AddressController.onSubmit(lrn, mode), Symbol("autoComplete") -> "off") {

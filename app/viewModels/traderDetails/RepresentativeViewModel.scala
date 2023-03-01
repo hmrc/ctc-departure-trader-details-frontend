@@ -16,6 +16,7 @@
 
 package viewModels.traderDetails
 
+import config.FrontendAppConfig
 import models.{Mode, UserAnswers}
 import play.api.i18n.Messages
 import utils.cyaHelpers.RepresentativeCheckYourAnswersHelper
@@ -29,7 +30,7 @@ object RepresentativeViewModel {
 
   class RepresentativeViewModelProvider @Inject() () {
 
-    def apply(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages): RepresentativeViewModel = {
+    def apply(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages, config: FrontendAppConfig): RepresentativeViewModel = {
       val helper = new RepresentativeCheckYourAnswersHelper(userAnswers, mode)
 
       val section = Section(
@@ -43,7 +44,7 @@ object RepresentativeViewModel {
         ).flatten
       )
 
-      new RepresentativeViewModel(section.toSeq)
+      new RepresentativeViewModel(Seq(section))
     }
   }
 }

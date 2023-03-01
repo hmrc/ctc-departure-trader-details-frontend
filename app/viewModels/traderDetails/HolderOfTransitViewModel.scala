@@ -16,6 +16,7 @@
 
 package viewModels.traderDetails
 
+import config.FrontendAppConfig
 import models.{Mode, UserAnswers}
 import play.api.i18n.Messages
 import utils.cyaHelpers.HolderOfTransitCheckYourAnswersHelper
@@ -29,7 +30,7 @@ object HolderOfTransitViewModel {
 
   class HolderOfTransitViewModelProvider @Inject() () {
 
-    def apply(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages): HolderOfTransitViewModel = {
+    def apply(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages, config: FrontendAppConfig): HolderOfTransitViewModel = {
       val helper = new HolderOfTransitCheckYourAnswersHelper(userAnswers, mode)
 
       val holderOfTransitSection = Section(

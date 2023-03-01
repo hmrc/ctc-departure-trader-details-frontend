@@ -16,10 +16,9 @@
 
 package controllers.consignment.consignee
 
-import controllers.SettableOps
+import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
 import controllers.actions.Actions
 import forms.YesNoFormProvider
-import models.journeyDomain.TraderDetailsDomain
 import models.{LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
 import pages.consignment.consignee.EoriYesNoPage

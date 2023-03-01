@@ -32,7 +32,7 @@
 @mainTemplate(
     title = messages("traderDetails.consignment.consignor.name.title"),
     showBackLink = true,
-    lrn = Some(lrn)
+    lrn = lrn
 ) {
 
     @formHelper(action = routes.NameController.onSubmit(lrn, mode), Symbol("autoComplete") -> "off") {

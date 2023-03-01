@@ -32,7 +32,7 @@
 @mainTemplate(
     title = messages("traderDetails.holderOfTransit.addContact.title"),
     showBackLink = true,
-    lrn = Some(lrn)
+    lrn = lrn
 ) {
 
     @formHelper(action = routes.AddContactController.onSubmit(lrn, mode), Symbol("autoComplete") -> "off") {

@@ -16,13 +16,14 @@
 
 package utils.cyaHelpers
 
+import config.FrontendAppConfig
 import models.{Mode, UserAnswers}
 import pages.ActingAsRepresentativePage
 import play.api.i18n.Messages
 import pages.representative._
 import uk.gov.hmrc.govukfrontend.views.Aliases.SummaryListRow
 
-class RepresentativeCheckYourAnswersHelper(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages) extends AnswersHelper(userAnswers, mode) {
+class RepresentativeCheckYourAnswersHelper(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages, config: FrontendAppConfig) extends AnswersHelper(userAnswers, mode) {
 
   def actingAsRepresentative: Option[SummaryListRow] = getAnswerAndBuildRow[Boolean](
     page = ActingAsRepresentativePage,

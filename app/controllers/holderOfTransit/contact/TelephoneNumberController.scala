@@ -16,12 +16,11 @@
 
 package controllers.holderOfTransit.contact
 
-import controllers.{NavigatorOps, SettableOps}
 import controllers.actions.{Actions, SpecificDataRequiredActionProvider}
+import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
 import forms.TelephoneNumberFormProvider
-import models.journeyDomain.TraderDetailsDomain
-import models.{LocalReferenceNumber, Mode}
 import models.requests.SpecificDataRequestProvider1
+import models.{LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
 import pages.holderOfTransit.contact.{NamePage, TelephoneNumberPage}
 import play.api.data.Form

@@ -16,6 +16,7 @@
 
 package viewModels.traderDetails
 
+import config.FrontendAppConfig
 import models.{CheckMode, UserAnswers}
 import play.api.i18n.Messages
 import viewModels.Section
@@ -35,7 +36,7 @@ object TraderDetailsViewModel {
     consignmentViewModelProvider: ConsignmentViewModelProvider
   ) {
 
-    def apply(userAnswers: UserAnswers)(implicit messages: Messages): TraderDetailsViewModel = {
+    def apply(userAnswers: UserAnswers)(implicit messages: Messages, config: FrontendAppConfig): TraderDetailsViewModel = {
       val mode = CheckMode
       new TraderDetailsViewModel(
         holderOfTransitViewModelProvider.apply(userAnswers, mode).sections ++

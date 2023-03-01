@@ -23,8 +23,6 @@ import play.api.mvc.Call
 import uk.gov.hmrc.govukfrontend.views.html.components._
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 
-import java.time.LocalDate
-
 private[utils] class SummaryListRowHelper(implicit messages: Messages) {
 
   protected def formatAsYesOrNo(answer: Boolean): Content =

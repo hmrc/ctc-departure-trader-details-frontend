@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.traderDetails.routes
+@import controllers.routes
 @import models.LocalReferenceNumber
 @import viewModels.Section
 @import views.html.components.{AnswerSections, Button, Heading}
@@ -32,7 +32,7 @@
 @mainTemplate(
     title = messages("traderDetails.checkYourAnswers.title"),
     showBackLink = true,
-    lrn = Some(lrn)
+    lrn = lrn
 ) {
 
     @heading(

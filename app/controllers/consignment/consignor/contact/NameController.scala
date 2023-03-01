@@ -16,10 +16,9 @@
 
 package controllers.consignment.consignor.contact
 
-import controllers.{NavigatorOps, SettableOps}
 import controllers.actions.Actions
+import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
 import forms.NameFormProvider
-import models.journeyDomain.TraderDetailsDomain
 import models.{LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
 import pages.consignment.consignor.contact.NamePage

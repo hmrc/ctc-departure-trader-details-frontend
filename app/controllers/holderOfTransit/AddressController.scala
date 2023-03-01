@@ -16,13 +16,12 @@
 
 package controllers.holderOfTransit
 
-import controllers.{NavigatorOps, SettableOps}
 import controllers.actions.{Actions, SpecificDataRequiredActionProvider}
+import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
 import forms.DynamicAddressFormProvider
-import models.journeyDomain.TraderDetailsDomain
-import models.{DynamicAddress, LocalReferenceNumber, Mode}
 import models.reference.Country
 import models.requests.SpecificDataRequestProvider2
+import models.{DynamicAddress, LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
 import pages.holderOfTransit.{AddressPage, CountryPage, NamePage}
 import play.api.data.Form

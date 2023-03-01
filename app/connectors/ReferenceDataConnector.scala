@@ -17,9 +17,10 @@
 package connectors
 
 import config.FrontendAppConfig
+import models.reference._
 import sttp.model.HeaderNames
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
-import models.reference._
+import uk.gov.hmrc.http.HttpReads.Implicits._
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}

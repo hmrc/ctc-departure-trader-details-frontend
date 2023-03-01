@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package pages.external
+package models
 
-import models.DeclarationType
-import pages.QuestionPage
-import pages.sections.external.PreTaskListSection
-import play.api.libs.json.JsPath
+import models.reference.Country
+import play.api.libs.json.{Json, OFormat}
 
-case object DeclarationTypePage extends QuestionPage[DeclarationType] {
+case class PostalCodeAddress(
+  streetNumber: String,
+  postalCode: String,
+  country: Country
+) {
 
-  override def path: JsPath = PreTaskListSection.path \ toString
+  override def toString: String = Seq(streetNumber, postalCode, country.description).mkString("<br>")
+}
 
-  override def toString: String = "declarationType"
-
+object PostalCodeAddress {
+  implicit val format: OFormat[PostalCodeAddress] = Json.format[PostalCodeAddress]
 }

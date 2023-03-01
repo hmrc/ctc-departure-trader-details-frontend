@@ -32,7 +32,7 @@
 @mainTemplate(
     title = messages("traderDetails.holderOfTransit.eori.title"),
     showBackLink = true,
-    lrn = Some(lrn)
+    lrn = lrn
 ) {
 
     @formHelper(action = routes.EoriController.onSubmit(lrn, mode), Symbol("autoComplete") -> "off") {

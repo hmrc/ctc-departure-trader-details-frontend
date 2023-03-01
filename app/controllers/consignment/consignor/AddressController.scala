@@ -16,13 +16,12 @@
 
 package controllers.consignment.consignor
 
-import controllers.SettableOps
+import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
 import controllers.actions.{Actions, SpecificDataRequiredActionProvider}
 import forms.DynamicAddressFormProvider
-import models.journeyDomain.TraderDetailsDomain
-import models.{DynamicAddress, LocalReferenceNumber, Mode}
 import models.reference.Country
 import models.requests.SpecificDataRequestProvider2
+import models.{DynamicAddress, LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
 import pages.consignment.consignor.{AddressPage, CountryPage, NamePage}
 import play.api.data.Form

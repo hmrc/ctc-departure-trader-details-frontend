@@ -16,6 +16,7 @@
 
 package viewModels.traderDetails
 
+import config.FrontendAppConfig
 import models.{Mode, UserAnswers}
 import play.api.i18n.Messages
 import utils.cyaHelpers.ConsignmentCheckYourAnswersHelper
@@ -29,7 +30,7 @@ object ConsignmentViewModel {
 
   class ConsignmentViewModelProvider @Inject() () {
 
-    def apply(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages): ConsignmentViewModel = {
+    def apply(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages, config: FrontendAppConfig): ConsignmentViewModel = {
       val helper = new ConsignmentCheckYourAnswersHelper(userAnswers, mode)
 
       val consignorSection = Section(

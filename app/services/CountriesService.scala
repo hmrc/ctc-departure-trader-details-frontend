@@ -17,9 +17,8 @@
 package services
 
 import connectors.ReferenceDataConnector
+import models.CountryList
 import models.reference.{Country, CountryCode}
-import models.{CountryList, DeclarationType, UserAnswers}
-import pages.external.DeclarationTypePage
 import uk.gov.hmrc.http.HeaderCarrier
 
 import javax.inject.Inject

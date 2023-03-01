@@ -16,10 +16,9 @@
 
 package controllers.consignment.consignor
 
-import controllers.{NavigatorOps, SettableOps}
 import controllers.actions.{Actions, SpecificDataRequiredActionProvider}
+import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
 import forms.CountryFormProvider
-import models.journeyDomain.TraderDetailsDomain
 import models.{LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
 import pages.consignment.consignor.{CountryPage, NamePage}
