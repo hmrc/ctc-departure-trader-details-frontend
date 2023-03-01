@@ -18,9 +18,7 @@ package models
 
 sealed trait DeclarationType
 
-object DeclarationType extends RadioModelU[DeclarationType] {
-
-  override val messageKeyPrefix = "declarationType"
+object DeclarationType extends EnumerableType[DeclarationType] {
 
   case object Option1 extends WithName("T1") with DeclarationType
   case object Option2 extends WithName("T2") with DeclarationType

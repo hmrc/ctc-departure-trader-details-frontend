@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package pages.external
+package models
 
-import models.DeclarationType
-import pages.{QuestionPage, ReadOnlyPage}
-import pages.sections.external.PreTaskListSection
-import play.api.libs.json.JsPath
+trait EnumerableType[T] extends Enumerable.Implicits {
 
-case object DeclarationTypePage extends ReadOnlyPage[DeclarationType] {
+  val values: Seq[T]
 
-  override def path: JsPath = PreTaskListSection.path \ toString
-
-  override def toString: String = "declarationType"
-
+  implicit def enumerable: Enumerable[T] =
+    Enumerable(
+      values.map(
+        v => v.toString -> v
+      ): _*
+    )
 }

@@ -17,11 +17,11 @@
 package pages.external
 
 import models.SecurityDetailsType
-import pages.QuestionPage
+import pages.{QuestionPage, ReadOnlyPage}
 import pages.sections.external.PreTaskListSection
 import play.api.libs.json.JsPath
 
-case object SecurityDetailsTypePage extends QuestionPage[SecurityDetailsType] {
+case object SecurityDetailsTypePage extends ReadOnlyPage[SecurityDetailsType] {
 
   override def path: JsPath = PreTaskListSection.path \ toString
 
