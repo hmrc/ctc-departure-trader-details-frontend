@@ -1,6 +1,6 @@
 
-->         /                                                                app.consignment.consignor.Routes
-->         /                                                                app.consignment.consignee.Routes
+->         /consignor                                        app.consignment.consignor.Routes
+->         /consignee                                        app.consignment.consignee.Routes
 
 GET        /reduced-data-set/:lrn                            controllers.consignment.ApprovedOperatorController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
 POST       /reduced-data-set/:lrn                            controllers.consignment.ApprovedOperatorController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)

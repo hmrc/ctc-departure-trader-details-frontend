@@ -1,7 +1,7 @@
 # microservice specific routes
 
-->         /                                                 app.holderOfTransit.Routes
-->         /                                                 app.representative.Routes
+->         /transit-holder                                   app.holderOfTransit.Routes
+->         /representative                                   app.representative.Routes
 ->         /                                                 app.consignment.Routes
 
 
@@ -11,10 +11,10 @@ GET        /assets/*file                                     controllers.Assets.
 
 GET        /:lrn                                             controllers.RedirectController.redirect(lrn: LocalReferenceNumber)
 
-GET        /acting/:lrn                                      controllers.ActingAsRepresentativeController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-POST       /acting/:lrn                                      controllers.ActingAsRepresentativeController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-GET        /change-acting/:lrn                               controllers.ActingAsRepresentativeController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
-POST       /change-acting/:lrn                               controllers.ActingAsRepresentativeController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+GET        /representative/acting/:lrn                       controllers.ActingAsRepresentativeController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+POST       /representative/acting/:lrn                       controllers.ActingAsRepresentativeController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+GET        /representative/change-acting/:lrn                controllers.ActingAsRepresentativeController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+POST       /representative/change-acting/:lrn                controllers.ActingAsRepresentativeController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 
 GET        /check-answers/:lrn                               controllers.CheckYourAnswersController.onPageLoad(lrn: LocalReferenceNumber)
 POST       /check-answers/:lrn                               controllers.CheckYourAnswersController.onSubmit(lrn: LocalReferenceNumber)
