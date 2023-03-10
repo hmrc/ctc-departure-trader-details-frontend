@@ -1,33 +1,33 @@
 
-->         /                                                            app.consignment.consignor.contact.Routes
+->         /                                   app.consignment.consignor.contact.Routes
 
-GET        /consignor/add-eori-tin/:lrn                  controllers.consignment.consignor.EoriYesNoController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-POST       /consignor/add-eori-tin/:lrn                  controllers.consignment.consignor.EoriYesNoController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-GET        /consignor/change-add-eori-tin/:lrn           controllers.consignment.consignor.EoriYesNoController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
-POST       /consignor/change-add-eori-tin/:lrn           controllers.consignment.consignor.EoriYesNoController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+GET        /add-eori-tin/:lrn                  controllers.consignment.consignor.EoriYesNoController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+POST       /add-eori-tin/:lrn                  controllers.consignment.consignor.EoriYesNoController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+GET        /change-add-eori-tin/:lrn           controllers.consignment.consignor.EoriYesNoController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+POST       /change-add-eori-tin/:lrn           controllers.consignment.consignor.EoriYesNoController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 
-GET        /consignor/eori-tin/:lrn                      controllers.consignment.consignor.EoriController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-POST       /consignor/eori-tin/:lrn                      controllers.consignment.consignor.EoriController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-GET        /consignor/change-eori-tin/:lrn               controllers.consignment.consignor.EoriController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
-POST       /consignor/change-eori-tin/:lrn               controllers.consignment.consignor.EoriController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+GET        /eori-tin/:lrn                      controllers.consignment.consignor.EoriController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+POST       /eori-tin/:lrn                      controllers.consignment.consignor.EoriController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+GET        /change-eori-tin/:lrn               controllers.consignment.consignor.EoriController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+POST       /change-eori-tin/:lrn               controllers.consignment.consignor.EoriController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 
-GET        /consignor/name/:lrn                          controllers.consignment.consignor.NameController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-POST       /consignor/name/:lrn                          controllers.consignment.consignor.NameController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-GET        /consignor/change-name/:lrn                   controllers.consignment.consignor.NameController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
-POST       /consignor/change-name/:lrn                   controllers.consignment.consignor.NameController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+GET        /name/:lrn                          controllers.consignment.consignor.NameController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+POST       /name/:lrn                          controllers.consignment.consignor.NameController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+GET        /change-name/:lrn                   controllers.consignment.consignor.NameController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+POST       /change-name/:lrn                   controllers.consignment.consignor.NameController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 
-GET        /consignor/country/:lrn                       controllers.consignment.consignor.CountryController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-POST       /consignor/country/:lrn                       controllers.consignment.consignor.CountryController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-GET        /consignor/change-country/:lrn                controllers.consignment.consignor.CountryController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
-POST       /consignor/change-country/:lrn                controllers.consignment.consignor.CountryController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+GET        /country/:lrn                       controllers.consignment.consignor.CountryController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+POST       /country/:lrn                       controllers.consignment.consignor.CountryController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+GET        /change-country/:lrn                controllers.consignment.consignor.CountryController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+POST       /change-country/:lrn                controllers.consignment.consignor.CountryController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 
-GET        /consignor/address/:lrn                       controllers.consignment.consignor.AddressController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-POST       /consignor/address/:lrn                       controllers.consignment.consignor.AddressController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-GET        /consignor/change-address/:lrn                controllers.consignment.consignor.AddressController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
-POST       /consignor/change-address/:lrn                controllers.consignment.consignor.AddressController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+GET        /address/:lrn                       controllers.consignment.consignor.AddressController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+POST       /address/:lrn                       controllers.consignment.consignor.AddressController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+GET        /change-address/:lrn                controllers.consignment.consignor.AddressController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+POST       /change-address/:lrn                controllers.consignment.consignor.AddressController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 
-GET        /consignor/add-contact/:lrn                   controllers.consignment.consignor.AddContactController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-POST       /consignor/add-contact/:lrn                   controllers.consignment.consignor.AddContactController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-GET        /consignor/change-add-contact/:lrn            controllers.consignment.consignor.AddContactController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
-POST       /consignor/change-add-contact/:lrn            controllers.consignment.consignor.AddContactController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+GET        /add-contact/:lrn                   controllers.consignment.consignor.AddContactController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+POST       /add-contact/:lrn                   controllers.consignment.consignor.AddContactController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+GET        /change-add-contact/:lrn            controllers.consignment.consignor.AddContactController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+POST       /change-add-contact/:lrn            controllers.consignment.consignor.AddContactController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 
