@@ -37,6 +37,11 @@ trait ModelGenerators {
       Gen.oneOf(SecurityDetailsType.values)
     }
 
+  lazy val arbitrarySomeSecurityDetailsType: Arbitrary[SecurityDetailsType] =
+    Arbitrary {
+      Gen.oneOf(SecurityDetailsType.values.filterNot(_ == SecurityDetailsType.NoSecurityDetails))
+    }
+
   lazy val arbitraryNonTDeclarationType: Arbitrary[DeclarationType] =
     Arbitrary {
       Gen.oneOf(DeclarationType.values.filterNot(_ == DeclarationType.Option1))
