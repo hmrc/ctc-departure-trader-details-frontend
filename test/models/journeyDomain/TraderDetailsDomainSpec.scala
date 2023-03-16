@@ -38,7 +38,7 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
     val holderOfTransitName       = Gen.alphaNumStr.sample.value
     val holderOfTransitCountry    = arbitrary[Country].sample.value
     val holderOfTransitAddress    = arbitrary[DynamicAddress].sample.value
-    val someSecurityType          = arbitrary[SecurityDetailsType](arbitrarySecurityDetailsType).sample.value
+    val someSecurityType          = arbitrary[SecurityDetailsType](arbitrarySomeSecurityDetailsType).sample.value
 
     "can be parsed from UserAnswers" - {
 
