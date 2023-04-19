@@ -18,23 +18,23 @@ package forms
 
 import forms.behaviours.StringFieldBehaviours
 import generators.Generators
-import models.CountryList
+import models.SelectableList
 import models.reference.Country
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import play.api.data.FormError
 
-class CountryFormProviderSpec extends StringFieldBehaviours with Generators {
+class SelectableFormProviderSpec extends StringFieldBehaviours with Generators {
 
   private val prefix      = Gen.alphaNumStr.sample.value
   private val requiredKey = s"$prefix.error.required"
 
-  private val country1    = arbitrary[Country].sample.value
-  private val country2    = arbitrary[Country].sample.value
-  private val countryList = CountryList(Seq(country1, country2))
-  private val arg         = Gen.alphaNumStr.sample.value
+  private val selectable1    = arbitrary[Country].sample.value
+  private val selectable2    = arbitrary[Country].sample.value
+  private val selectableList = SelectableList(Seq(selectable1, selectable2))
+  private val arg            = Gen.alphaNumStr.sample.value
 
-  private val form = new CountryFormProvider()(prefix, countryList, arg)
+  private val form = new SelectableFormProvider()(prefix, selectableList, arg)
 
   ".value" - {
 
@@ -52,14 +52,14 @@ class CountryFormProviderSpec extends StringFieldBehaviours with Generators {
       requiredError = FormError(fieldName, requiredKey, Seq(arg))
     )
 
-    "not bind if country does not exist in the countryList" in {
+    "not bind if value does not exist in the list" in {
       val boundForm = form.bind(Map("value" -> "foobar"))
       val field     = boundForm("value")
       field.errors mustNot be(empty)
     }
 
-    "bind a country which is in the list" in {
-      val boundForm = form.bind(Map("value" -> country1.code.code))
+    "bind a value which is in the list" in {
+      val boundForm = form.bind(Map("value" -> selectable1.value))
       val field     = boundForm("value")
       field.errors must be(empty)
     }

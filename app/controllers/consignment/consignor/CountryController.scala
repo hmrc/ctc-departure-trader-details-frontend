@@ -18,7 +18,7 @@ package controllers.consignment.consignor
 
 import controllers.actions.{Actions, SpecificDataRequiredActionProvider}
 import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
-import forms.CountryFormProvider
+import forms.SelectableFormProvider
 import models.{LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
 import pages.consignment.consignor.{CountryPage, NamePage}
@@ -37,7 +37,7 @@ class CountryController @Inject() (
   implicit val sessionRepository: SessionRepository,
   navigatorProvider: TraderDetailsNavigatorProvider,
   actions: Actions,
-  formProvider: CountryFormProvider,
+  formProvider: SelectableFormProvider,
   service: CountriesService,
   val controllerComponents: MessagesControllerComponents,
   view: CountryView,
@@ -60,7 +60,7 @@ class CountryController @Inject() (
               case Some(value) => form.fill(value)
             }
 
-            Ok(view(preparedForm, lrn, countryList.countries, mode, name))
+            Ok(view(preparedForm, lrn, countryList.values, mode, name))
         }
     }
 
@@ -76,7 +76,7 @@ class CountryController @Inject() (
             form
               .bindFromRequest()
               .fold(
-                formWithErrors => Future.successful(BadRequest(view(formWithErrors, lrn, countryList.countries, mode, name))),
+                formWithErrors => Future.successful(BadRequest(view(formWithErrors, lrn, countryList.values, mode, name))),
                 value => {
                   implicit val navigator: UserAnswersNavigator = navigatorProvider(mode)
                   CountryPage.writeToUserAnswers(value).updateTask().writeToSession().navigate()
