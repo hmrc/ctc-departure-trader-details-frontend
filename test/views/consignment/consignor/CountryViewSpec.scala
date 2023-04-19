@@ -16,9 +16,9 @@
 
 package views.consignment.consignor
 
-import forms.CountryFormProvider
+import forms.SelectableFormProvider
 import models.reference.Country
-import models.{CountryList, NormalMode}
+import models.{NormalMode, SelectableList}
 import org.scalacheck.Arbitrary
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
@@ -29,7 +29,7 @@ class CountryViewSpec extends InputSelectViewBehaviours[Country] {
 
   private val name = nonEmptyString.sample.value
 
-  override def form: Form[Country] = new CountryFormProvider()(prefix, CountryList(values))
+  override def form: Form[Country] = new SelectableFormProvider()(prefix, SelectableList(values))
 
   override def applyView(form: Form[Country]): HtmlFormat.Appendable =
     injector.instanceOf[CountryView].apply(form, lrn, values, NormalMode, name)(fakeRequest, messages)

@@ -32,17 +32,17 @@ package services
  * limitations under the License.
  */
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import base.SpecBase
 import connectors.ReferenceDataConnector
 import generators.Generators
-import models.CountryList
+import models.SelectableList
 import models.reference.{Country, CountryCode}
 import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import org.mockito.Mockito.{reset, verify, when}
 import org.scalacheck.Arbitrary
 import org.scalatest.BeforeAndAfterEach
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class CountriesServiceSpec extends SpecBase with BeforeAndAfterEach with Generators {
@@ -69,7 +69,7 @@ class CountriesServiceSpec extends SpecBase with BeforeAndAfterEach with Generat
           .thenReturn(Future.successful(countries))
 
         service.getCountries().futureValue mustBe
-          CountryList(Seq(country2, country3, country1))
+          SelectableList(Seq(country2, country3, country1))
 
         verify(mockRefDataConnector).getCountries(eqTo(Nil))(any(), any())
       }

@@ -16,8 +16,7 @@
 
 package forms.mappings
 
-import models.reference.Country
-import models.{CountryList, Enumerable, LocalReferenceNumber}
+import models.{Enumerable, LocalReferenceNumber, Selectable, SelectableList}
 import play.api.data.FieldMapping
 import play.api.data.Forms.of
 
@@ -54,11 +53,11 @@ trait Mappings extends Formatters with Constraints {
   ): FieldMapping[LocalReferenceNumber] =
     of(lrnFormatter(requiredKey, lengthKey, invalidCharactersKey, invalidFormatKey))
 
-  protected def country(
-    countryList: CountryList,
+  protected def selectable[T <: Selectable](
+    selectableList: SelectableList[T],
     errorKey: String = "error.required",
     args: Seq[Any] = Seq.empty
-  ): FieldMapping[Country] =
-    of(countryFormatter(countryList, errorKey, args))
+  ): FieldMapping[T] =
+    of(selectableFormatter[T](selectableList, errorKey, args))
 
 }
