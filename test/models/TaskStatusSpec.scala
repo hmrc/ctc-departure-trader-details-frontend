@@ -41,6 +41,11 @@ class TaskStatusSpec extends SpecBase {
       val result = Json.toJson[TaskStatus](TaskStatus.CannotStartYet)
       result mustBe JsString("cannot-start-yet")
     }
+
+    "when error" in {
+      val result = Json.toJson[TaskStatus](TaskStatus.Error)
+      result mustBe JsString("error")
+    }
   }
 
   "must deserialise from json" - {
@@ -64,9 +69,15 @@ class TaskStatusSpec extends SpecBase {
       result mustBe TaskStatus.CannotStartYet
     }
 
+    "when error" in {
+      val result = JsString("error").as[TaskStatus]
+      result mustBe TaskStatus.Error
+    }
+
     "when something else" in {
       val result = JsString("foo").validate[TaskStatus]
       result mustBe a[JsError]
     }
+
   }
 }
