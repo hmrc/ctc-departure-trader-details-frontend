@@ -51,7 +51,7 @@ object TaskStatus {
       case InProgress.jsonString     => JsSuccess(InProgress)
       case NotStarted.jsonString     => JsSuccess(NotStarted)
       case CannotStartYet.jsonString => JsSuccess(CannotStartYet)
-      case Error.jsonString => JsSuccess(CannotStartYet)
+      case Error.jsonString          => JsSuccess(Error)
       case x                         => JsError(s"$x is not a valid task status")
     }
   }
