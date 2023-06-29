@@ -22,6 +22,7 @@ import pages.consignment._
 import pages.external._
 import generators.Generators
 import models.SecurityDetailsType.{EntrySummaryDeclarationSecurityDetails, NoSecurityDetails}
+import models.journeyDomain.consignment.ConsignmentConsignorDomain.ConsignorWithoutEori
 import models.journeyDomain.{EitherType, UserAnswersReader}
 import models.reference.Country
 import models.{DeclarationType, DynamicAddress, SecurityDetailsType}
@@ -71,13 +72,13 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           .unsafeSetVal(consignor.AddContactPage)(false)
           .unsafeSetVal(MoreThanOneConsigneePage)(true)
 
-        val consignorDomain = ConsignmentConsignorDomain(
-          eori = None,
+        val consignorDomain = ConsignorWithoutEori(
           name = name,
           country = country,
           address = address,
           contact = None
         )
+
         val expectedResult = ConsignmentDomain(
           consignor = Some(consignorDomain),
           consignee = None
@@ -119,13 +120,13 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           .unsafeSetVal(consignor.AddContactPage)(false)
           .unsafeSetVal(MoreThanOneConsigneePage)(true)
 
-        val consignorDomain = ConsignmentConsignorDomain(
-          eori = None,
+        val consignorDomain = ConsignorWithoutEori(
           name = name,
           country = country,
           address = address,
           contact = None
         )
+
         val expectedResult = ConsignmentDomain(
           consignor = Some(consignorDomain),
           consignee = None
@@ -148,13 +149,13 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           .unsafeSetVal(consignor.AddContactPage)(false)
           .unsafeSetVal(MoreThanOneConsigneePage)(true)
 
-        val consignorDomain = ConsignmentConsignorDomain(
-          eori = None,
+        val consignorDomain = ConsignorWithoutEori(
           name = name,
           country = country,
           address = address,
           contact = None
         )
+
         val expectedResult = ConsignmentDomain(
           consignor = Some(consignorDomain),
           consignee = None
