@@ -26,17 +26,27 @@ trait PhaseConfig {
 
   def lengthError(prefix: String): String = amendMessageKey(s"$prefix.error.length")
 
-  def accessCodeHint: String = amendMessageKey("guarantee.accessCode.hint")
+  val maxNameLength: Int
+  val maxNumberAndStreetLength: Int
+  val maxPostcodeLength: Int
 }
 
 class TransitionConfig() extends PhaseConfig {
   override val phase: Phase = Transition
 
   override def amendMessageKey(key: String): String = s"$key.transition"
+
+  override val maxNameLength: Int            = 35
+  override val maxNumberAndStreetLength: Int = 35
+  override val maxPostcodeLength: Int        = 9
 }
 
 class PostTransitionConfig() extends PhaseConfig {
   override val phase: Phase = PostTransition
 
   override def amendMessageKey(key: String): String = s"$key.postTransition"
+
+  override val maxNameLength: Int            = 70
+  override val maxNumberAndStreetLength: Int = 70
+  override val maxPostcodeLength: Int        = 17
 }

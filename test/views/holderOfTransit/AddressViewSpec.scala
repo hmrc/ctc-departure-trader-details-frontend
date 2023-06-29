@@ -28,7 +28,9 @@ class AddressViewSpec extends DynamicAddressViewBehaviours with Generators {
 
   private val name = nonEmptyString.sample.value
 
-  override def form: Form[DynamicAddress] = DynamicAddressFormProvider(prefix, isPostalCodeRequired, name)
+  private val formProvider = new DynamicAddressFormProvider()(phaseConfig)
+
+  override def form: Form[DynamicAddress] = formProvider(prefix, isPostalCodeRequired, name)
 
   override def applyView(form: Form[DynamicAddress]): HtmlFormat.Appendable =
     injector.instanceOf[AddressView].apply(form, lrn, NormalMode, name, isPostalCodeRequired)(fakeRequest, messages)

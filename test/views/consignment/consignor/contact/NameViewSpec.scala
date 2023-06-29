@@ -27,7 +27,7 @@ import views.html.consignment.consignor.contact.NameView
 
 class NameViewSpec extends InputTextViewBehaviours[String] {
 
-  override def form: Form[String] = new NameFormProvider()(prefix)
+  override def form: Form[String] = app.injector.instanceOf[NameFormProvider].apply(prefix)
 
   override def applyView(form: Form[String]): HtmlFormat.Appendable =
     injector.instanceOf[NameView].apply(form, lrn, NormalMode)(fakeRequest, messages)

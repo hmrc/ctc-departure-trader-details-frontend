@@ -16,49 +16,94 @@
 
 package forms
 
-import forms.Constants.maxNameLength
+import base.{AppWithDefaultMockFixtures, SpecBase}
 import forms.behaviours.StringFieldBehaviours
 import models.domain.StringFieldRegex.stringFieldRegex
 import org.scalacheck.Gen
 import play.api.data.FormError
+import play.api.test.Helpers.running
 
-class NameFormProviderSpec extends StringFieldBehaviours {
+class NameFormProviderSpec extends StringFieldBehaviours with SpecBase with AppWithDefaultMockFixtures {
 
   private val prefix      = Gen.alphaNumStr.sample.value
   private val requiredKey = s"$prefix.error.required"
   private val lengthKey   = s"$prefix.error.length"
   private val invalidKey  = s"$prefix.error.invalid"
 
-  val form = new NameFormProvider()(prefix)
+  private val fieldName = "value"
 
   ".value" - {
 
-    val fieldName = "value"
+    "during transition" - {
+      val app           = transitionApplicationBuilder().build()
+      val maxNameLength = 35
 
-    behave like fieldThatBindsValidData(
-      form,
-      fieldName,
-      stringsWithMaxLength(maxNameLength)
-    )
+      running(app) {
 
-    behave like fieldWithMaxLength(
-      form,
-      fieldName,
-      maxLength = maxNameLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxNameLength))
-    )
+        val form = app.injector.instanceOf[NameFormProvider].apply(prefix)
 
-    behave like mandatoryField(
-      form,
-      fieldName,
-      requiredError = FormError(fieldName, requiredKey)
-    )
+        behave like fieldThatBindsValidData(
+          form,
+          fieldName,
+          stringsWithMaxLength(maxNameLength)
+        )
 
-    behave like fieldWithInvalidCharacters(
-      form,
-      fieldName,
-      error = FormError(fieldName, invalidKey, Seq(stringFieldRegex.regex)),
-      maxNameLength
-    )
+        behave like fieldWithMaxLength(
+          form,
+          fieldName,
+          maxLength = maxNameLength,
+          lengthError = FormError(fieldName, lengthKey, Seq(maxNameLength))
+        )
+
+        behave like mandatoryField(
+          form,
+          fieldName,
+          requiredError = FormError(fieldName, requiredKey)
+        )
+
+        behave like fieldWithInvalidCharacters(
+          form,
+          fieldName,
+          error = FormError(fieldName, invalidKey, Seq(stringFieldRegex.regex)),
+          maxNameLength
+        )
+      }
+    }
+
+    "post transition" - {
+      val app           = postTransitionApplicationBuilder().build()
+      val maxNameLength = 70
+
+      running(app) {
+
+        val form = app.injector.instanceOf[NameFormProvider].apply(prefix)
+
+        behave like fieldThatBindsValidData(
+          form,
+          fieldName,
+          stringsWithMaxLength(maxNameLength)
+        )
+
+        behave like fieldWithMaxLength(
+          form,
+          fieldName,
+          maxLength = maxNameLength,
+          lengthError = FormError(fieldName, lengthKey, Seq(maxNameLength))
+        )
+
+        behave like mandatoryField(
+          form,
+          fieldName,
+          requiredError = FormError(fieldName, requiredKey)
+        )
+
+        behave like fieldWithInvalidCharacters(
+          form,
+          fieldName,
+          error = FormError(fieldName, invalidKey, Seq(stringFieldRegex.regex)),
+          maxNameLength
+        )
+      }
+    }
   }
 }

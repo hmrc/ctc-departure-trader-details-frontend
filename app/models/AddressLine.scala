@@ -16,7 +16,8 @@
 
 package models
 
-import models.domain.StringFieldRegex.{alphaNumericRegex, alphaNumericWithSpacesRegex, stringFieldRegex}
+import config.PhaseConfig
+import models.domain.StringFieldRegex.{alphaNumericWithSpacesRegex, stringFieldRegex}
 import play.api.i18n.Messages
 
 import scala.util.matching.Regex
@@ -33,31 +34,25 @@ object AddressLine {
   }
 
   sealed trait AddressLineWithValidation extends AddressLine {
-    val length: Int
+    def length(implicit phaseConfig: PhaseConfig): Int
     val regex: Regex
   }
 
-  case object StreetNumber extends AddressLineWithValidation {
-    override val field: String = "streetNumber"
-    override val length: Int   = 17
-    override val regex: Regex  = alphaNumericRegex
-  }
-
   case object NumberAndStreet extends AddressLineWithValidation {
-    override val field: String = "numberAndStreet"
-    override val length: Int   = 70
-    override val regex: Regex  = stringFieldRegex
+    override val field: String                                  = "numberAndStreet"
+    override def length(implicit phaseConfig: PhaseConfig): Int = phaseConfig.maxNumberAndStreetLength
+    override val regex: Regex                                   = stringFieldRegex
   }
 
   case object City extends AddressLineWithValidation {
-    override val field: String = "city"
-    override val length: Int   = 35
-    override val regex: Regex  = stringFieldRegex
+    override val field: String                                  = "city"
+    override def length(implicit phaseConfig: PhaseConfig): Int = 35
+    override val regex: Regex                                   = stringFieldRegex
   }
 
   case object PostalCode extends AddressLineWithValidation {
-    override val field: String = "postalCode"
-    override val length: Int   = 17
-    override val regex: Regex  = alphaNumericWithSpacesRegex
+    override val field: String                                  = "postalCode"
+    override def length(implicit phaseConfig: PhaseConfig): Int = 17
+    override val regex: Regex                                   = alphaNumericWithSpacesRegex
   }
 }

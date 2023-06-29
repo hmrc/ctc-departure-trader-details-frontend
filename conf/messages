@@ -81,7 +81,7 @@ traderDetails.holderOfTransit.name.title = What is the transit holder’s name?
 traderDetails.holderOfTransit.name.heading = What is the transit holder’s name?
 traderDetails.holderOfTransit.name.checkYourAnswersLabel = Transit holder’s name
 traderDetails.holderOfTransit.name.error.required = Enter the transit holder’s name
-traderDetails.holderOfTransit.name.error.length = The transit holder’s name must be 70 characters or less
+traderDetails.holderOfTransit.name.error.length = The transit holder’s name must be {0} characters or less
 traderDetails.holderOfTransit.name.error.invalid = The transit holder’s name must only include letters a to z without accents, numbers 0 to 9, ampersands (&), apostrophes, at signs (@), forward slashes, full stops, hyphens, question marks and spaces
 traderDetails.holderOfTransit.name.change.hidden = transit holder’s name
 
@@ -119,7 +119,7 @@ traderDetails.holderOfTransit.contact.name.title = What is the contact’s name?
 traderDetails.holderOfTransit.contact.name.heading = What is the contact’s name?
 traderDetails.holderOfTransit.contact.name.checkYourAnswersLabel = Contact’s name
 traderDetails.holderOfTransit.contact.name.error.required = Enter the contact’s name
-traderDetails.holderOfTransit.contact.name.error.length = The contact’s name must be 70 characters or less
+traderDetails.holderOfTransit.contact.name.error.length = The contact’s name must be {0} characters or less
 traderDetails.holderOfTransit.contact.name.error.invalid = The contact’s name must only include letters a to z without accents, numbers 0 to 9, ampersands (&), apostrophes, at signs (@), forward slashes, full stops, hyphens, question marks and spaces
 traderDetails.holderOfTransit.contact.name.change.hidden = contact’s name
 
@@ -156,7 +156,7 @@ traderDetails.representative.name.title = What is your name?
 traderDetails.representative.name.heading = What is your name?
 traderDetails.representative.name.checkYourAnswersLabel = Name
 traderDetails.representative.name.error.required = Enter your name
-traderDetails.representative.name.error.length = Your name must be 70 characters or less
+traderDetails.representative.name.error.length = Your name must be {0} characters or less
 traderDetails.representative.name.error.invalid = Your name must only include letters a to z without accents, numbers 0 to 9, ampersands (&), apostrophes, asterisks(*), forward slashes, full stops, hyphens, percent signs, question marks and spaces
 traderDetails.representative.name.change.hidden = representative’s name
 
@@ -209,7 +209,7 @@ traderDetails.consignment.consignor.name.title = What is the consignor’s name?
 traderDetails.consignment.consignor.name.heading = What is the consignor’s name?
 traderDetails.consignment.consignor.name.checkYourAnswersLabel = Consignor’s name
 traderDetails.consignment.consignor.name.error.required = Enter the consignor’s name
-traderDetails.consignment.consignor.name.error.length = The consignor’s name must be 70 characters or less
+traderDetails.consignment.consignor.name.error.length = The consignor’s name must be {0} characters or less
 traderDetails.consignment.consignor.name.error.invalid = The consignor’s name must only include letters a to z without accents, numbers 0 to 9, ampersands (&), apostrophes, at signs (@), forward slashes, full stops, hyphens, question marks and spaces
 traderDetails.consignment.consignor.name.change.hidden = consignor’s name
 
@@ -245,7 +245,7 @@ traderDetails.consignment.consignor.contact.name.title = Who is the contact for 
 traderDetails.consignment.consignor.contact.name.heading = Who is the contact for the consignor?
 traderDetails.consignment.consignor.contact.name.checkYourAnswersLabel = Consignor contact’s name
 traderDetails.consignment.consignor.contact.name.error.required = Enter the the name of the contact for the consignor
-traderDetails.consignment.consignor.contact.name.error.length = The name of the contact for the consignor must be 70 characters or less
+traderDetails.consignment.consignor.contact.name.error.length = The name of the contact for the consignor must be {0} characters or less
 traderDetails.consignment.consignor.contact.name.error.invalid = The name of the contact for the consignor must only include letters a to z without accents, numbers 0 to 9, ampersands (&), apostrophes, at signs (@), forward slashes, full stops, hyphens, question marks and spaces
 traderDetails.consignment.consignor.contact.name.change.hidden = consignor contact’s name
 
@@ -281,7 +281,7 @@ traderDetails.consignment.consignee.name.title = What is the consignee’s name?
 traderDetails.consignment.consignee.name.heading = What is the consignee’s name?
 traderDetails.consignment.consignee.name.checkYourAnswersLabel = Consignee’s name
 traderDetails.consignment.consignee.name.error.required = Enter the consignee’s name
-traderDetails.consignment.consignee.name.error.length = The consignee’s name must be 70 characters or less
+traderDetails.consignment.consignee.name.error.length = The consignee’s name must be {0} characters or less
 traderDetails.consignment.consignee.name.error.invalid = The consignee’s name must only include letters a to z without accents, numbers 0 to 9, ampersands (&), apostrophes, at signs (@), forward slashes, full stops, hyphens, question marks and spaces
 traderDetails.consignment.consignee.name.change.hidden = consignee’s name
 
