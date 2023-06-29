@@ -17,7 +17,7 @@
 package components
 
 import a11ySpecBase.A11ySpecBase
-import forms.NameFormProvider
+import forms.TelephoneNumberFormProvider
 import org.scalacheck.Gen
 import views.html.components.InputTextArea
 import views.html.templates.MainTemplate
@@ -35,7 +35,7 @@ class InputTextAreaSpec extends A11ySpecBase {
     val inputClass = Gen.option(Gen.alphaNumStr).sample.value
     val hint       = Gen.option(nonEmptyString).sample.value
     val rows       = positiveInts.sample.value
-    val form       = new NameFormProvider()(prefix)
+    val form       = new TelephoneNumberFormProvider()(prefix)
 
     val content = template.apply(title, lrn = lrn) {
       component.apply(form("value"), label, caption, inputClass, hint, rows)
