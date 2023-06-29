@@ -21,14 +21,14 @@ import commonTestUtils.UserAnswersSpecHelper
 import generators.Generators
 import models.SecurityDetailsType.NoSecurityDetails
 import models.journeyDomain.consignment.ConsignmentDomain
-import models.journeyDomain.holderOfTransit.HolderOfTransitDomain.HolderOfTransitEori
+import models.journeyDomain.holderOfTransit.HolderOfTransitDomain.HolderOfTransitWithoutEori
 import models.reference.Country
 import models.{DeclarationType, DynamicAddress, SecurityDetailsType}
-import pages.consignment._
-import pages.{ActingAsRepresentativePage, holderOfTransit => hot}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
+import pages.consignment._
 import pages.external.{DeclarationTypePage, SecurityDetailsTypePage}
+import pages.{ActingAsRepresentativePage, holderOfTransit => hot}
 
 class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with Generators {
 
@@ -39,6 +39,7 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
     val holderOfTransitCountry    = arbitrary[Country].sample.value
     val holderOfTransitAddress    = arbitrary[DynamicAddress].sample.value
     val someSecurityType          = arbitrary[SecurityDetailsType](arbitrarySomeSecurityDetailsType).sample.value
+    val tirNumber                 = Gen.alphaNumStr.sample.value
 
     "can be parsed from UserAnswers" - {
 
@@ -57,12 +58,12 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
           .unsafeSetVal(MoreThanOneConsigneePage)(true)
 
         val expectedResult = TraderDetailsDomain(
-          holderOfTransit = HolderOfTransitEori(
-            eori = None,
+          holderOfTransit = HolderOfTransitWithoutEori(
             name = holderOfTransitName,
             country = holderOfTransitCountry,
             address = holderOfTransitAddress,
-            additionalContact = None
+            additionalContact = None,
+            tir = None
           ),
           representative = None,
           consignment = ConsignmentDomain(
@@ -84,7 +85,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
         val userAnswers = emptyUserAnswers
           .setValue(DeclarationTypePage, DeclarationType.Option4)
           .setValue(SecurityDetailsTypePage, NoSecurityDetails)
-          .unsafeSetVal(hot.TirIdentificationYesNoPage)(false)
+          .unsafeSetVal(hot.EoriYesNoPage)(false)
+          .unsafeSetVal(hot.TirIdentificationPage)(tirNumber)
           .unsafeSetVal(hot.NamePage)(holderOfTransitName)
           .unsafeSetVal(hot.CountryPage)(holderOfTransitCountry)
           .unsafeSetVal(hot.AddressPage)(holderOfTransitAddress)
@@ -101,7 +103,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
           val userAnswers = emptyUserAnswers
             .setValue(DeclarationTypePage, DeclarationType.Option4)
             .setValue(SecurityDetailsTypePage, NoSecurityDetails)
-            .unsafeSetVal(hot.TirIdentificationYesNoPage)(false)
+            .unsafeSetVal(hot.EoriYesNoPage)(false)
+            .unsafeSetVal(hot.TirIdentificationPage)(tirNumber)
             .unsafeSetVal(hot.NamePage)(holderOfTransitName)
             .unsafeSetVal(hot.CountryPage)(holderOfTransitCountry)
             .unsafeSetVal(hot.AddressPage)(holderOfTransitAddress)
