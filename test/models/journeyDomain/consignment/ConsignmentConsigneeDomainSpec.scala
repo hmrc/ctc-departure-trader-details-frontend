@@ -19,59 +19,47 @@ package models.journeyDomain.consignment
 import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
 import generators.Generators
+import models.journeyDomain.consignment.ConsignmentConsigneeDomain.{ConsigneeWithEori, ConsigneeWithoutEori}
 import models.journeyDomain.{EitherType, UserAnswersReader}
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
-import pages.consignment._
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks.forAll
+import pages.QuestionPage
+import pages.consignment.consignee._
 
 class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper with Generators {
 
-  "ConsignmentConsigneeDomain" - {
+  private val eori    = arbitrary[EoriNumber].sample.value
+  private val country = arbitrary[Country].sample.value
+  private val name    = Gen.alphaNumStr.sample.value
+  private val address = arbitrary[DynamicAddress].sample.value
 
-    val consigneeEori    = arbitrary[EoriNumber].sample.value
-    val consigneeName    = Gen.alphaNumStr.sample.value
-    val consigneeCountry = arbitrary[Country].sample.value
-    val consigneeAddress = arbitrary[DynamicAddress].sample.value
+  "ConsignmentConsigneeDomain" - {
 
     "can be parsed from UserAnswers" - {
 
-      "when has all consignment fields complete" in {
+      "when EORI is defined" in {
+
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignee.EoriYesNoPage)(true)
-          .unsafeSetVal(consignee.EoriNumberPage)(consigneeEori.value)
-          .unsafeSetVal(consignee.NamePage)(consigneeName)
-          .unsafeSetVal(consignee.CountryPage)(consigneeCountry)
-          .unsafeSetVal(consignee.AddressPage)(consigneeAddress)
+          .unsafeSetVal(EoriYesNoPage)(true)
+          .unsafeSetVal(EoriNumberPage)(eori.value)
 
-        val expectedResult = ConsignmentConsigneeDomain(
-          eori = Some(consigneeEori),
-          name = consigneeName,
-          country = consigneeCountry,
-          address = consigneeAddress
-        )
         val result: EitherType[ConsignmentConsigneeDomain] = UserAnswersReader[ConsignmentConsigneeDomain].run(userAnswers)
-
-        result.value mustBe expectedResult
+        result.value mustBe an[ConsigneeWithEori]
       }
 
-      "when has all consignment fields complete not no Eori" in {
+      "when EORI is not defined" in {
+
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignee.EoriYesNoPage)(false)
-          .unsafeSetVal(consignee.NamePage)(consigneeName)
-          .unsafeSetVal(consignee.CountryPage)(consigneeCountry)
-          .unsafeSetVal(consignee.AddressPage)(consigneeAddress)
+          .unsafeSetVal(EoriYesNoPage)(false)
+          .unsafeSetVal(NamePage)(name)
+          .unsafeSetVal(CountryPage)(country)
+          .unsafeSetVal(AddressPage)(address)
 
-        val expectedResult = ConsignmentConsigneeDomain(
-          eori = None,
-          name = consigneeName,
-          country = consigneeCountry,
-          address = consigneeAddress
-        )
         val result: EitherType[ConsignmentConsigneeDomain] = UserAnswersReader[ConsignmentConsigneeDomain].run(userAnswers)
-
-        result.value mustBe expectedResult
+        result.value mustBe an[ConsigneeWithoutEori]
       }
     }
 
@@ -83,50 +71,86 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
 
         val result: EitherType[ConsignmentConsigneeDomain] = UserAnswersReader[ConsignmentConsigneeDomain].run(userAnswers)
 
-        result.left.value.page mustBe consignee.EoriYesNoPage
+        result.left.value.page mustBe EoriYesNoPage
       }
+    }
 
-      "when EoriYesNoPage is true and EoriPage is missing" in {
+  }
+
+  "ConsigneeWithEori" - {
+
+    "can be parsed from UserAnswers" - {
+
+      "when all mandatory pages are defined" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignee.EoriYesNoPage)(true)
+          .unsafeSetVal(EoriNumberPage)(eori.value)
 
-        val result: EitherType[ConsignmentConsigneeDomain] = UserAnswersReader[ConsignmentConsigneeDomain].run(userAnswers)
+        val expectedResult = ConsigneeWithEori(eori = eori)
 
-        result.left.value.page mustBe consignee.EoriNumberPage
+        val result: EitherType[ConsigneeWithEori] = UserAnswersReader[ConsigneeWithEori].run(userAnswers)
+        result.value mustBe expectedResult
       }
+    }
 
-      "when NamePage is missing" in {
+    "cannot be parsed from UserAnswers" - {
+
+      "when mandatory page is missing" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignee.EoriYesNoPage)(false)
 
-        val result: EitherType[ConsignmentConsigneeDomain] = UserAnswersReader[ConsignmentConsigneeDomain].run(userAnswers)
+        val result: EitherType[ConsigneeWithEori] = UserAnswersReader[ConsigneeWithEori].run(userAnswers)
 
-        result.left.value.page mustBe consignee.NamePage
+        result.left.value.page mustBe EoriNumberPage
       }
+    }
+  }
 
-      "when CountryPage is missing" in {
+  "ConsigneeWithoutEori" - {
+
+    "can be parsed from UserAnswers" - {
+
+      "when all mandatory pages are defined" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignee.EoriYesNoPage)(false)
-          .unsafeSetVal(consignee.NamePage)(consigneeName)
+          .unsafeSetVal(NamePage)(name)
+          .unsafeSetVal(CountryPage)(country)
+          .unsafeSetVal(AddressPage)(address)
 
-        val result: EitherType[ConsignmentConsigneeDomain] = UserAnswersReader[ConsignmentConsigneeDomain].run(userAnswers)
+        val expectedResult = ConsigneeWithoutEori(
+          name = name,
+          country = country,
+          address = address
+        )
 
-        result.left.value.page mustBe consignee.CountryPage
+        val result: EitherType[ConsigneeWithoutEori] = UserAnswersReader[ConsigneeWithoutEori].run(userAnswers)
+        result.value mustBe expectedResult
       }
+    }
 
-      "when AddressPage is missing" in {
+    "cannot be parsed from UserAnswers" - {
+
+      "when mandatory page is missing" in {
+
+        val mandatoryPages: Gen[QuestionPage[_]] = Gen.oneOf(
+          NamePage,
+          CountryPage,
+          AddressPage
+        )
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignee.EoriYesNoPage)(false)
-          .unsafeSetVal(consignee.NamePage)(consigneeName)
-          .unsafeSetVal(consignee.CountryPage)(consigneeCountry)
+          .unsafeSetVal(NamePage)(name)
+          .unsafeSetVal(CountryPage)(country)
+          .unsafeSetVal(AddressPage)(address)
 
-        val result: EitherType[ConsignmentConsigneeDomain] = UserAnswersReader[ConsignmentConsigneeDomain].run(userAnswers)
+        forAll(mandatoryPages) {
+          mandatoryPage =>
+            val invalidUserAnswers = userAnswers.unsafeRemove(mandatoryPage)
 
-        result.left.value.page mustBe consignee.AddressPage
+            val result: EitherType[ConsigneeWithoutEori] = UserAnswersReader[ConsigneeWithoutEori].run(invalidUserAnswers)
+
+            result.left.value.page mustBe mandatoryPage
+        }
       }
     }
   }

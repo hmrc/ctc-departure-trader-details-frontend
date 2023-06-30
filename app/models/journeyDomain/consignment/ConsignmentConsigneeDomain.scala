@@ -16,26 +16,46 @@
 
 package models.journeyDomain.consignment
 
-import cats.implicits.catsSyntaxTuple4Semigroupal
-import models.journeyDomain.{GettableAsFilterForNextReaderOps, GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
+import cats.implicits.{catsSyntaxTuple3Semigroupal, toFunctorOps}
+import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
-import pages.consignment.consignee.{AddressPage, CountryPage, EoriNumberPage, EoriYesNoPage, NamePage}
+import pages.consignment.consignee._
 
-case class ConsignmentConsigneeDomain(
-  eori: Option[EoriNumber],
-  name: String,
-  country: Country,
-  address: DynamicAddress
-) extends JourneyDomainModel
+sealed trait ConsignmentConsigneeDomain extends JourneyDomainModel
 
 object ConsignmentConsigneeDomain {
 
   implicit val userAnswersReader: UserAnswersReader[ConsignmentConsigneeDomain] =
-    (
-      EoriYesNoPage.filterOptionalDependent(identity)(EoriNumberPage.reader.map(EoriNumber(_))),
-      NamePage.reader,
-      CountryPage.reader,
-      AddressPage.reader
-    ).tupled.map((ConsignmentConsigneeDomain.apply _).tupled)
+    EoriYesNoPage.reader.flatMap {
+      case true  => UserAnswersReader[ConsigneeWithEori].widen[ConsignmentConsigneeDomain]
+      case false => UserAnswersReader[ConsigneeWithoutEori].widen[ConsignmentConsigneeDomain]
+    }
+
+  case class ConsigneeWithEori(eori: EoriNumber) extends ConsignmentConsigneeDomain
+
+  object ConsigneeWithEori {
+
+    implicit val userAnswersReader: UserAnswersReader[ConsigneeWithEori] =
+      EoriNumberPage.reader.map(
+        eori => ConsigneeWithEori(EoriNumber(eori))
+      )
+
+  }
+
+  case class ConsigneeWithoutEori(
+    name: String,
+    country: Country,
+    address: DynamicAddress
+  ) extends ConsignmentConsigneeDomain
+
+  object ConsigneeWithoutEori {
+
+    implicit val userAnswersReader: UserAnswersReader[ConsigneeWithoutEori] =
+      (
+        NamePage.reader,
+        CountryPage.reader,
+        AddressPage.reader
+      ).tupled.map((ConsigneeWithoutEori.apply _).tupled)
+  }
 }
