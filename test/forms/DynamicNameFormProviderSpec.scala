@@ -23,7 +23,7 @@ import org.scalacheck.Gen
 import play.api.data.FormError
 import play.api.test.Helpers.running
 
-class NameFormProviderSpec extends StringFieldBehaviours with SpecBase with AppWithDefaultMockFixtures {
+class DynamicNameFormProviderSpec extends StringFieldBehaviours with SpecBase with AppWithDefaultMockFixtures {
 
   private val prefix      = Gen.alphaNumStr.sample.value
   private val requiredKey = s"$prefix.error.required"
@@ -40,7 +40,7 @@ class NameFormProviderSpec extends StringFieldBehaviours with SpecBase with AppW
 
       running(app) {
 
-        val form = app.injector.instanceOf[NameFormProvider].apply(prefix)
+        val form = app.injector.instanceOf[DynamicNameFormProvider].apply(prefix)
 
         behave like fieldThatBindsValidData(
           form,
@@ -76,7 +76,7 @@ class NameFormProviderSpec extends StringFieldBehaviours with SpecBase with AppW
 
       running(app) {
 
-        val form = app.injector.instanceOf[NameFormProvider].apply(prefix)
+        val form = app.injector.instanceOf[DynamicNameFormProvider].apply(prefix)
 
         behave like fieldThatBindsValidData(
           form,

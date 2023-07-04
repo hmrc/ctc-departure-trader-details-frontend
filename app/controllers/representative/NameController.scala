@@ -18,7 +18,7 @@ package controllers.representative
 
 import controllers.actions.Actions
 import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
-import forms.NameFormProvider
+import forms.StaticNameFormProvider
 import models.{LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
 import pages.representative.NamePage
@@ -35,7 +35,7 @@ class NameController @Inject() (
   override val messagesApi: MessagesApi,
   implicit val sessionRepository: SessionRepository,
   navigatorProvider: TraderDetailsNavigatorProvider,
-  formProvider: NameFormProvider,
+  formProvider: StaticNameFormProvider,
   actions: Actions,
   val controllerComponents: MessagesControllerComponents,
   view: NameView

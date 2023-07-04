@@ -16,7 +16,7 @@
 
 package views.representative
 
-import forms.NameFormProvider
+import forms.StaticNameFormProvider
 import models.NormalMode
 import org.scalacheck.{Arbitrary, Gen}
 import play.api.data.Form
@@ -29,7 +29,7 @@ class NameViewSpec extends InputTextViewBehaviours[String] {
 
   override val prefix: String = "traderDetails.representative.name"
 
-  override def form: Form[String] = app.injector.instanceOf[NameFormProvider].apply(prefix)
+  override def form: Form[String] = app.injector.instanceOf[StaticNameFormProvider].apply(prefix)
 
   override def applyView(form: Form[String]): HtmlFormat.Appendable =
     injector.instanceOf[NameView].apply(form, lrn, NormalMode)(fakeRequest, messages)

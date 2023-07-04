@@ -17,12 +17,12 @@
 package controllers.holderOfTransit.contact
 
 import base.{AppWithDefaultMockFixtures, SpecBase}
-import forms.NameFormProvider
+import forms.StaticNameFormProvider
 import models.NormalMode
 import navigation.TraderDetailsNavigatorProvider
-import pages.holderOfTransit.contact._
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
+import pages.holderOfTransit.contact._
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
@@ -33,7 +33,7 @@ import scala.concurrent.Future
 
 class NameControllerSpec extends SpecBase with AppWithDefaultMockFixtures {
 
-  private val formProvider          = new NameFormProvider()
+  private val formProvider          = new StaticNameFormProvider()
   private val form                  = formProvider("traderDetails.holderOfTransit.contact.name")
   private val mode                  = NormalMode
   private lazy val contactNameRoute = routes.NameController.onPageLoad(lrn, mode).url

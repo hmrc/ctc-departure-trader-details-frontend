@@ -23,16 +23,26 @@ import play.api.data.Form
 
 import javax.inject.Inject
 
-class NameFormProvider @Inject() (implicit phaseConfig: PhaseConfig) extends Mappings {
+sealed trait NameFormProvider extends Mappings {
+
+  val maxNameLength: Int
 
   def apply(prefix: String): Form[String] =
     Form(
       "value" -> text(s"$prefix.error.required")
         .verifying(
           StopOnFirstFail[String](
-            maxLength(phaseConfig.maxNameLength, s"$prefix.error.length"),
+            maxLength(maxNameLength, s"$prefix.error.length"),
             regexp(stringFieldRegex, s"$prefix.error.invalid")
           )
         )
     )
+}
+
+class StaticNameFormProvider extends NameFormProvider {
+  override val maxNameLength: Int = Constants.maxNameLength
+}
+
+class DynamicNameFormProvider @Inject() (implicit phaseConfig: PhaseConfig) extends NameFormProvider {
+  override val maxNameLength: Int = phaseConfig.maxNameLength
 }

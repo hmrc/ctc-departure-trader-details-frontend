@@ -18,7 +18,7 @@ package controllers.holderOfTransit
 
 import controllers.actions.Actions
 import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
-import forms.NameFormProvider
+import forms.DynamicNameFormProvider
 import models.{LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
 import pages.holderOfTransit.NamePage
@@ -35,7 +35,7 @@ class NameController @Inject() (
   override val messagesApi: MessagesApi,
   implicit val sessionRepository: SessionRepository,
   navigatorProvider: TraderDetailsNavigatorProvider,
-  formProvider: NameFormProvider,
+  formProvider: DynamicNameFormProvider,
   actions: Actions,
   val controllerComponents: MessagesControllerComponents,
   view: NameView
