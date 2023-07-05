@@ -31,7 +31,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpClient) extends Logging {
 
   def getCountriesFullList()(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[Seq[Country]] = {
-    val serviceUrl = s"${config.referenceDataUrl}/lists/CountryCodesFullList"
+    val serviceUrl = s"${config.referenceDataUrl}/lists/CountryCodesForAddress"
     http.GET[Seq[Country]](serviceUrl, headers = version2Header)
   }
 

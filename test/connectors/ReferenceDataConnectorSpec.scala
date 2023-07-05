@@ -74,8 +74,8 @@ class ReferenceDataConnectorSpec extends SpecBase with AppWithDefaultMockFixture
     "getCountries" - {
       "must return Seq of Country when successful" in {
         server.stubFor(
-          get(urlEqualTo(s"/$baseUrl/lists/CountryCodesFullList"))
-            .willReturn(okJson(countriesResponseJson("CountryCodesFullList")))
+          get(urlEqualTo(s"/$baseUrl/lists/CountryCodesForAddress"))
+            .willReturn(okJson(countriesResponseJson("CountryCodesForAddress")))
         )
 
         val expectedResult: Seq[Country] = Seq(
@@ -87,7 +87,7 @@ class ReferenceDataConnectorSpec extends SpecBase with AppWithDefaultMockFixture
       }
 
       "must return an exception when an error response is returned" in {
-        checkErrorResponse(s"/$baseUrl/lists/CountryCodesFullList", connector.getCountriesFullList)
+        checkErrorResponse(s"/$baseUrl/lists/CountryCodesForAddress", connector.getCountriesFullList)
       }
     }
 
