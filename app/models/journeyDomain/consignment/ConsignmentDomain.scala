@@ -19,13 +19,13 @@ package models.journeyDomain.consignment
 import cats.implicits._
 import models.DeclarationType.Option4
 import models.SecurityDetailsType.NoSecurityDetails
-import models.journeyDomain.{GettableAsFilterForNextReaderOps, GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
-import pages.consignment.{ApprovedOperatorPage, MoreThanOneConsigneePage}
+import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
+import pages.consignment.ApprovedOperatorPage
 import pages.external.{DeclarationTypePage, SecurityDetailsTypePage}
 
 case class ConsignmentDomain(
   consignor: Option[ConsignmentConsignorDomain],
-  consignee: Option[ConsignmentConsigneeDomain]
+  consignee: ConsignmentConsigneeDomain
 ) extends JourneyDomainModel
 
 object ConsignmentDomain {
@@ -33,7 +33,7 @@ object ConsignmentDomain {
   implicit val userAnswersReader: UserAnswersReader[ConsignmentDomain] =
     for {
       consignor <- readConsignorDomain
-      consignee <- readConsigneeDomain
+      consignee <- UserAnswersReader[ConsignmentConsigneeDomain]
     } yield ConsignmentDomain(consignor, consignee)
 
   private def readConsignorDomain: UserAnswersReader[Option[ConsignmentConsignorDomain]] = {
@@ -53,7 +53,4 @@ object ConsignmentDomain {
         } yield reader
     }
   }
-
-  private def readConsigneeDomain: UserAnswersReader[Option[ConsignmentConsigneeDomain]] =
-    MoreThanOneConsigneePage.filterOptionalDependent(!_)(UserAnswersReader[ConsignmentConsigneeDomain])
 }

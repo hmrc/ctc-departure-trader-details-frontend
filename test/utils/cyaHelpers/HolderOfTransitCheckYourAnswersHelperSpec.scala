@@ -35,50 +35,6 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
 
   "HolderOfTransitCheckYourAnswersHelper" - {
 
-    "tirIdentificationYesNo" - {
-      "must return None" - {
-        s"when $TirIdentificationYesNoPage is undefined" in {
-          forAll(arbitrary[Mode]) {
-            mode =>
-              val helper = new HolderOfTransitCheckYourAnswersHelper(emptyUserAnswers, mode)
-              val result = helper.tirIdentificationYesNo
-              result mustBe None
-          }
-        }
-      }
-
-      "must return Some(Row)" - {
-        s"when $TirIdentificationYesNoPage is defined" in {
-          forAll(arbitrary[Mode]) {
-            mode =>
-              val answers = emptyUserAnswers.setValue(TirIdentificationYesNoPage, true)
-
-              val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
-              val result = helper.tirIdentificationYesNo
-
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Is the TIR holder’s identification number known?".toText),
-                  value = Value("Yes".toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = hotRoutes.TirIdentificationYesNoController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("if you know the Transit procedure TIR identification number"),
-                          attributes = Map("id" -> "change-has-transit-holder-tir-id")
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-          }
-        }
-      }
-    }
-
     "tirIdentification" - {
       "must return None" - {
         s"when $TirIdentificationPage is undefined" in {

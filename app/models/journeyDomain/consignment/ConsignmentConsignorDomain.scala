@@ -16,28 +16,54 @@
 
 package models.journeyDomain.consignment
 
-import cats.implicits.catsSyntaxTuple5Semigroupal
+import cats.implicits.{catsSyntaxTuple2Semigroupal, catsSyntaxTuple4Semigroupal, toFunctorOps}
 import models.journeyDomain.{GettableAsFilterForNextReaderOps, GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
-import pages.consignment.consignor.{AddContactPage, AddressPage, CountryPage, EoriPage, EoriYesNoPage, NamePage}
+import pages.consignment.consignor._
 
-case class ConsignmentConsignorDomain(
-  eori: Option[EoriNumber],
-  name: String,
-  country: Country,
-  address: DynamicAddress,
-  contact: Option[ConsignmentConsignorContactDomain]
-) extends JourneyDomainModel
+sealed trait ConsignmentConsignorDomain extends JourneyDomainModel {
+  val contact: Option[ConsignmentConsignorContactDomain]
+}
 
 object ConsignmentConsignorDomain {
 
   implicit val userAnswersReader: UserAnswersReader[ConsignmentConsignorDomain] =
-    (
-      EoriYesNoPage.filterOptionalDependent(identity)(EoriPage.reader.map(EoriNumber(_))),
-      NamePage.reader,
-      CountryPage.reader,
-      AddressPage.reader,
-      AddContactPage.filterOptionalDependent(identity)(UserAnswersReader[ConsignmentConsignorContactDomain])
-    ).tupled.map((ConsignmentConsignorDomain.apply _).tupled)
+    EoriYesNoPage.reader.flatMap {
+      case true  => UserAnswersReader[ConsignorWithEori].widen[ConsignmentConsignorDomain]
+      case false => UserAnswersReader[ConsignorWithoutEori].widen[ConsignmentConsignorDomain]
+    }
+
+  case class ConsignorWithEori(
+    eori: EoriNumber,
+    contact: Option[ConsignmentConsignorContactDomain]
+  ) extends ConsignmentConsignorDomain
+
+  object ConsignorWithEori {
+
+    implicit val userAnswersReader: UserAnswersReader[ConsignorWithEori] =
+      (
+        EoriPage.reader.map(EoriNumber(_)),
+        AddContactPage.filterOptionalDependent(identity)(UserAnswersReader[ConsignmentConsignorContactDomain])
+      ).tupled.map((ConsignorWithEori.apply _).tupled)
+
+  }
+
+  case class ConsignorWithoutEori(
+    name: String,
+    country: Country,
+    address: DynamicAddress,
+    contact: Option[ConsignmentConsignorContactDomain]
+  ) extends ConsignmentConsignorDomain
+
+  object ConsignorWithoutEori {
+
+    implicit val userAnswersReader: UserAnswersReader[ConsignorWithoutEori] =
+      (
+        NamePage.reader,
+        CountryPage.reader,
+        AddressPage.reader,
+        AddContactPage.filterOptionalDependent(identity)(UserAnswersReader[ConsignmentConsignorContactDomain])
+      ).tupled.map((ConsignorWithoutEori.apply _).tupled)
+  }
 }

@@ -50,7 +50,6 @@ class ConsignmentViewModelSpec extends SpecBase with ScalaCheckPropertyChecks wi
     "when user answers populated" - {
       "must return row for each answer" in {
         val answers = emptyUserAnswers
-          .setValue(ApprovedOperatorPage, false)
           .setValue(consignor.EoriYesNoPage, true)
           .setValue(consignor.EoriPage, "eori")
           .setValue(consignor.NamePage, "name")
@@ -73,13 +72,12 @@ class ConsignmentViewModelSpec extends SpecBase with ScalaCheckPropertyChecks wi
         sections.size mustBe 3
 
         sections.head.sectionTitle.get mustBe "Consignor"
-        sections.head.rows.size mustBe 6
-        sections.head.rows.head.value.content.asHtml.toString() mustBe "No"
-        sections.head.rows(1).value.content.asHtml.toString() mustBe "Yes"
-        sections.head.rows(2).value.content.asHtml.toString() mustBe "eori"
-        sections.head.rows(3).value.content.asHtml.toString() mustBe "name"
-        sections.head.rows(4).value.content.asHtml.toString() mustBe "Great Britain"
-        sections.head.rows(5).value.content.asHtml.toString() mustBe "line1<br>line2<br>postal code"
+        sections.head.rows.size mustBe 5
+        sections.head.rows.head.value.content.asHtml.toString() mustBe "Yes"
+        sections.head.rows(1).value.content.asHtml.toString() mustBe "eori"
+        sections.head.rows(2).value.content.asHtml.toString() mustBe "name"
+        sections.head.rows(3).value.content.asHtml.toString() mustBe "Great Britain"
+        sections.head.rows(4).value.content.asHtml.toString() mustBe "line1<br>line2<br>postal code"
 
         sections(1).sectionTitle.get mustBe "Consignor contact"
         sections(1).rows.size mustBe 3

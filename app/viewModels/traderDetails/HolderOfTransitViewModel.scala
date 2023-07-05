@@ -38,11 +38,10 @@ object HolderOfTransitViewModel {
         rows = Seq(
           helper.eoriYesNo,
           helper.eori,
-          helper.tirIdentificationYesNo,
-          helper.tirIdentification,
           helper.name,
           helper.country,
-          helper.address
+          helper.address,
+          helper.tirIdentification
         ).flatten
       )
 

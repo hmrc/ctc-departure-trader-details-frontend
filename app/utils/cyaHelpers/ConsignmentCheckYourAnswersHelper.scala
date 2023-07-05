@@ -26,13 +26,6 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.SummaryListRow
 class ConsignmentCheckYourAnswersHelper(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages, config: FrontendAppConfig)
     extends AnswersHelper(userAnswers, mode) {
 
-  def approvedOperator: Option[SummaryListRow] = getAnswerAndBuildRow[Boolean](
-    page = ApprovedOperatorPage,
-    formatAnswer = formatAsYesOrNo,
-    prefix = "traderDetails.consignment.approvedOperator",
-    id = Some("change-has-reduced-data-set")
-  )
-
   def consignorEoriYesNo: Option[SummaryListRow] = getAnswerAndBuildRow[Boolean](
     page = consignor.EoriYesNoPage,
     formatAnswer = formatAsYesOrNo,
