@@ -30,13 +30,14 @@ class TraderDetailsViewModelSpec extends SpecBase with ScalaCheckPropertyChecks 
           val viewModelProvider = injector.instanceOf[TraderDetailsViewModelProvider]
           val sections          = viewModelProvider.apply(answers).sections
 
-          sections.size mustBe 6
-          sections.head.sectionTitle.get mustBe "Transit holder"
-          sections(1).sectionTitle.get mustBe "Additional contact"
-          sections(2).sectionTitle.get mustBe "Representative"
-          sections(3).sectionTitle.get mustBe "Consignor"
-          sections(4).sectionTitle.get mustBe "Consignor contact"
-          sections(5).sectionTitle.get mustBe "Consignee"
+          sections.size mustBe 7
+          sections.head.sectionTitle mustBe None
+          sections(1).sectionTitle.get mustBe "Transit holder"
+          sections(2).sectionTitle.get mustBe "Additional contact"
+          sections(3).sectionTitle.get mustBe "Representative"
+          sections(4).sectionTitle.get mustBe "Consignor"
+          sections(5).sectionTitle.get mustBe "Consignor contact"
+          sections(6).sectionTitle.get mustBe "Consignee"
       }
     }
   }

@@ -19,109 +19,57 @@ package models.journeyDomain.consignment
 import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
 import generators.Generators
+import models.journeyDomain.consignment.ConsignmentConsignorDomain.{ConsignorWithEori, ConsignorWithoutEori}
 import models.journeyDomain.{EitherType, UserAnswersReader}
-import pages.consignment._
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks.forAll
+import pages.QuestionPage
+import pages.consignment._
 
 class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper with Generators {
 
-  "ConsignmentConsignorDomain" - {
+  private val eori         = arbitrary[EoriNumber].sample.value
+  private val country      = arbitrary[Country].sample.value
+  private val name         = Gen.alphaNumStr.sample.value
+  private val address      = arbitrary[DynamicAddress].sample.value
+  private val contactName  = Gen.alphaNumStr.sample.value
+  private val contactPhone = Gen.alphaNumStr.sample.value
 
-    val eori         = arbitrary[EoriNumber].sample.value
-    val country      = arbitrary[Country].sample.value
-    val name         = Gen.alphaNumStr.sample.value
-    val address      = arbitrary[DynamicAddress].sample.value
-    val contactName  = Gen.alphaNumStr.sample.value
-    val contactPhone = Gen.alphaNumStr.sample.value
+  "ConsignmentConsignorDomain" - {
 
     "can be parsed from UserAnswers" - {
 
-      "when has all consignment fields complete" in {
+      "when EORI is defined" in {
 
         val userAnswers = emptyUserAnswers
           .unsafeSetVal(consignor.EoriYesNoPage)(true)
           .unsafeSetVal(consignor.EoriPage)(eori.value)
-          .unsafeSetVal(consignor.NamePage)(name)
-          .unsafeSetVal(consignor.CountryPage)(country)
-          .unsafeSetVal(consignor.AddressPage)(address)
-          .unsafeSetVal(consignor.AddContactPage)(true)
-          .unsafeSetVal(consignor.contact.NamePage)(contactName)
-          .unsafeSetVal(consignor.contact.TelephoneNumberPage)(contactPhone)
-
-        val expectedResult = ConsignmentConsignorDomain(
-          eori = Some(eori),
-          name = name,
-          country = country,
-          address = address,
-          contact = Some(
-            ConsignmentConsignorContactDomain(
-              name = contactName,
-              telephoneNumber = contactPhone
-            )
-          )
-        )
+          .unsafeSetVal(consignor.AddContactPage)(false)
 
         val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
-        result.value mustBe expectedResult
+        result.value mustBe an[ConsignorWithEori]
       }
 
-      "when has all consignment fields complete but eoriYesNo is false" in {
+      "when EORI is not defined" in {
 
         val userAnswers = emptyUserAnswers
           .unsafeSetVal(consignor.EoriYesNoPage)(false)
           .unsafeSetVal(consignor.NamePage)(name)
           .unsafeSetVal(consignor.CountryPage)(country)
           .unsafeSetVal(consignor.AddressPage)(address)
-          .unsafeSetVal(consignor.AddContactPage)(true)
-          .unsafeSetVal(consignor.contact.NamePage)(contactName)
-          .unsafeSetVal(consignor.contact.TelephoneNumberPage)(contactPhone)
-
-        val expectedResult = ConsignmentConsignorDomain(
-          eori = None,
-          name = name,
-          country = country,
-          address = address,
-          contact = Some(
-            ConsignmentConsignorContactDomain(
-              name = contactName,
-              telephoneNumber = contactPhone
-            )
-          )
-        )
-
-        val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
-        result.value mustBe expectedResult
-      }
-
-      "when has all consignment fields complete but addContact is false" in {
-
-        val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignor.EoriYesNoPage)(true)
-          .unsafeSetVal(consignor.EoriPage)(eori.value)
-          .unsafeSetVal(consignor.NamePage)(name)
-          .unsafeSetVal(consignor.CountryPage)(country)
-          .unsafeSetVal(consignor.AddressPage)(address)
           .unsafeSetVal(consignor.AddContactPage)(false)
 
-        val expectedResult = ConsignmentConsignorDomain(
-          eori = Some(eori),
-          name = name,
-          country = country,
-          address = address,
-          contact = None
-        )
-
         val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
-        result.value mustBe expectedResult
+        result.value mustBe an[ConsignorWithoutEori]
       }
     }
 
     "cannot be parsed from UserAnswers" - {
 
-      "when EoriYesNo is missing" in {
+      "when EoriYesNoPage is missing" in {
 
         val userAnswers = emptyUserAnswers
 
@@ -129,87 +77,202 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
 
         result.left.value.page mustBe consignor.EoriYesNoPage
       }
+    }
 
-      "when EoriYesNoPage is true and EoriPage is missing" in {
+  }
+
+  "ConsignorWithEori" - {
+
+    "can be parsed from UserAnswers" - {
+
+      "when all mandatory pages are defined" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignor.EoriYesNoPage)(true)
+          .unsafeSetVal(consignor.EoriPage)(eori.value)
+          .unsafeSetVal(consignor.AddContactPage)(false)
 
-        val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
-        result.left.value.page mustBe consignor.EoriPage
+        val expectedResult = ConsignorWithEori(
+          eori = eori,
+          contact = None
+        )
+
+        val result: EitherType[ConsignorWithEori] = UserAnswersReader[ConsignorWithEori].run(userAnswers)
+        result.value mustBe expectedResult
       }
 
-      "when NamePage is missing" in {
+      "when all optional pages are defined" in {
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignor.EoriYesNoPage)(false)
-
-        val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
-        result.left.value.page mustBe consignor.NamePage
-      }
-
-      "when AddressPage is missing" in {
-
-        val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignor.EoriYesNoPage)(false)
-          .unsafeSetVal(consignor.NamePage)(name)
-          .unsafeSetVal(consignor.CountryPage)(country)
-
-        val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
-        result.left.value.page mustBe consignor.AddressPage
-      }
-
-      "when AddContactPage is missing" in {
-
-        val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignor.EoriYesNoPage)(false)
-          .unsafeSetVal(consignor.NamePage)(name)
-          .unsafeSetVal(consignor.CountryPage)(country)
-          .unsafeSetVal(consignor.AddressPage)(address)
-
-        val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
-        result.left.value.page mustBe consignor.AddContactPage
-      }
-
-      "when contact name page is missing" in {
-
-        val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignor.EoriYesNoPage)(false)
-          .unsafeSetVal(consignor.NamePage)(name)
-          .unsafeSetVal(consignor.CountryPage)(country)
-          .unsafeSetVal(consignor.AddressPage)(address)
-          .unsafeSetVal(consignor.AddContactPage)(true)
-
-        val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
-        result.left.value.page mustBe consignor.contact.NamePage
-      }
-
-      "when contact telephone number page is missing" in {
-
-        val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignor.EoriYesNoPage)(false)
-          .unsafeSetVal(consignor.NamePage)(name)
-          .unsafeSetVal(consignor.CountryPage)(country)
-          .unsafeSetVal(consignor.AddressPage)(address)
+          .unsafeSetVal(consignor.EoriPage)(eori.value)
           .unsafeSetVal(consignor.AddContactPage)(true)
           .unsafeSetVal(consignor.contact.NamePage)(contactName)
+          .unsafeSetVal(consignor.contact.TelephoneNumberPage)(contactPhone)
 
-        val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
-        result.left.value.page mustBe consignor.contact.TelephoneNumberPage
+        val expectedResult = ConsignorWithEori(
+          eori = eori,
+          contact = Some(
+            ConsignmentConsignorContactDomain(
+              name = contactName,
+              telephoneNumber = contactPhone
+            )
+          )
+        )
+
+        val result: EitherType[ConsignorWithEori] = UserAnswersReader[ConsignorWithEori].run(userAnswers)
+        result.value mustBe expectedResult
       }
+    }
 
-      "when country page page is missing" in {
+    "cannot be parsed from UserAnswers" - {
+
+      "when mandatory page is missing" in {
+
+        val mandatoryPages: Gen[QuestionPage[_]] = Gen.oneOf(
+          consignor.EoriPage,
+          consignor.AddContactPage
+        )
 
         val userAnswers = emptyUserAnswers
-          .unsafeSetVal(consignor.EoriYesNoPage)(false)
-          .unsafeSetVal(consignor.NamePage)(name)
-          .unsafeSetVal(consignor.AddressPage)(address)
+          .unsafeSetVal(consignor.EoriPage)(eori.value)
+          .unsafeSetVal(consignor.AddContactPage)(false)
+
+        forAll(mandatoryPages) {
+          mandatoryPage =>
+            val invalidUserAnswers = userAnswers.unsafeRemove(mandatoryPage)
+
+            val result: EitherType[ConsignorWithEori] = UserAnswersReader[ConsignorWithEori].run(invalidUserAnswers)
+
+            result.left.value.page mustBe mandatoryPage
+        }
+      }
+
+      "when contact is defined and mandatory contact information is missing" in {
+
+        val mandatoryPages: Gen[QuestionPage[_]] = Gen.oneOf(
+          consignor.contact.NamePage,
+          consignor.contact.TelephoneNumberPage
+        )
+
+        val userAnswers = emptyUserAnswers
+          .unsafeSetVal(consignor.EoriPage)(eori.value)
           .unsafeSetVal(consignor.AddContactPage)(true)
           .unsafeSetVal(consignor.contact.NamePage)(contactName)
+          .unsafeSetVal(consignor.contact.TelephoneNumberPage)(contactPhone)
 
-        val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
-        result.left.value.page mustBe consignor.CountryPage
+        forAll(mandatoryPages) {
+          mandatoryPage =>
+            val invalidUserAnswers = userAnswers.unsafeRemove(mandatoryPage)
+
+            val result: EitherType[ConsignorWithEori] = UserAnswersReader[ConsignorWithEori].run(invalidUserAnswers)
+
+            result.left.value.page mustBe mandatoryPage
+        }
       }
     }
   }
+
+  "ConsignorWithoutEori" - {
+
+    "can be parsed from UserAnswers" - {
+
+      "when all mandatory pages are defined" in {
+
+        val userAnswers = emptyUserAnswers
+          .unsafeSetVal(consignor.NamePage)(name)
+          .unsafeSetVal(consignor.CountryPage)(country)
+          .unsafeSetVal(consignor.AddressPage)(address)
+          .unsafeSetVal(consignor.AddContactPage)(false)
+
+        val expectedResult = ConsignorWithoutEori(
+          name = name,
+          country = country,
+          address = address,
+          None
+        )
+
+        val result: EitherType[ConsignorWithoutEori] = UserAnswersReader[ConsignorWithoutEori].run(userAnswers)
+        result.value mustBe expectedResult
+      }
+
+      "when all optional pages are defined" in {
+
+        val userAnswers = emptyUserAnswers
+          .unsafeSetVal(consignor.NamePage)(name)
+          .unsafeSetVal(consignor.CountryPage)(country)
+          .unsafeSetVal(consignor.AddressPage)(address)
+          .unsafeSetVal(consignor.AddContactPage)(true)
+          .unsafeSetVal(consignor.contact.NamePage)(contactName)
+          .unsafeSetVal(consignor.contact.TelephoneNumberPage)(contactPhone)
+
+        val expectedResult = ConsignorWithoutEori(
+          name = name,
+          country = country,
+          address = address,
+          contact = Some(
+            ConsignmentConsignorContactDomain(
+              name = contactName,
+              telephoneNumber = contactPhone
+            )
+          )
+        )
+
+        val result: EitherType[ConsignorWithoutEori] = UserAnswersReader[ConsignorWithoutEori].run(userAnswers)
+        result.value mustBe expectedResult
+      }
+    }
+
+    "cannot be parsed from UserAnswers" - {
+
+      "when mandatory page is missing" in {
+
+        val mandatoryPages: Gen[QuestionPage[_]] = Gen.oneOf(
+          consignor.NamePage,
+          consignor.CountryPage,
+          consignor.AddressPage,
+          consignor.AddContactPage
+        )
+
+        val userAnswers = emptyUserAnswers
+          .unsafeSetVal(consignor.NamePage)(name)
+          .unsafeSetVal(consignor.CountryPage)(country)
+          .unsafeSetVal(consignor.AddressPage)(address)
+          .unsafeSetVal(consignor.AddContactPage)(false)
+
+        forAll(mandatoryPages) {
+          mandatoryPage =>
+            val invalidUserAnswers = userAnswers.unsafeRemove(mandatoryPage)
+
+            val result: EitherType[ConsignorWithoutEori] = UserAnswersReader[ConsignorWithoutEori].run(invalidUserAnswers)
+
+            result.left.value.page mustBe mandatoryPage
+        }
+      }
+
+      "when contact is defined and mandatory contact information is missing" in {
+
+        val mandatoryPages: Gen[QuestionPage[_]] = Gen.oneOf(
+          consignor.contact.NamePage,
+          consignor.contact.TelephoneNumberPage
+        )
+
+        val userAnswers = emptyUserAnswers
+          .unsafeSetVal(consignor.NamePage)(name)
+          .unsafeSetVal(consignor.CountryPage)(country)
+          .unsafeSetVal(consignor.AddressPage)(address)
+          .unsafeSetVal(consignor.AddContactPage)(true)
+          .unsafeSetVal(consignor.contact.NamePage)(contactName)
+          .unsafeSetVal(consignor.contact.TelephoneNumberPage)(contactPhone)
+
+        forAll(mandatoryPages) {
+          mandatoryPage =>
+            val invalidUserAnswers = userAnswers.unsafeRemove(mandatoryPage)
+
+            val result: EitherType[ConsignorWithoutEori] = UserAnswersReader[ConsignorWithoutEori].run(invalidUserAnswers)
+
+            result.left.value.page mustBe mandatoryPage
+        }
+      }
+    }
+  }
+
 }

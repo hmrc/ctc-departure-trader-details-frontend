@@ -16,6 +16,8 @@
 
 package pages.holderOfTransit
 
+import models.DynamicAddress
+import models.reference.Country
 import org.scalacheck.Arbitrary.arbitrary
 import pages.behaviours.PageBehaviours
 
@@ -30,7 +32,7 @@ class EoriYesNoPageSpec extends PageBehaviours {
     beRemovable[Boolean](EoriYesNoPage)
 
     "cleanup" - {
-      "when NO selected" - {
+      "when false" - {
         "must clean up EoriPage" in {
           forAll(arbitrary[String]) {
             eori =>
@@ -42,14 +44,20 @@ class EoriYesNoPageSpec extends PageBehaviours {
         }
       }
 
-      "when YES selected" - {
-        "must do nothing" in {
-          forAll(arbitrary[String]) {
-            eori =>
-              val preChange  = emptyUserAnswers.setValue(EoriPage, eori)
+      "when true selected" - {
+        "must clean up name, country and address page" in {
+          forAll(arbitrary[String], arbitrary[Country], arbitrary[DynamicAddress]) {
+            (name, country, address) =>
+              val preChange = emptyUserAnswers
+                .setValue(NamePage, name)
+                .setValue(CountryPage, country)
+                .setValue(AddressPage, address)
+
               val postChange = preChange.setValue(EoriYesNoPage, true)
 
-              postChange.get(EoriPage) must be(defined)
+              postChange.get(NamePage) mustNot be(defined)
+              postChange.get(CountryPage) mustNot be(defined)
+              postChange.get(AddressPage) mustNot be(defined)
           }
         }
       }

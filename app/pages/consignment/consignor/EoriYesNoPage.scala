@@ -33,7 +33,13 @@ case object EoriYesNoPage extends QuestionPage[Boolean] {
   override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
     value match {
       case Some(false) => userAnswers.remove(EoriPage)
-      case _           => super.cleanup(value, userAnswers)
+      case Some(true) =>
+        for {
+          ua1 <- userAnswers.remove(NamePage)
+          ua2 <- ua1.remove(CountryPage)
+          ua3 <- ua2.remove(AddressPage)
+        } yield ua3
+      case _ => super.cleanup(value, userAnswers)
     }
 
   override def route(userAnswers: UserAnswers, mode: Mode): Option[Call] =

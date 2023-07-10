@@ -16,6 +16,9 @@
 
 package pages.consignment.consignee
 
+import models.DynamicAddress
+import models.reference.Country
+import org.scalacheck.Arbitrary.arbitrary
 import pages.behaviours.PageBehaviours
 
 class EoriYesNoPageSpec extends PageBehaviours {
@@ -27,5 +30,38 @@ class EoriYesNoPageSpec extends PageBehaviours {
     beSettable[Boolean](EoriYesNoPage)
 
     beRemovable[Boolean](EoriYesNoPage)
+
+    "cleanup" - {
+      "when false" - {
+        "must clean up EoriPage" in {
+          forAll(arbitrary[String]) {
+            eori =>
+              val preChange  = emptyUserAnswers.setValue(EoriNumberPage, eori)
+              val postChange = preChange.setValue(EoriYesNoPage, false)
+
+              postChange.get(EoriNumberPage) mustNot be(defined)
+          }
+        }
+      }
+
+      "when true selected" - {
+        "must clean up name, country and address page" in {
+          forAll(arbitrary[String], arbitrary[Country], arbitrary[DynamicAddress]) {
+            (name, country, address) =>
+              val preChange = emptyUserAnswers
+                .setValue(NamePage, name)
+                .setValue(CountryPage, country)
+                .setValue(AddressPage, address)
+
+              val postChange = preChange.setValue(EoriYesNoPage, true)
+
+              postChange.get(NamePage) mustNot be(defined)
+              postChange.get(CountryPage) mustNot be(defined)
+              postChange.get(AddressPage) mustNot be(defined)
+          }
+        }
+      }
+    }
+
   }
 }
