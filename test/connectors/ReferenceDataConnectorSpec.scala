@@ -29,37 +29,53 @@ import scala.concurrent.Future
 
 class ReferenceDataConnectorSpec extends SpecBase with AppWithDefaultMockFixtures with WireMockServerHandler with ScalaCheckPropertyChecks {
 
-  private val baseUrl = "test-only/transit-movements-trader-reference-data"
+  private val baseUrl = "customs-reference-data/test-only"
 
   override def guiceApplicationBuilder(): GuiceApplicationBuilder = super
     .guiceApplicationBuilder()
     .configure(
-      conf = "microservice.services.referenceData.port" -> server.port()
+      conf = "microservice.services.customsReferenceData.port" -> server.port()
     )
 
   private lazy val connector: ReferenceDataConnector = app.injector.instanceOf[ReferenceDataConnector]
 
-  private val countriesResponseJson: String =
-    """
-      |[
-      | {
-      |   "code":"GB",
-      |   "description":"United Kingdom"
-      | },
-      | {
-      |   "code":"AD",
-      |   "description":"Andorra"
-      | }
-      |]
-      |""".stripMargin
+  private def countriesResponseJson(listName: String): String =
+    s"""
+       |{
+       |  "_links": {
+       |    "self": {
+       |      "href": "/customs-reference-data/lists/$listName"
+       |    }
+       |  },
+       |  "meta": {
+       |    "version": "fb16648c-ea06-431e-bbf6-483dc9ebed6e",
+       |    "snapshotDate": "2023-01-01"
+       |  },
+       |  "id": "$listName",
+       |  "data": [
+       |    {
+       |      "activeFrom": "2023-01-23",
+       |      "code": "GB",
+       |      "state": "valid",
+       |      "description": "United Kingdom"
+       |    },
+       |    {
+       |      "activeFrom": "2023-01-23",
+       |      "code": "AD",
+       |      "state": "valid",
+       |      "description": "Andorra"
+       |    }
+       |  ]
+       |}
+       |""".stripMargin
 
   "Reference Data" - {
 
     "getCountries" - {
       "must return Seq of Country when successful" in {
         server.stubFor(
-          get(urlEqualTo(s"/$baseUrl/countries?customsOfficeRole=ANY&exclude=IT&exclude=DE&membership=ctc"))
-            .willReturn(okJson(countriesResponseJson))
+          get(urlEqualTo(s"/$baseUrl/lists/CountryCodesForAddress"))
+            .willReturn(okJson(countriesResponseJson("CountryCodesForAddress")))
         )
 
         val expectedResult: Seq[Country] = Seq(
@@ -67,18 +83,31 @@ class ReferenceDataConnectorSpec extends SpecBase with AppWithDefaultMockFixture
           Country(CountryCode("AD"), "Andorra")
         )
 
-        val queryParameters = Seq(
-          "customsOfficeRole" -> "ANY",
-          "exclude"           -> "IT",
-          "exclude"           -> "DE",
-          "membership"        -> "ctc"
-        )
-
-        connector.getCountries(queryParameters).futureValue mustEqual expectedResult
+        connector.getCountriesFullList.futureValue mustEqual expectedResult
       }
 
       "must return an exception when an error response is returned" in {
-        checkErrorResponse(s"/$baseUrl/countries?customsOfficeRole=ANY", connector.getCountries(Nil))
+        checkErrorResponse(s"/$baseUrl/lists/CountryCodesForAddress", connector.getCountriesFullList)
+      }
+    }
+
+    "getCountriesWithoutZip" - {
+      "must return Seq of Country when successful" in {
+        server.stubFor(
+          get(urlEqualTo(s"/$baseUrl/lists/CountryWithoutZip"))
+            .willReturn(okJson(countriesResponseJson("CountryWithoutZip")))
+        )
+
+        val expectedResult: Seq[CountryCode] = Seq(
+          CountryCode("GB"),
+          CountryCode("AD")
+        )
+
+        connector.getCountriesWithoutZip().futureValue mustEqual expectedResult
+      }
+
+      "must return an exception when an error response is returned" in {
+        checkErrorResponse(s"/$baseUrl/country-without-zip", connector.getCountriesWithoutZip())
       }
     }
 
