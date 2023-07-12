@@ -21,6 +21,7 @@ import models.{CheckMode, UserAnswers}
 import play.api.i18n.Messages
 import viewModels.Section
 import viewModels.traderDetails.ConsignmentViewModel.ConsignmentViewModelProvider
+import viewModels.traderDetails.HeaderViewModel.HeaderViewModelProvider
 import viewModels.traderDetails.HolderOfTransitViewModel.HolderOfTransitViewModelProvider
 import viewModels.traderDetails.RepresentativeViewModel.RepresentativeViewModelProvider
 
@@ -31,6 +32,7 @@ case class TraderDetailsViewModel(sections: Seq[Section])
 object TraderDetailsViewModel {
 
   class TraderDetailsViewModelProvider @Inject() (
+    headerViewModel: HeaderViewModelProvider,
     holderOfTransitViewModelProvider: HolderOfTransitViewModelProvider,
     representativeViewModelProvider: RepresentativeViewModelProvider,
     consignmentViewModelProvider: ConsignmentViewModelProvider
@@ -39,7 +41,8 @@ object TraderDetailsViewModel {
     def apply(userAnswers: UserAnswers)(implicit messages: Messages, config: FrontendAppConfig): TraderDetailsViewModel = {
       val mode = CheckMode
       new TraderDetailsViewModel(
-        holderOfTransitViewModelProvider.apply(userAnswers, mode).sections ++
+        headerViewModel.apply(userAnswers, mode).sections ++
+          holderOfTransitViewModelProvider.apply(userAnswers, mode).sections ++
           representativeViewModelProvider.apply(userAnswers, mode).sections ++
           consignmentViewModelProvider.apply(userAnswers, mode).sections
       )

@@ -38,50 +38,6 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
 
   "ConsignmentCheckYourAnswersHelper" - {
 
-    "approvedOperator" - {
-      "must return None" - {
-        s"when $ApprovedOperatorPage is undefined" in {
-          forAll(arbitrary[Mode]) {
-            mode =>
-              val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
-              val result = helper.approvedOperator
-              result mustBe None
-          }
-        }
-      }
-
-      "must return Some(Row)" - {
-        s"when $ApprovedOperatorPage is defined" in {
-          forAll(arbitrary[Mode]) {
-            mode =>
-              val answers = emptyUserAnswers.setValue(ApprovedOperatorPage, true)
-
-              val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
-              val result = helper.approvedOperator
-
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Do you want to use a reduced data set?".toText),
-                  value = Value("Yes".toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consignmentRoutes.ApprovedOperatorController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("if you want to use a reduced data set"),
-                          attributes = Map("id" -> "change-has-reduced-data-set")
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-          }
-        }
-      }
-    }
-
     "consignorEoriYesNo" - {
       "must return None" - {
         s"when ${consignor.EoriYesNoPage} is undefined" in {

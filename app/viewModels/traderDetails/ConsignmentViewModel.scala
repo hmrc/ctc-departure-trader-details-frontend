@@ -36,7 +36,6 @@ object ConsignmentViewModel {
       val consignorSection = Section(
         sectionTitle = messages("traderDetails.checkYourAnswers.consignor"),
         rows = Seq(
-          helper.approvedOperator,
           helper.consignorEoriYesNo,
           helper.consignorEori,
           helper.consignorName,
