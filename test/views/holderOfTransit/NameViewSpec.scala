@@ -16,7 +16,7 @@
 
 package views.holderOfTransit
 
-import forms.NameFormProvider
+import forms.DynamicNameFormProvider
 import models.NormalMode
 import org.scalacheck.{Arbitrary, Gen}
 import play.api.data.Form
@@ -27,7 +27,7 @@ import views.html.holderOfTransit.NameView
 
 class NameViewSpec extends InputTextViewBehaviours[String] {
 
-  override def form: Form[String] = new NameFormProvider()(prefix)
+  override def form: Form[String] = app.injector.instanceOf[DynamicNameFormProvider].apply(prefix)
 
   override def applyView(form: Form[String]): HtmlFormat.Appendable =
     injector.instanceOf[NameView].apply(form, lrn, NormalMode)(fakeRequest, messages)

@@ -16,7 +16,7 @@
 
 package generators
 
-import models.AddressLine.{Country => _, _}
+import models.AddressLine.{Country => _}
 import models._
 import models.reference._
 import org.scalacheck.Arbitrary.arbitrary
@@ -86,18 +86,18 @@ trait ModelGenerators {
   implicit lazy val arbitraryDynamicAddress: Arbitrary[DynamicAddress] =
     Arbitrary {
       for {
-        numberAndStreet <- stringsWithMaxLength(NumberAndStreet.length, Gen.alphaNumChar)
-        city            <- stringsWithMaxLength(City.length, Gen.alphaNumChar)
-        postalCode      <- Gen.option(stringsWithMaxLength(PostalCode.length, Gen.alphaNumChar))
+        numberAndStreet <- nonEmptyString
+        city            <- nonEmptyString
+        postalCode      <- Gen.option(nonEmptyString)
       } yield DynamicAddress(numberAndStreet, city, postalCode)
     }
 
   lazy val arbitraryDynamicAddressWithRequiredPostalCode: Arbitrary[DynamicAddress] =
     Arbitrary {
       for {
-        numberAndStreet <- stringsWithMaxLength(NumberAndStreet.length, Gen.alphaNumChar)
-        city            <- stringsWithMaxLength(City.length, Gen.alphaNumChar)
-        postalCode      <- stringsWithMaxLength(PostalCode.length, Gen.alphaNumChar)
+        numberAndStreet <- nonEmptyString
+        city            <- nonEmptyString
+        postalCode      <- nonEmptyString
       } yield DynamicAddress(numberAndStreet, city, Some(postalCode))
     }
 
