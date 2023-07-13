@@ -18,17 +18,19 @@ package models.journeyDomain.consignment
 
 import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
-import pages.consignment._
-import pages.external._
+import config.PhaseConfig
 import generators.Generators
 import models.SecurityDetailsType.{EntrySummaryDeclarationSecurityDetails, NoSecurityDetails}
 import models.journeyDomain.consignment.ConsignmentConsigneeDomain.ConsigneeWithEori
 import models.journeyDomain.consignment.ConsignmentConsignorDomain.ConsignorWithoutEori
 import models.journeyDomain.{EitherType, UserAnswersReader}
 import models.reference.Country
-import models.{DeclarationType, DynamicAddress, EoriNumber, SecurityDetailsType}
+import models.{DeclarationType, DynamicAddress, EoriNumber, Phase, SecurityDetailsType}
+import org.mockito.Mockito.when
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
+import pages.consignment._
+import pages.external._
 
 class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Generators {
 
@@ -49,7 +51,6 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           .setValue(DeclarationTypePage, nonOption4DeclarationType)
           .setValue(SecurityDetailsTypePage, NoSecurityDetails)
           .unsafeSetVal(ApprovedOperatorPage)(true)
-          .unsafeSetVal(MoreThanOneConsigneePage)(true)
           .unsafeSetVal(consignee.EoriYesNoPage)(true)
           .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
 
@@ -196,6 +197,24 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
         val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain].run(userAnswers)
 
         result.left.value.page mustBe ApprovedOperatorPage
+      }
+
+      "when transition" - {
+        "and more than one consignee is not answered" ignore {
+          val mockPhaseConfig = mock[PhaseConfig]
+          when(mockPhaseConfig.phase).thenReturn(Phase.Transition)
+
+          val userAnswers = emptyUserAnswers
+            .setValue(DeclarationTypePage, nonOption4DeclarationType)
+            .setValue(SecurityDetailsTypePage, NoSecurityDetails)
+            .setValue(ApprovedOperatorPage, true)
+
+          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
+            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
+          ).run(userAnswers)
+
+          result.left.value.page mustBe MoreThanOneConsigneePage
+        }
       }
     }
   }

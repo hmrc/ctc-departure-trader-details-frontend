@@ -16,6 +16,7 @@
 
 package controllers
 
+import config.PhaseConfig
 import controllers.actions.Actions
 import forms.YesNoFormProvider
 import models.{LocalReferenceNumber, Mode}
@@ -39,7 +40,7 @@ class ActingAsRepresentativeController @Inject() (
   formProvider: YesNoFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: ActingAsRepresentativeView
-)(implicit ec: ExecutionContext)
+)(implicit ec: ExecutionContext, phaseConfig: PhaseConfig)
     extends FrontendBaseController
     with I18nSupport {
 

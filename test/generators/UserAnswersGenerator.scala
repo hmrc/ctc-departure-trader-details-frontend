@@ -16,6 +16,7 @@
 
 package generators
 
+import config.PhaseConfig
 import models.journeyDomain.consignment.{ConsignmentConsigneeDomain, ConsignmentConsignorDomain, ConsignmentDomain}
 import models.journeyDomain.holderOfTransit.HolderOfTransitDomain
 import models.journeyDomain.representative.RepresentativeDomain
@@ -27,7 +28,7 @@ import org.scalacheck.{Arbitrary, Gen}
 trait UserAnswersGenerator extends UserAnswersEntryGenerators {
   self: Generators =>
 
-  implicit lazy val arbitraryUserAnswers: Arbitrary[UserAnswers] =
+  implicit def arbitraryUserAnswers(implicit phaseConfig: PhaseConfig): Arbitrary[UserAnswers] =
     Arbitrary {
       for {
         lrn        <- arbitrary[LocalReferenceNumber]
@@ -58,7 +59,7 @@ trait UserAnswersGenerator extends UserAnswersEntryGenerators {
     rec(initialUserAnswers)
   }
 
-  def arbitraryTraderDetailsAnswers(userAnswers: UserAnswers): Gen[UserAnswers] =
+  def arbitraryTraderDetailsAnswers(userAnswers: UserAnswers)(implicit phaseConfig: PhaseConfig): Gen[UserAnswers] =
     buildUserAnswers[TraderDetailsDomain](userAnswers)
 
   def arbitraryHolderOfTransitAnswers(userAnswers: UserAnswers): Gen[UserAnswers] =
@@ -67,7 +68,7 @@ trait UserAnswersGenerator extends UserAnswersEntryGenerators {
   def arbitraryRepresentativeAnswers(userAnswers: UserAnswers): Gen[UserAnswers] =
     buildUserAnswers[RepresentativeDomain](userAnswers)
 
-  def arbitraryConsignmentAnswers(userAnswers: UserAnswers): Gen[UserAnswers] =
+  def arbitraryConsignmentAnswers(userAnswers: UserAnswers)(implicit phaseConfig: PhaseConfig): Gen[UserAnswers] =
     buildUserAnswers[ConsignmentDomain](userAnswers)
 
   def arbitraryConsignorAnswers(userAnswers: UserAnswers): Gen[UserAnswers] =

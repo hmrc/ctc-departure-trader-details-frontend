@@ -83,11 +83,11 @@ class ReferenceDataConnectorSpec extends SpecBase with AppWithDefaultMockFixture
           Country(CountryCode("AD"), "Andorra")
         )
 
-        connector.getCountriesFullList.futureValue mustEqual expectedResult
+        connector.getCountriesFullList().futureValue mustEqual expectedResult
       }
 
       "must return an exception when an error response is returned" in {
-        checkErrorResponse(s"/$baseUrl/lists/CountryCodesForAddress", connector.getCountriesFullList)
+        checkErrorResponse(s"/$baseUrl/lists/CountryCodesForAddress", connector.getCountriesFullList())
       }
     }
 

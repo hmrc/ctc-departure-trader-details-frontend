@@ -16,7 +16,7 @@
 
 package navigation
 
-import config.FrontendAppConfig
+import config.{FrontendAppConfig, PhaseConfig}
 import models.{Mode, UserAnswers}
 import play.api.mvc.Call
 
@@ -24,6 +24,7 @@ class FakeNavigator(desiredRoute: Call) extends Navigator {
   override def nextPage(userAnswers: UserAnswers): Call = desiredRoute
 }
 
-class FakeTraderDetailsNavigator(desiredRoute: Call, mode: Mode)(implicit config: FrontendAppConfig) extends TraderDetailsNavigator(mode) {
+class FakeTraderDetailsNavigator(desiredRoute: Call, mode: Mode)(implicit appConfig: FrontendAppConfig, phaseConfig: PhaseConfig)
+    extends TraderDetailsNavigator(mode) {
   override def nextPage(userAnswers: UserAnswers): Call = desiredRoute
 }
