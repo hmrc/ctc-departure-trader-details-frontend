@@ -16,6 +16,7 @@
 
 package models.journeyDomain
 
+import config.PhaseConfig
 import models.journeyDomain.consignment.ConsignmentDomain
 import models.journeyDomain.holderOfTransit.HolderOfTransitDomain
 import models.journeyDomain.representative.RepresentativeDomain
@@ -35,8 +36,7 @@ case class TraderDetailsDomain(
 
 object TraderDetailsDomain {
 
-  implicit val userAnswersParser: UserAnswersReader[TraderDetailsDomain] = {
-
+  implicit def userAnswersParser(implicit phaseConfig: PhaseConfig): UserAnswersReader[TraderDetailsDomain] =
     for {
       holderOfTransit <- UserAnswersReader[HolderOfTransitDomain]
       representative  <- ActingAsRepresentativePage.filterOptionalDependent(identity)(UserAnswersReader[RepresentativeDomain])
@@ -46,5 +46,4 @@ object TraderDetailsDomain {
       representative,
       consignment
     )
-  }
 }

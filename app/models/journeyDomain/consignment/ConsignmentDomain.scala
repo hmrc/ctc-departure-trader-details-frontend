@@ -17,6 +17,7 @@
 package models.journeyDomain.consignment
 
 import cats.implicits._
+import config.PhaseConfig
 import models.DeclarationType.Option4
 import models.SecurityDetailsType.NoSecurityDetails
 import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
@@ -30,13 +31,13 @@ case class ConsignmentDomain(
 
 object ConsignmentDomain {
 
-  implicit val userAnswersReader: UserAnswersReader[ConsignmentDomain] =
+  implicit def userAnswersReader(implicit phaseConfig: PhaseConfig): UserAnswersReader[ConsignmentDomain] =
     for {
       consignor <- readConsignorDomain
       consignee <- UserAnswersReader[ConsignmentConsigneeDomain]
     } yield ConsignmentDomain(consignor, consignee)
 
-  private def readConsignorDomain: UserAnswersReader[Option[ConsignmentConsignorDomain]] = {
+  private def readConsignorDomain(implicit phaseConfig: PhaseConfig): UserAnswersReader[Option[ConsignmentConsignorDomain]] = {
     lazy val consignorReader: UserAnswersReader[Option[ConsignmentConsignorDomain]] =
       UserAnswersReader[ConsignmentConsignorDomain].map(Some(_))
 

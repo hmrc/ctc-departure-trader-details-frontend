@@ -16,7 +16,7 @@
 
 package navigation
 
-import config.FrontendAppConfig
+import config.{FrontendAppConfig, PhaseConfig}
 import models.journeyDomain.Stage.CompletingJourney
 import models.journeyDomain.{JourneyDomainModel, ReaderError, Stage, UserAnswersReader}
 import models.{Mode, UserAnswers}
@@ -26,7 +26,8 @@ import uk.gov.hmrc.http.HttpVerbs.GET
 
 trait UserAnswersNavigator extends Navigator {
 
-  implicit val config: FrontendAppConfig
+  implicit val appConfig: FrontendAppConfig
+  implicit val phaseConfig: PhaseConfig
 
   type T <: JourneyDomainModel
 

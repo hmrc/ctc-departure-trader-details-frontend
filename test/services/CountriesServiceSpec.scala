@@ -37,7 +37,7 @@ import connectors.ReferenceDataConnector
 import generators.Generators
 import models.SelectableList
 import models.reference.{Country, CountryCode}
-import org.mockito.ArgumentMatchers.{any, eq => eqTo}
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, verify, when}
 import org.scalacheck.Arbitrary
 import org.scalatest.BeforeAndAfterEach
