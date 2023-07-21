@@ -16,12 +16,12 @@
 
 package pages.consignment
 
+import config.Constants.NoSecurityDetails
 import models.DynamicAddress
-import models.SecurityDetailsType.{EntrySummaryDeclarationSecurityDetails, NoSecurityDetails}
 import org.scalacheck.Arbitrary.arbitrary
-import pages.external._
-import pages.consignment.consignor._
 import pages.behaviours.PageBehaviours
+import pages.consignment.consignor._
+import pages.external._
 
 class ApprovedOperatorPageSpec extends PageBehaviours {
 
@@ -82,10 +82,10 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
 
       "when Yes selected and we have Security Details" - {
         "must do nothing" in {
-          forAll(arbitrary[String]) {
-            eori =>
+          forAll(arbitrary[String], arbitrary[String](arbitrarySomeSecurityDetailsType)) {
+            (eori, securityType) =>
               val preChange = emptyUserAnswers
-                .setValue(SecurityDetailsTypePage, EntrySummaryDeclarationSecurityDetails)
+                .setValue(SecurityDetailsTypePage, securityType)
                 .setValue(ApprovedOperatorPage, false)
                 .setValue(EoriYesNoPage, true)
                 .setValue(EoriPage, eori)

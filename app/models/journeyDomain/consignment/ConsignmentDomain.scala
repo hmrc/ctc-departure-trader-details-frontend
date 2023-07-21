@@ -17,9 +17,8 @@
 package models.journeyDomain.consignment
 
 import cats.implicits._
+import config.Constants.{NoSecurityDetails, TIR}
 import config.PhaseConfig
-import models.DeclarationType.Option4
-import models.SecurityDetailsType.NoSecurityDetails
 import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
 import pages.consignment.ApprovedOperatorPage
 import pages.external.{DeclarationTypePage, SecurityDetailsTypePage}
@@ -42,7 +41,7 @@ object ConsignmentDomain {
       UserAnswersReader[ConsignmentConsignorDomain].map(Some(_))
 
     DeclarationTypePage.reader.flatMap {
-      case Option4 => consignorReader
+      case TIR => consignorReader
       case _ =>
         for {
           securityDetailsType <- SecurityDetailsTypePage.reader

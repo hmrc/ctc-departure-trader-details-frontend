@@ -16,8 +16,7 @@
 
 package pages.consignment
 
-import models.DeclarationType.Option4
-import models.SecurityDetailsType.NoSecurityDetails
+import config.Constants.{NoSecurityDetails, TIR}
 import models.journeyDomain.{GettableAsReaderOps, UserAnswersReader}
 import models.{Mode, UserAnswers}
 import pages.QuestionPage
@@ -34,9 +33,6 @@ case object ApprovedOperatorPage extends QuestionPage[Boolean] {
 
   override def toString: String = "approvedOperator"
 
-  // TODO - this answer affects transport details authorisation nav.
-  //  what cleanup logic do we need?
-  //  if we split out into separate FEs we'll need endpoints to do this cleanup in the backend cache
   override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
     (userAnswers.get(SecurityDetailsTypePage), value) match {
       case (Some(NoSecurityDetails), Some(true)) => userAnswers.remove(TraderDetailsConsignorSection)
@@ -47,7 +43,7 @@ case object ApprovedOperatorPage extends QuestionPage[Boolean] {
     Some(controllers.consignment.routes.ApprovedOperatorController.onPageLoad(userAnswers.lrn, mode))
 
   def inferredReader: UserAnswersReader[Boolean] = DeclarationTypePage.reader.flatMap {
-    case Option4 => UserAnswersReader(false)
-    case _       => ApprovedOperatorPage.reader
+    case TIR => UserAnswersReader(false)
+    case _   => ApprovedOperatorPage.reader
   }
 }

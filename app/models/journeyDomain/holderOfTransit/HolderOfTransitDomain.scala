@@ -17,7 +17,7 @@
 package models.journeyDomain.holderOfTransit
 
 import cats.implicits._
-import models.DeclarationType.Option4
+import config.Constants.TIR
 import models.journeyDomain.{GettableAsFilterForNextReaderOps, GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
@@ -49,7 +49,7 @@ object HolderOfTransitDomain {
       (
         EoriPage.reader.map(EoriNumber(_)),
         AddContactPage.filterOptionalDependent(identity)(UserAnswersReader[AdditionalContactDomain]),
-        DeclarationTypePage.filterOptionalDependent(_ == Option4)(TirIdentificationPage.reader)
+        DeclarationTypePage.filterOptionalDependent(_ == TIR)(TirIdentificationPage.reader)
       ).tupled.map((HolderOfTransitWithEori.apply _).tupled)
 
   }
@@ -70,7 +70,7 @@ object HolderOfTransitDomain {
         CountryPage.reader,
         AddressPage.reader,
         AddContactPage.filterOptionalDependent(identity)(UserAnswersReader[AdditionalContactDomain]),
-        DeclarationTypePage.filterOptionalDependent(_ == Option4)(TirIdentificationPage.reader)
+        DeclarationTypePage.filterOptionalDependent(_ == TIR)(TirIdentificationPage.reader)
       ).tupled.map((HolderOfTransitWithoutEori.apply _).tupled)
   }
 }
