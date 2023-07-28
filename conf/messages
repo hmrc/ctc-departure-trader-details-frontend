@@ -80,6 +80,7 @@ traderDetails.holderOfTransit.tirIdentification.change.hidden = TIR holder’s i
 
 traderDetails.holderOfTransit.name.title = What is the transit holder’s name?
 traderDetails.holderOfTransit.name.heading = What is the transit holder’s name?
+traderDetails.holderOfTransit.name.hint = Enter the full name of the individual or organisation.
 traderDetails.holderOfTransit.name.checkYourAnswersLabel = Transit holder’s name
 traderDetails.holderOfTransit.name.error.required = Enter the transit holder’s name
 traderDetails.holderOfTransit.name.error.length = The transit holder’s name must be {0} characters or less
@@ -108,9 +109,10 @@ traderDetails.holderOfTransit.address.error.required = Enter the {0} for {1}’s
 traderDetails.holderOfTransit.address.error.length = The {0} for {1}’s address must be {2} characters or less
 traderDetails.holderOfTransit.address.placeholder = Select a country
 
-traderDetails.holderOfTransit.addContact.title = Do you want to add a contact?
-traderDetails.holderOfTransit.addContact.heading = Do you want to add a contact?
+traderDetails.holderOfTransit.addContact.title = Do you want to add a contact for the transit holder?
+traderDetails.holderOfTransit.addContact.heading = Do you want to add a contact for the transit holder?
 traderDetails.holderOfTransit.addContact.checkYourAnswersLabel = Do you want to add a contact?
+traderDetails.holderOfTransit.addContact.paragraph = This is additional contact information for if Customs have any queries.
 traderDetails.holderOfTransit.addContact.error.required = Select yes if you want to add a contact
 traderDetails.holderOfTransit.addContact.change.hidden = if you want to add a contact
 
@@ -118,6 +120,7 @@ traderDetails.holderOfTransit.addContact.change.hidden = if you want to add a co
 
 traderDetails.holderOfTransit.contact.name.title = What is the contact’s name?
 traderDetails.holderOfTransit.contact.name.heading = What is the contact’s name?
+traderDetails.holderOfTransit.contact.name.hint = Enter the contact’s full name.
 traderDetails.holderOfTransit.contact.name.checkYourAnswersLabel = Contact’s name
 traderDetails.holderOfTransit.contact.name.error.required = Enter the contact’s name
 traderDetails.holderOfTransit.contact.name.error.length = The contact’s name must be {0} characters or less
