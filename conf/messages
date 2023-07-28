@@ -258,10 +258,10 @@ traderDetails.consignment.consignor.contact.name.error.length = The contact’s 
 traderDetails.consignment.consignor.contact.name.error.invalid = The contact’s name must only include letters a to z without accents, numbers 0 to 9, ampersands (&), apostrophes, at signs (@), forward slashes, full stops, hyphens, question marks and spaces
 traderDetails.consignment.consignor.contact.name.change.hidden = contact for the consignor
 
-traderDetails.consignment.consignor.contact.telephoneNumber.title = What is the consignor contact’s phone number?
+traderDetails.consignment.consignor.contact.telephoneNumber.title = What is the phone number for the consignor’s contact?
 traderDetails.consignment.consignor.contact.telephoneNumber.heading = What is {0}’s phone number?
 traderDetails.consignment.consignor.contact.telephoneNumber.checkYourAnswersLabel = Consignor contact’s phone number
-traderDetails.consignment.consignor.contact.telephoneNumber.hint = Must include the country code, like +44 808 157 0192.
+traderDetails.consignment.consignor.contact.telephoneNumber.hint = Include the country code, for example +44 808 157 0192.
 traderDetails.consignment.consignor.contact.telephoneNumber.error.required = Enter {0}’s phone number
 traderDetails.consignment.consignor.contact.telephoneNumber.error.maxLength = {0}’s phone number must be {1} characters or less
 traderDetails.consignment.consignor.contact.telephoneNumber.error.minLength = {0}’s phone number must be {1} characters or more
@@ -273,6 +273,7 @@ traderDetails.consignment.consignor.contact.telephoneNumber.change.hidden = cons
 
 traderDetails.consignment.consignee.eoriYesNo.title = Do you know the consignee’s EORI number or Trader Identification Number (TIN)?
 traderDetails.consignment.consignee.eoriYesNo.heading = Do you know the consignee’s EORI number or Trader Identification Number (TIN)?
+traderDetails.consignment.consignee.eoriYesNo.paragraph = This means the person or organisation receiving the goods.
 traderDetails.consignment.consignee.eoriYesNo.checkYourAnswersLabel = Do you know the consignee’s EORI number or Trader Identification Number (TIN)?
 traderDetails.consignment.consignee.eoriYesNo.error.required = Select yes if you know the consignee’s EORI number or Trader Identification Number (TIN)
 traderDetails.consignment.consignee.eoriYesNo.change.hidden = if you know the consignee’s EORI number or Trader Identification Number (TIN)
