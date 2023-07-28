@@ -46,6 +46,8 @@ class NameViewSpec extends InputTextViewBehaviours[String] {
 
   behave like pageWithoutHint()
 
+  behave like pageWithContent("p", "This is additional contact information for if Customs have any queries.")
+
   behave like pageWithInputText(Some(InputSize.Width20))
 
   behave like pageWithSubmitButton("Save and continue")

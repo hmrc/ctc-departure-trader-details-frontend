@@ -41,9 +41,10 @@
 
         @inputYesNo(
             field = form("value"),
-            yesNoType = OrdinaryYesNo(
+            yesNoType = YesNoWithAdditionalHtml(
                 heading = messages("traderDetails.consignment.consignor.addContact.heading"),
-                caption = Some(messages("traderDetails.consignment.consignor.caption"))
+                caption = Some(messages("traderDetails.consignment.consignor.caption")),
+                additionalHtml = messages("traderDetails.consignment.consignor.addContact.paragraph").toParagraph
             )
         )
 

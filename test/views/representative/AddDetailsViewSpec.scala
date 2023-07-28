@@ -37,7 +37,7 @@ class AddDetailsViewSpec extends YesNoViewBehaviours {
 
   behave like pageWithHeading()
 
-  behave like pageWithContent("p", "This includes your name and phone number.")
+  behave like pageWithContent("p", "This includes your name and phone number for if Customs have any queries.")
 
   behave like pageWithRadioItems()
 

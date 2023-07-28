@@ -39,5 +39,7 @@ class EoriYesNoViewSpec extends YesNoViewBehaviours {
 
   behave like pageWithRadioItems()
 
+  behave like pageWithContent("p", "The consignor is the person or organisation sending the goods.")
+
   behave like pageWithSubmitButton("Save and continue")
 }

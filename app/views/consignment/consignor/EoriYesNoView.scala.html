@@ -41,11 +41,13 @@
 
         @inputYesNo(
             field = form("value"),
-            yesNoType = OrdinaryYesNo(
+            yesNoType = YesNoWithAdditionalHtml(
                 heading = messages("traderDetails.consignment.consignor.eoriYesNo.heading"),
-                caption = Some(messages("traderDetails.consignment.consignor.caption"))
+                caption = Some(messages("traderDetails.consignment.consignor.caption")),
+                additionalHtml = messages("traderDetails.consignment.consignor.eoriYesNo.paragraph").toParagraph
             )
         )
+
 
         @button(attributes = Map("id" -> "submit"))
     }
