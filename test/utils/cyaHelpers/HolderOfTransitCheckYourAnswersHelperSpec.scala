@@ -146,7 +146,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
 
               result mustBe Some(
                 SummaryListRow(
-                  key = Key("Transit holder’s Eori number".toText),
+                  key = Key("EORI number".toText),
                   value = Value(eori.toText),
                   actions = Some(
                     Actions(
