@@ -40,11 +40,12 @@
         @errorSummary(form.errors)
 
         @inputYesNo(
-            field = form("value"),
-            yesNoType = OrdinaryYesNo(
-                heading = messages("traderDetails.consignment.consignee.eoriYesNo.heading"),
-                caption = Some(messages("traderDetails.consignment.consignee.caption"))
-            )
+             field = form("value"),
+               yesNoType = YesNoWithAdditionalHtml(
+                    heading = messages("traderDetails.consignment.consignee.eoriYesNo.heading"),
+                    caption = Some(messages("traderDetails.consignment.consignee.caption")),
+                    additionalHtml = messages("traderDetails.consignment.consignee.eoriYesNo.paragraph").toParagraph
+           )
         )
 
         @button(attributes = Map("id" -> "submit"))
