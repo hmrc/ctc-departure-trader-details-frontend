@@ -58,5 +58,8 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
 
   val cacheUrl: String = servicesConfig.fullServiceUrl("manage-transit-movements-departure-cache")
 
+  val transportDetailsUrl: String = configuration.get[String]("urls.manageTransitMovementsDepartureTransportDetailsFrontend")
+  val itemsUrl: String            = configuration.get[String]("urls.manageTransitMovementsDepartureItemsFrontend")
+
   val dependentTasks: Seq[String] = configuration.get[Seq[String]]("dependent-tasks")
 }
