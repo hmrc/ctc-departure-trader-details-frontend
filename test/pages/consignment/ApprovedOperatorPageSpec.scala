@@ -16,14 +16,18 @@
 
 package pages.consignment
 
-import models.DynamicAddress
-import models.SecurityDetailsType.{EntrySummaryDeclarationSecurityDetails, NoSecurityDetails}
+import models.SecurityDetailsType.NoSecurityDetails
+import models.{DynamicAddress, SecurityDetailsType}
 import org.scalacheck.Arbitrary.arbitrary
-import pages.external._
-import pages.consignment.consignor._
 import pages.behaviours.PageBehaviours
+import pages.consignment.consignor._
+import pages.external._
+import play.api.libs.json.{JsArray, Json}
 
 class ApprovedOperatorPageSpec extends PageBehaviours {
+
+  private val address = arbitrary[DynamicAddress].sample.value
+  private val array   = JsArray(Seq(Json.obj("foo" -> "bar")))
 
   "ApprovedOperatorPage" - {
 
@@ -34,91 +38,140 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
     beRemovable[Boolean](ApprovedOperatorPage)
 
     "cleanup" - {
-      val testAddress = arbitrary[DynamicAddress].sample.value
 
       "when Yes selected and we have No Security Details" - {
-        "must clean up Consignor pages" in {
-
+        "must clean up Consignor pages, authorisations and items" in {
           forAll(arbitrary[String]) {
             eori =>
-              val preChange = emptyUserAnswers
+              val userAnswers = emptyUserAnswers
                 .setValue(SecurityDetailsTypePage, NoSecurityDetails)
                 .setValue(ApprovedOperatorPage, false)
                 .setValue(EoriYesNoPage, true)
                 .setValue(EoriPage, eori)
                 .setValue(NamePage, "name")
-                .setValue(AddressPage, testAddress)
-              val postChange = preChange.setValue(ApprovedOperatorPage, true)
+                .setValue(AddressPage, address)
+                .setValue(AuthorisationsSection, array)
+                .setValue(ItemsSection, array)
 
-              postChange.get(EoriPage) mustNot be(defined)
-              postChange.get(EoriYesNoPage) mustNot be(defined)
-              postChange.get(NamePage) mustNot be(defined)
-              postChange.get(AddressPage) mustNot be(defined)
+              val result = userAnswers.setValue(ApprovedOperatorPage, true)
+
+              result.get(EoriPage).isDefined mustBe false
+              result.get(EoriYesNoPage).isDefined mustBe false
+              result.get(NamePage).isDefined mustBe false
+              result.get(AddressPage).isDefined mustBe false
+              result.get(AuthorisationsSection).isDefined mustBe false
+              result.get(ItemsSection).isDefined mustBe false
           }
         }
       }
 
       "when No selected and we have No Security Details" - {
-        "must do nothing" in {
+        "must clean up authorisations and items" in {
           forAll(arbitrary[String]) {
             eori =>
-              val preChange = emptyUserAnswers
+              val userAnswers = emptyUserAnswers
                 .setValue(SecurityDetailsTypePage, NoSecurityDetails)
                 .setValue(ApprovedOperatorPage, true)
                 .setValue(EoriYesNoPage, true)
                 .setValue(EoriPage, eori)
                 .setValue(NamePage, "name")
-                .setValue(AddressPage, testAddress)
+                .setValue(AddressPage, address)
+                .setValue(AuthorisationsSection, array)
+                .setValue(ItemsSection, array)
 
-              val postChange = preChange.setValue(ApprovedOperatorPage, false)
+              val result = userAnswers.setValue(ApprovedOperatorPage, false)
 
-              postChange.get(EoriPage).isDefined must be(true)
-              postChange.get(EoriYesNoPage).isDefined must be(true)
-              postChange.get(NamePage).isDefined must be(true)
-              postChange.get(AddressPage).isDefined must be(true)
+              result.get(EoriPage).isDefined mustBe true
+              result.get(EoriYesNoPage).isDefined mustBe true
+              result.get(NamePage).isDefined mustBe true
+              result.get(AddressPage).isDefined mustBe true
+              result.get(AuthorisationsSection).isDefined mustBe false
+              result.get(ItemsSection).isDefined mustBe false
           }
         }
       }
 
       "when Yes selected and we have Security Details" - {
-        "must do nothing" in {
-          forAll(arbitrary[String]) {
-            eori =>
-              val preChange = emptyUserAnswers
-                .setValue(SecurityDetailsTypePage, EntrySummaryDeclarationSecurityDetails)
+        "must clean up authorisations and items" in {
+          forAll(arbitrary[SecurityDetailsType](arbitrarySomeSecurityDetailsType), arbitrary[String]) {
+            (securityType, eori) =>
+              val userAnswers = emptyUserAnswers
+                .setValue(SecurityDetailsTypePage, securityType)
                 .setValue(ApprovedOperatorPage, false)
                 .setValue(EoriYesNoPage, true)
                 .setValue(EoriPage, eori)
                 .setValue(NamePage, "name")
-                .setValue(AddressPage, testAddress)
+                .setValue(AddressPage, address)
+                .setValue(AuthorisationsSection, array)
+                .setValue(ItemsSection, array)
 
-              val postChange = preChange.setValue(ApprovedOperatorPage, true)
+              val result = userAnswers.setValue(ApprovedOperatorPage, true)
 
-              postChange.get(EoriPage).isDefined must be(true)
-              postChange.get(EoriYesNoPage).isDefined must be(true)
-              postChange.get(NamePage).isDefined must be(true)
-              postChange.get(AddressPage).isDefined must be(true)
+              result.get(EoriPage).isDefined mustBe true
+              result.get(EoriYesNoPage).isDefined mustBe true
+              result.get(NamePage).isDefined mustBe true
+              result.get(AddressPage).isDefined mustBe true
+              result.get(AuthorisationsSection).isDefined mustBe false
+              result.get(ItemsSection).isDefined mustBe false
           }
         }
       }
 
       "when Yes selected and haven't populated the security details type" - {
-        "must do nothing" in {
+        "must clean up authorisations and items" in {
           forAll(arbitrary[String]) {
             eori =>
-              val preChange = emptyUserAnswers
+              val userAnswers = emptyUserAnswers
                 .setValue(ApprovedOperatorPage, false)
                 .setValue(EoriYesNoPage, true)
                 .setValue(EoriPage, eori)
                 .setValue(NamePage, "name")
-                .setValue(AddressPage, testAddress)
+                .setValue(AddressPage, address)
+                .setValue(AuthorisationsSection, array)
+                .setValue(ItemsSection, array)
 
-              val postChange = preChange.setValue(ApprovedOperatorPage, true)
+              val result = userAnswers.setValue(ApprovedOperatorPage, true)
 
-              postChange.get(EoriPage).isDefined must be(true)
-              postChange.get(EoriYesNoPage).isDefined must be(true)
-              postChange.get(NamePage).isDefined must be(true)
-              postChange.get(AddressPage).isDefined must be(true)
+              result.get(EoriPage).isDefined mustBe true
+              result.get(EoriYesNoPage).isDefined mustBe true
+              result.get(NamePage).isDefined mustBe true
+              result.get(AddressPage).isDefined mustBe true
+              result.get(AuthorisationsSection).isDefined mustBe false
+              result.get(ItemsSection).isDefined mustBe false
+          }
+        }
+
+        "when the value changes" - {
+          "must clean up authorisations and items" in {
+            forAll(arbitrary[Boolean]) {
+              bool =>
+                val userAnswers = emptyUserAnswers
+                  .setValue(ApprovedOperatorPage, bool)
+                  .setValue(AuthorisationsSection, array)
+                  .setValue(ItemsSection, array)
+
+                val result = userAnswers.setValue(ApprovedOperatorPage, !bool)
+
+                result.get(AuthorisationsSection).isDefined mustBe false
+                result.get(ItemsSection).isDefined mustBe false
+            }
+          }
+        }
+
+        "when the value doesn't change" - {
+          "must do nothing" in {
+            forAll(arbitrary[Boolean]) {
+              bool =>
+                val userAnswers = emptyUserAnswers
+                  .setValue(ApprovedOperatorPage, bool)
+                  .setValue(AuthorisationsSection, array)
+                  .setValue(ItemsSection, array)
+
+                val result = userAnswers.setValue(ApprovedOperatorPage, bool)
+
+                result.get(AuthorisationsSection).isDefined mustBe true
+                result.get(ItemsSection).isDefined mustBe true
+            }
           }
         }
       }
