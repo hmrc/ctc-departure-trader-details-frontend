@@ -68,7 +68,7 @@ class ApprovedOperatorController @Inject() (
               .writeToUserAnswers(value)
               .updateTask()
               .writeToSession()
-              .getAbsoluteUrl()
+              .getNextPage()
               .updateItems(lrn)
               .updateTransportDetails(lrn)
               .navigate()

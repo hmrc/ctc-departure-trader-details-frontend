@@ -50,7 +50,7 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
                 .setValue(EoriPage, eori)
                 .setValue(NamePage, "name")
                 .setValue(AddressPage, address)
-                .setValue(AuthorisationsSection, array)
+                .setValue(AuthorisationsAndLimitSection, array)
                 .setValue(ItemsSection, array)
 
               val result = userAnswers.setValue(ApprovedOperatorPage, true)
@@ -59,7 +59,7 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
               result.get(EoriYesNoPage).isDefined mustBe false
               result.get(NamePage).isDefined mustBe false
               result.get(AddressPage).isDefined mustBe false
-              result.get(AuthorisationsSection).isDefined mustBe false
+              result.get(AuthorisationsAndLimitSection).isDefined mustBe false
               result.get(ItemsSection).isDefined mustBe false
           }
         }
@@ -76,7 +76,7 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
                 .setValue(EoriPage, eori)
                 .setValue(NamePage, "name")
                 .setValue(AddressPage, address)
-                .setValue(AuthorisationsSection, array)
+                .setValue(AuthorisationsAndLimitSection, array)
                 .setValue(ItemsSection, array)
 
               val result = userAnswers.setValue(ApprovedOperatorPage, false)
@@ -85,7 +85,7 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
               result.get(EoriYesNoPage).isDefined mustBe true
               result.get(NamePage).isDefined mustBe true
               result.get(AddressPage).isDefined mustBe true
-              result.get(AuthorisationsSection).isDefined mustBe false
+              result.get(AuthorisationsAndLimitSection).isDefined mustBe false
               result.get(ItemsSection).isDefined mustBe false
           }
         }
@@ -102,7 +102,7 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
                 .setValue(EoriPage, eori)
                 .setValue(NamePage, "name")
                 .setValue(AddressPage, address)
-                .setValue(AuthorisationsSection, array)
+                .setValue(AuthorisationsAndLimitSection, array)
                 .setValue(ItemsSection, array)
 
               val result = userAnswers.setValue(ApprovedOperatorPage, true)
@@ -111,7 +111,7 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
               result.get(EoriYesNoPage).isDefined mustBe true
               result.get(NamePage).isDefined mustBe true
               result.get(AddressPage).isDefined mustBe true
-              result.get(AuthorisationsSection).isDefined mustBe false
+              result.get(AuthorisationsAndLimitSection).isDefined mustBe false
               result.get(ItemsSection).isDefined mustBe false
           }
         }
@@ -127,7 +127,7 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
                 .setValue(EoriPage, eori)
                 .setValue(NamePage, "name")
                 .setValue(AddressPage, address)
-                .setValue(AuthorisationsSection, array)
+                .setValue(AuthorisationsAndLimitSection, array)
                 .setValue(ItemsSection, array)
 
               val result = userAnswers.setValue(ApprovedOperatorPage, true)
@@ -136,7 +136,7 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
               result.get(EoriYesNoPage).isDefined mustBe true
               result.get(NamePage).isDefined mustBe true
               result.get(AddressPage).isDefined mustBe true
-              result.get(AuthorisationsSection).isDefined mustBe false
+              result.get(AuthorisationsAndLimitSection).isDefined mustBe false
               result.get(ItemsSection).isDefined mustBe false
           }
         }
@@ -147,12 +147,12 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
               bool =>
                 val userAnswers = emptyUserAnswers
                   .setValue(ApprovedOperatorPage, bool)
-                  .setValue(AuthorisationsSection, array)
+                  .setValue(AuthorisationsAndLimitSection, array)
                   .setValue(ItemsSection, array)
 
                 val result = userAnswers.setValue(ApprovedOperatorPage, !bool)
 
-                result.get(AuthorisationsSection).isDefined mustBe false
+                result.get(AuthorisationsAndLimitSection).isDefined mustBe false
                 result.get(ItemsSection).isDefined mustBe false
             }
           }
@@ -164,12 +164,12 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
               bool =>
                 val userAnswers = emptyUserAnswers
                   .setValue(ApprovedOperatorPage, bool)
-                  .setValue(AuthorisationsSection, array)
+                  .setValue(AuthorisationsAndLimitSection, array)
                   .setValue(ItemsSection, array)
 
                 val result = userAnswers.setValue(ApprovedOperatorPage, bool)
 
-                result.get(AuthorisationsSection).isDefined mustBe true
+                result.get(AuthorisationsAndLimitSection).isDefined mustBe true
                 result.get(ItemsSection).isDefined mustBe true
             }
           }

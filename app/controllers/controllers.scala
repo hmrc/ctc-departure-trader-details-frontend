@@ -109,7 +109,7 @@ package object controllers {
         _ => call
       }
 
-    def getAbsoluteUrl()(implicit navigator: UserAnswersNavigator, executionContext: ExecutionContext, requestHeader: RequestHeader): Future[Call] =
+    def getNextPage()(implicit navigator: UserAnswersNavigator, executionContext: ExecutionContext, requestHeader: RequestHeader): Future[Call] =
       write.map {
         case (_, userAnswers) =>
           val call = navigator.nextPage(userAnswers)

@@ -19,7 +19,7 @@ package pages.consignment
 import models.SecurityDetailsType.NoSecurityDetails
 import models.{Mode, UserAnswers}
 import pages.QuestionPage
-import pages.external.{AuthorisationsSection, ItemsSection, SecurityDetailsTypePage}
+import pages.external.{AuthorisationsAndLimitSection, ItemsSection, SecurityDetailsTypePage}
 import pages.sections.{TraderDetailsConsignmentSection, TraderDetailsConsignorSection}
 import play.api.libs.json.JsPath
 import play.api.mvc.Call
@@ -33,7 +33,7 @@ case object ApprovedOperatorPage extends QuestionPage[Boolean] {
   override def toString: String = "approvedOperator"
 
   override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] = {
-    lazy val externalCleanup: UserAnswers => UserAnswers = _.remove(AuthorisationsSection).remove(ItemsSection)
+    lazy val externalCleanup: UserAnswers => UserAnswers = _.remove(AuthorisationsAndLimitSection).remove(ItemsSection)
     (userAnswers.get(SecurityDetailsTypePage), value) match {
       case (Some(NoSecurityDetails), Some(true)) => userAnswers.remove(TraderDetailsConsignorSection).map(externalCleanup)
       case (_, Some(_))                          => Success(externalCleanup(userAnswers))

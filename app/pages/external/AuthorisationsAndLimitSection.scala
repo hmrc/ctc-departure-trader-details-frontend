@@ -19,7 +19,7 @@ package pages.external
 import pages.sections.ReadOnlySection
 import play.api.libs.json.{JsArray, JsPath}
 
-case object AuthorisationsSection extends ReadOnlySection[JsArray] {
+case object AuthorisationsAndLimitSection extends ReadOnlySection[JsArray] {
 
-  override def path: JsPath = transportDetailsPath \ "authorisationsAndLimit" \ "authorisations"
+  override def path: JsPath = transportDetailsPath \ "authorisationsAndLimit"
 }
