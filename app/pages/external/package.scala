@@ -22,4 +22,6 @@ package object external {
 
   lazy val preTaskListPath: JsPath = __ \ "preTaskList"
 
+  lazy val transportDetailsPath: JsPath = __ \ "transportDetails"
+
 }
