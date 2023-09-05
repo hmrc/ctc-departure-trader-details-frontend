@@ -62,4 +62,6 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
   val itemsUrl: String            = configuration.get[String]("urls.manageTransitMovementsDepartureItemsFrontend")
 
   val dependentTasks: Seq[String] = configuration.get[Seq[String]]("dependent-tasks")
+
+  def absoluteURL(url: String): String = configuration.get[String]("host") + url
 }
