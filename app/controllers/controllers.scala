@@ -24,7 +24,7 @@ import navigation.UserAnswersNavigator
 import pages.QuestionPage
 import play.api.libs.json.Format
 import play.api.mvc.Results.Redirect
-import play.api.mvc.{Call, RequestHeader, Result}
+import play.api.mvc.{Call, Result}
 import repositories.SessionRepository
 import uk.gov.hmrc.http.HeaderCarrier
 
@@ -109,11 +109,12 @@ package object controllers {
         _ => call
       }
 
-    def getNextPage()(implicit navigator: UserAnswersNavigator, executionContext: ExecutionContext, requestHeader: RequestHeader): Future[Call] =
+    def getNextPage()(implicit navigator: UserAnswersNavigator, executionContext: ExecutionContext, frontendAppConfig: FrontendAppConfig): Future[Call] =
       write.map {
         case (_, userAnswers) =>
           val call = navigator.nextPage(userAnswers)
-          call.copy(url = call.absoluteURL())
+          val url  = frontendAppConfig.absoluteURL(call.url)
+          call.copy(url = url)
       }
 
     private def navigate(result: Write[A] => Call)(implicit executionContext: ExecutionContext): Future[Result] =
