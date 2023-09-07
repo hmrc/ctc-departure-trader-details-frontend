@@ -325,7 +325,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
 
               result mustBe Some(
                 SummaryListRow(
-                  key = Key("Consignor contact’s name".toText),
+                  key = Key("Contact for the consignor".toText),
                   value = Value(contactName.toText),
                   actions = Some(
                     Actions(
@@ -333,7 +333,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
                         ActionItem(
                           content = "Change".toText,
                           href = contactRoutes.NameController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("consignor contact’s name"),
+                          visuallyHiddenText = Some("contact for the consignor"),
                           attributes = Map("id" -> "change-consignor-contact-name")
                         )
                       )

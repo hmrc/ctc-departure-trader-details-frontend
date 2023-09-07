@@ -37,6 +37,8 @@ class EoriYesNoViewSpec extends YesNoViewBehaviours {
 
   behave like pageWithHeading()
 
+  behave like pageWithContent("p", "This means the person or organisation receiving the goods.")
+
   behave like pageWithRadioItems()
 
   behave like pageWithSubmitButton("Save and continue")

@@ -46,165 +46,234 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
 
     "can be parsed from UserAnswers" - {
 
-      "when has the minimum consignment fields complete" in {
+      "when post-transition" - {
 
-        val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, nonOption4DeclarationType)
-          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
-          .unsafeSetVal(ApprovedOperatorPage)(true)
-          .unsafeSetVal(consignee.EoriYesNoPage)(true)
-          .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
+        val mockPhaseConfig = mock[PhaseConfig]
+        when(mockPhaseConfig.phase).thenReturn(Phase.PostTransition)
 
-        val consigneeWithEori = ConsigneeWithEori(EoriNumber(eoriNumber))
+        "when has the minimum consignment fields complete" in {
 
-        val expectedResult = ConsignmentDomain(
-          consignor = None,
-          consignee = consigneeWithEori
-        )
+          val userAnswers = emptyUserAnswers
+            .setValue(DeclarationTypePage, nonOption4DeclarationType)
+            .setValue(SecurityDetailsTypePage, NoSecurityDetails)
+            .unsafeSetVal(ApprovedOperatorPage)(true)
+            .unsafeSetVal(consignee.EoriYesNoPage)(true)
+            .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
 
-        val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain].run(userAnswers)
+          val consigneeWithEori = ConsigneeWithEori(EoriNumber(eoriNumber))
 
-        result.value mustBe expectedResult
+          val expectedResult = ConsignmentDomain(
+            consignor = None,
+            consignee = Some(consigneeWithEori)
+          )
+
+          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
+            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
+          ).run(userAnswers)
+
+          result.value mustBe expectedResult
+        }
+
+        "when the consignor fields are complete" in {
+
+          val userAnswers = emptyUserAnswers
+            .setValue(DeclarationTypePage, nonOption4DeclarationType)
+            .setValue(SecurityDetailsTypePage, someSecurityType)
+            .unsafeSetVal(ApprovedOperatorPage)(true)
+            .unsafeSetVal(consignor.EoriYesNoPage)(false)
+            .unsafeSetVal(consignor.NamePage)(name)
+            .unsafeSetVal(consignor.CountryPage)(country)
+            .unsafeSetVal(consignor.AddressPage)(address)
+            .unsafeSetVal(consignor.AddContactPage)(false)
+            .unsafeSetVal(consignee.EoriYesNoPage)(true)
+            .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
+
+          val consigneeWithEori = ConsigneeWithEori(EoriNumber(eoriNumber))
+
+          val consignorDomain = ConsignorWithoutEori(
+            name = name,
+            country = country,
+            address = address,
+            contact = None
+          )
+
+          val expectedResult = ConsignmentDomain(
+            consignor = Some(consignorDomain),
+            consignee = Some(consigneeWithEori)
+          )
+
+          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
+            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
+          ).run(userAnswers)
+
+          result.value mustBe expectedResult
+        }
+
+        "when the consignor fields are populated but we don't want security details but have the ApprovedOperatorPage as Yes" in {
+
+          val userAnswers = emptyUserAnswers
+            .setValue(DeclarationTypePage, nonOption4DeclarationType)
+            .setValue(SecurityDetailsTypePage, NoSecurityDetails)
+            .unsafeSetVal(ApprovedOperatorPage)(true)
+            .unsafeSetVal(consignee.EoriYesNoPage)(true)
+            .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
+
+          val consigneeWithEori = ConsigneeWithEori(EoriNumber(eoriNumber))
+
+          val expectedResult = ConsignmentDomain(
+            consignor = None,
+            consignee = Some(consigneeWithEori)
+          )
+
+          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
+            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
+          ).run(userAnswers)
+
+          result.value mustBe expectedResult
+        }
+
+        "when the consignor fields are populated we do not want security details and have the ApprovedOperatorPage as No" in {
+
+          val userAnswers = emptyUserAnswers
+            .setValue(DeclarationTypePage, nonOption4DeclarationType)
+            .setValue(SecurityDetailsTypePage, NoSecurityDetails)
+            .unsafeSetVal(ApprovedOperatorPage)(false)
+            .unsafeSetVal(consignor.EoriYesNoPage)(false)
+            .unsafeSetVal(consignor.NamePage)(name)
+            .unsafeSetVal(consignor.CountryPage)(country)
+            .unsafeSetVal(consignor.AddressPage)(address)
+            .unsafeSetVal(consignor.AddContactPage)(false)
+            .unsafeSetVal(consignee.EoriYesNoPage)(true)
+            .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
+
+          val consignorDomain = ConsignorWithoutEori(
+            name = name,
+            country = country,
+            address = address,
+            contact = None
+          )
+
+          val consigneeWithEori = ConsigneeWithEori(EoriNumber(eoriNumber))
+
+          val expectedResult = ConsignmentDomain(
+            consignor = Some(consignorDomain),
+            consignee = Some(consigneeWithEori)
+          )
+
+          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
+            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
+          ).run(userAnswers)
+
+          result.value mustBe expectedResult
+        }
+
+        "when the consignor fields are populated but we don't want security details but have the ApprovedOperatorPage as Yes, but we have an option4 declarationType" in {
+
+          val userAnswers = emptyUserAnswers
+            .setValue(DeclarationTypePage, TIR)
+            .setValue(SecurityDetailsTypePage, NoSecurityDetails)
+            .unsafeSetVal(consignor.EoriYesNoPage)(false)
+            .unsafeSetVal(consignor.NamePage)(name)
+            .unsafeSetVal(consignor.CountryPage)(country)
+            .unsafeSetVal(consignor.AddressPage)(address)
+            .unsafeSetVal(consignor.AddContactPage)(false)
+            .unsafeSetVal(consignee.EoriYesNoPage)(true)
+            .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
+
+          val consignorDomain = ConsignorWithoutEori(
+            name = name,
+            country = country,
+            address = address,
+            contact = None
+          )
+
+          val consigneeWithEori = ConsigneeWithEori(EoriNumber(eoriNumber))
+
+          val expectedResult = ConsignmentDomain(
+            consignor = Some(consignorDomain),
+            consignee = Some(consigneeWithEori)
+          )
+
+          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
+            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
+          ).run(userAnswers)
+
+          result.value mustBe expectedResult
+        }
       }
 
-      "when the consignor fields are complete" in {
+      "when transition" - {
+        val mockPhaseConfig = mock[PhaseConfig]
+        when(mockPhaseConfig.phase).thenReturn(Phase.Transition)
 
-        val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, nonOption4DeclarationType)
-          .setValue(SecurityDetailsTypePage, someSecurityType)
-          .unsafeSetVal(ApprovedOperatorPage)(true)
-          .unsafeSetVal(consignor.EoriYesNoPage)(false)
-          .unsafeSetVal(consignor.NamePage)(name)
-          .unsafeSetVal(consignor.CountryPage)(country)
-          .unsafeSetVal(consignor.AddressPage)(address)
-          .unsafeSetVal(consignor.AddContactPage)(false)
-          .unsafeSetVal(consignee.EoriYesNoPage)(true)
-          .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
+        "and more than one consignee" in {
+          val userAnswers = emptyUserAnswers
+            .setValue(DeclarationTypePage, nonOption4DeclarationType)
+            .setValue(SecurityDetailsTypePage, NoSecurityDetails)
+            .setValue(ApprovedOperatorPage, true)
+            .setValue(MoreThanOneConsigneePage, true)
 
-        val consigneeWithEori = ConsigneeWithEori(EoriNumber(eoriNumber))
+          val expectedResult = ConsignmentDomain(
+            consignor = None,
+            consignee = None
+          )
 
-        val consignorDomain = ConsignorWithoutEori(
-          name = name,
-          country = country,
-          address = address,
-          contact = None
-        )
+          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
+            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
+          ).run(userAnswers)
 
-        val expectedResult = ConsignmentDomain(
-          consignor = Some(consignorDomain),
-          consignee = consigneeWithEori
-        )
+          result.value mustBe expectedResult
+        }
 
-        val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain].run(userAnswers)
+        "when not more than one consignee" in {
 
-        result.value mustBe expectedResult
-      }
+          val userAnswers = emptyUserAnswers
+            .setValue(DeclarationTypePage, nonOption4DeclarationType)
+            .setValue(SecurityDetailsTypePage, NoSecurityDetails)
+            .setValue(ApprovedOperatorPage, true)
+            .setValue(MoreThanOneConsigneePage, false)
+            .setValue(consignee.EoriYesNoPage, true)
+            .setValue(consignee.EoriNumberPage, eoriNumber)
 
-      "when the consignor fields are populated but we don't want security details but have the ApprovedOperatorPage as Yes" in {
+          val expectedResult = ConsignmentDomain(
+            consignor = None,
+            consignee = Some(ConsigneeWithEori(EoriNumber(eoriNumber)))
+          )
 
-        val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, nonOption4DeclarationType)
-          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
-          .unsafeSetVal(ApprovedOperatorPage)(true)
-          .unsafeSetVal(consignee.EoriYesNoPage)(true)
-          .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
+          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
+            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
+          ).run(userAnswers)
 
-        val consigneeWithEori = ConsigneeWithEori(EoriNumber(eoriNumber))
-
-        val expectedResult = ConsignmentDomain(
-          consignor = None,
-          consignee = consigneeWithEori
-        )
-
-        val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain].run(userAnswers)
-
-        result.value mustBe expectedResult
-      }
-
-      "when the consignor fields are populated we do not want security details and have the ApprovedOperatorPage as No" in {
-
-        val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, nonOption4DeclarationType)
-          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
-          .unsafeSetVal(ApprovedOperatorPage)(false)
-          .unsafeSetVal(consignor.EoriYesNoPage)(false)
-          .unsafeSetVal(consignor.NamePage)(name)
-          .unsafeSetVal(consignor.CountryPage)(country)
-          .unsafeSetVal(consignor.AddressPage)(address)
-          .unsafeSetVal(consignor.AddContactPage)(false)
-          .unsafeSetVal(consignee.EoriYesNoPage)(true)
-          .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
-
-        val consignorDomain = ConsignorWithoutEori(
-          name = name,
-          country = country,
-          address = address,
-          contact = None
-        )
-
-        val consigneeWithEori = ConsigneeWithEori(EoriNumber(eoriNumber))
-
-        val expectedResult = ConsignmentDomain(
-          consignor = Some(consignorDomain),
-          consignee = consigneeWithEori
-        )
-
-        val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain].run(userAnswers)
-
-        result.value mustBe expectedResult
-      }
-
-      "when the consignor fields are populated but we don't want security details but have the ApprovedOperatorPage as Yes, but we have an option4 declarationType" in {
-
-        val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, TIR)
-          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
-          .unsafeSetVal(consignor.EoriYesNoPage)(false)
-          .unsafeSetVal(consignor.NamePage)(name)
-          .unsafeSetVal(consignor.CountryPage)(country)
-          .unsafeSetVal(consignor.AddressPage)(address)
-          .unsafeSetVal(consignor.AddContactPage)(false)
-          .unsafeSetVal(consignee.EoriYesNoPage)(true)
-          .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
-
-        val consignorDomain = ConsignorWithoutEori(
-          name = name,
-          country = country,
-          address = address,
-          contact = None
-        )
-
-        val consigneeWithEori = ConsigneeWithEori(EoriNumber(eoriNumber))
-
-        val expectedResult = ConsignmentDomain(
-          consignor = Some(consignorDomain),
-          consignee = consigneeWithEori
-        )
-
-        val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain].run(userAnswers)
-
-        result.value mustBe expectedResult
+          result.value mustBe expectedResult
+        }
       }
     }
 
     "cannot be parsed from UserAnswers" - {
 
-      "when Reduced data set page is missing" in {
+      "when post-transition" - {
+        val mockPhaseConfig = mock[PhaseConfig]
+        when(mockPhaseConfig.phase).thenReturn(Phase.PostTransition)
 
-        val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, nonOption4DeclarationType)
-          .setValue(SecurityDetailsTypePage, securityDetailsType)
+        "when Reduced data set page is missing" in {
 
-        val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain].run(userAnswers)
+          val userAnswers = emptyUserAnswers
+            .setValue(DeclarationTypePage, nonOption4DeclarationType)
+            .setValue(SecurityDetailsTypePage, securityDetailsType)
 
-        result.left.value.page mustBe ApprovedOperatorPage
+          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
+            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
+          ).run(userAnswers)
+
+          result.left.value.page mustBe ApprovedOperatorPage
+        }
       }
 
       "when transition" - {
-        "and more than one consignee is not answered" ignore {
-          val mockPhaseConfig = mock[PhaseConfig]
-          when(mockPhaseConfig.phase).thenReturn(Phase.Transition)
+        val mockPhaseConfig = mock[PhaseConfig]
+        when(mockPhaseConfig.phase).thenReturn(Phase.Transition)
 
+        "and more than one consignee is not answered" in {
           val userAnswers = emptyUserAnswers
             .setValue(DeclarationTypePage, nonOption4DeclarationType)
             .setValue(SecurityDetailsTypePage, NoSecurityDetails)

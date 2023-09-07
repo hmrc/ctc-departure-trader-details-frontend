@@ -14,7 +14,7 @@ POST       /name/:lrn                                            controllers.rep
 GET        /change-name/:lrn                                     controllers.representative.NameController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 POST       /change-name/:lrn                                     controllers.representative.NameController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 
-GET        /telephone-number/:lrn                                controllers.representative.TelephoneNumberController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-POST       /telephone-number/:lrn                                controllers.representative.TelephoneNumberController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-GET        /change-telephone-number/:lrn                         controllers.representative.TelephoneNumberController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
-POST       /change-telephone-number/:lrn                         controllers.representative.TelephoneNumberController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+GET        /phone-number/:lrn                                    controllers.representative.TelephoneNumberController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+POST       /phone-number/:lrn                                    controllers.representative.TelephoneNumberController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+GET        /change-phone-number/:lrn                             controllers.representative.TelephoneNumberController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+POST       /change-phone-number/:lrn                             controllers.representative.TelephoneNumberController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)

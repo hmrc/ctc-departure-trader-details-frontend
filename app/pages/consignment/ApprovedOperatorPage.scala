@@ -16,16 +16,15 @@
 
 package pages.consignment
 
-import config.Constants.{NoSecurityDetails, TIR}
-import models.journeyDomain.{GettableAsReaderOps, UserAnswersReader}
+import config.Constants.NoSecurityDetails
 import models.{Mode, UserAnswers}
 import pages.QuestionPage
-import pages.external.{DeclarationTypePage, SecurityDetailsTypePage}
+import pages.external.{AuthorisationsAndLimitSection, ItemsSection, SecurityDetailsTypePage}
 import pages.sections.{TraderDetailsConsignmentSection, TraderDetailsConsignorSection}
 import play.api.libs.json.JsPath
 import play.api.mvc.Call
 
-import scala.util.Try
+import scala.util.{Success, Try}
 
 case object ApprovedOperatorPage extends QuestionPage[Boolean] {
 
@@ -33,17 +32,15 @@ case object ApprovedOperatorPage extends QuestionPage[Boolean] {
 
   override def toString: String = "approvedOperator"
 
-  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
+  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] = {
+    lazy val externalCleanup: UserAnswers => UserAnswers = _.remove(AuthorisationsAndLimitSection).remove(ItemsSection)
     (userAnswers.get(SecurityDetailsTypePage), value) match {
-      case (Some(NoSecurityDetails), Some(true)) => userAnswers.remove(TraderDetailsConsignorSection)
+      case (Some(NoSecurityDetails), Some(true)) => userAnswers.remove(TraderDetailsConsignorSection).map(externalCleanup)
+      case (_, Some(_))                          => Success(externalCleanup(userAnswers))
       case _                                     => super.cleanup(value, userAnswers)
     }
+  }
 
   override def route(userAnswers: UserAnswers, mode: Mode): Option[Call] =
     Some(controllers.consignment.routes.ApprovedOperatorController.onPageLoad(userAnswers.lrn, mode))
-
-  def inferredReader: UserAnswersReader[Boolean] = DeclarationTypePage.reader.flatMap {
-    case TIR => UserAnswersReader(false)
-    case _   => ApprovedOperatorPage.reader
-  }
 }

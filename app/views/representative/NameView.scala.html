@@ -41,12 +41,13 @@
 
         @inputText(
             field = form("value"),
-            inputTextType = OrdinaryTextInput(
+            inputTextType = TextInputWithHiddenLabel(
                 heading = messages("traderDetails.representative.name.heading"),
-                caption = Some(messages("traderDetails.representative.caption"))
+                caption = Some(messages("traderDetails.representative.caption")),
+                additionalHtml = messages("traderDetails.representative.name.paragraph").toParagraph
             ),
             inputClass = InputSize.Width20
-        )
+            )
 
         @button(attributes = Map("id" -> "submit"))
     }

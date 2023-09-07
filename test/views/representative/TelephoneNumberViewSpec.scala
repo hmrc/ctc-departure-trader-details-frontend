@@ -40,6 +40,8 @@ class TelephoneNumberViewSpec extends TelephoneNumberViewBehaviours {
 
   behave like pageWithHeading()
 
+  behave like pageWithHint("Include the country code, for example +44 808 157 0192.")
+
   behave like pageWithTelephoneNumberInput()
 
   behave like pageWithSubmitButton("Save and continue")

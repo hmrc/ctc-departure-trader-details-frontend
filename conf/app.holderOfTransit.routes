@@ -1,15 +1,15 @@
 
 ->         /                                              app.holderOfTransit.contact.Routes
 
-GET        /add-eori-tin/:lrn                             controllers.holderOfTransit.EoriYesNoController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-POST       /add-eori-tin/:lrn                             controllers.holderOfTransit.EoriYesNoController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-GET        /change-add-eori-tin/:lrn                      controllers.holderOfTransit.EoriYesNoController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
-POST       /change-add-eori-tin/:lrn                      controllers.holderOfTransit.EoriYesNoController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+GET        /add-eori/:lrn                                 controllers.holderOfTransit.EoriYesNoController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+POST       /add-eori/:lrn                                 controllers.holderOfTransit.EoriYesNoController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+GET        /change-add-eori/:lrn                          controllers.holderOfTransit.EoriYesNoController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+POST       /change-add-eori/:lrn                          controllers.holderOfTransit.EoriYesNoController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 
-GET        /eori-tin/:lrn                                 controllers.holderOfTransit.EoriController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-POST       /eori-tin/:lrn                                 controllers.holderOfTransit.EoriController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-GET        /change-eori-tin/:lrn                          controllers.holderOfTransit.EoriController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
-POST       /change-eori-tin/:lrn                          controllers.holderOfTransit.EoriController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+GET        /eori/:lrn                                     controllers.holderOfTransit.EoriController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+POST       /eori/:lrn                                     controllers.holderOfTransit.EoriController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+GET        /change-eori/:lrn                              controllers.holderOfTransit.EoriController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+POST       /change-eori/:lrn                              controllers.holderOfTransit.EoriController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 
 GET        /add-tir-holder-id/:lrn                        controllers.holderOfTransit.TirIdentificationYesNoController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
 POST       /add-tir-holder-id/:lrn                        controllers.holderOfTransit.TirIdentificationYesNoController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)

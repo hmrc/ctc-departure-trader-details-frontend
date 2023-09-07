@@ -46,6 +46,11 @@ class TirIdentificationViewSpec extends InputTextViewBehaviours[String] {
 
   behave like pageWithHint("For example, AAA/999/99999.")
 
+  behave like pageWithContent(
+    "p",
+    "The TIR holder is the person responsible for the transit procedure. They can submit the declaration themselves or a third party can do it on their behalf."
+  )
+
   behave like pageWithInputText(Some(InputSize.Width20))
 
   behave like pageWithSubmitButton("Save and continue")

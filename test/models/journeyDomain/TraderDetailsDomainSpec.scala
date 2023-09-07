@@ -57,6 +57,7 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
           .unsafeSetVal(hot.AddContactPage)(false)
           .unsafeSetVal(ActingAsRepresentativePage)(false)
           .unsafeSetVal(ApprovedOperatorPage)(true)
+          .unsafeSetVal(MoreThanOneConsigneePage)(false)
           .unsafeSetVal(consignee.EoriYesNoPage)(true)
           .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
 
@@ -71,7 +72,7 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
           representative = None,
           consignment = ConsignmentDomain(
             consignor = None,
-            consignee = ConsigneeWithEori(EoriNumber(eoriNumber))
+            consignee = Some(ConsigneeWithEori(EoriNumber(eoriNumber)))
           )
         )
 

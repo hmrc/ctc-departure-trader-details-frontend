@@ -44,6 +44,8 @@ class NameViewSpec extends InputTextViewBehaviours[String] {
 
   behave like pageWithHeading()
 
+  behave like pageWithContent("p", "Enter the full name of the individual or organisation.")
+
   behave like pageWithoutHint()
 
   behave like pageWithInputText(Some(InputSize.Width20))
