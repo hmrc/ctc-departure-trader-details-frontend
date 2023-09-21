@@ -193,6 +193,12 @@ traderDetails.consignment.moreThanOneConsignee.checkYourAnswersLabel = Is there 
 traderDetails.consignment.moreThanOneConsignee.error.required = Select yes if there is more than one consignee
 traderDetails.consignment.moreThanOneConsignee.change.hidden = if there is more than one consignee
 
+traderDetails.consignment.moreThanOneConsignor.title = Is there more than one consignor?
+traderDetails.consignment.moreThanOneConsignor.heading = Is there more than one consignor?
+traderDetails.consignment.moreThanOneConsignor.checkYourAnswersLabel = Is there more than one consignor?
+traderDetails.consignment.moreThanOneConsignor.error.required = Select yes if there is more than one consignor
+traderDetails.consignment.moreThanOneConsignor.change.hidden = if there is more than one consignor
+
 # Trader details - Consignment - Consignor
 
 traderDetails.consignment.consignor.eoriYesNo.title = Do you know the consignor’s EORI number or Trader Identification Number (TIN)?

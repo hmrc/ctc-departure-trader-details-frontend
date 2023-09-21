@@ -11,3 +11,8 @@ GET        /consignee/multiple/:lrn                          controllers.consign
 POST       /consignee/multiple/:lrn                          controllers.consignment.MoreThanOneConsigneeController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
 GET        /consignee/change-multiple/:lrn                   controllers.consignment.MoreThanOneConsigneeController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 POST       /consignee/change-multiple/:lrn                   controllers.consignment.MoreThanOneConsigneeController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+
+GET        /consignor/multiple/:lrn                          controllers.consignment.MoreThanOneConsignorController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+POST       /consignor/multiple/:lrn                          controllers.consignment.MoreThanOneConsignorController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
+GET        /consignor/change-multiple/:lrn                   controllers.consignment.MoreThanOneConsignorController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
+POST       /consignor/change-multiple/:lrn                   controllers.consignment.MoreThanOneConsignorController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
