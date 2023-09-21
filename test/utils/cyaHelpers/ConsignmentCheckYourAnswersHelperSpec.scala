@@ -17,18 +17,18 @@
 package utils.cyaHelpers
 
 import base.SpecBase
-import generators.Generators
-import models.reference.Country
 import controllers.consignment.consignee.{routes => consigneeRoutes}
 import controllers.consignment.consignor.contact.{routes => contactRoutes}
 import controllers.consignment.consignor.{routes => consignorRoutes}
 import controllers.consignment.{routes => consignmentRoutes}
-import pages.consignment._
-import pages.consignment.consignor.CountryPage
+import generators.Generators
+import models.reference.Country
 import models.{DynamicAddress, Mode}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import pages.consignment._
+import pages.consignment.consignor.CountryPage
 import uk.gov.hmrc.govukfrontend.views.Aliases.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 import uk.gov.hmrc.govukfrontend.views.html.components.{ActionItem, Actions}
@@ -37,6 +37,50 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
 class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 
   "ConsignmentCheckYourAnswersHelper" - {
+
+    "moreThanOneConsignor" - {
+      "must return None" - {
+        s"when $MoreThanOneConsignorPage is undefined" in {
+          forAll(arbitrary[Mode]) {
+            mode =>
+              val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
+              val result = helper.moreThanOneConsignor
+              result mustBe None
+          }
+        }
+      }
+
+      "must return Some(Row)" - {
+        s"when $MoreThanOneConsignorPage is defined" in {
+          forAll(arbitrary[Mode]) {
+            mode =>
+              val answers = emptyUserAnswers.setValue(MoreThanOneConsignorPage, true)
+
+              val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
+              val result = helper.moreThanOneConsignor
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("Is there more than one consignor?".toText),
+                  value = Value("Yes".toText),
+                  actions = Some(
+                    Actions(
+                      items = List(
+                        ActionItem(
+                          content = "Change".toText,
+                          href = consignmentRoutes.MoreThanOneConsignorController.onPageLoad(answers.lrn, mode).url,
+                          visuallyHiddenText = Some("if there is more than one consignor"),
+                          attributes = Map("id" -> "change-has-more-than-one-consignor")
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+          }
+        }
+      }
+    }
 
     "consignorEoriYesNo" - {
       "must return None" - {

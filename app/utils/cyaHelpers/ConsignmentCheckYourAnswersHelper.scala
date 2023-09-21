@@ -26,6 +26,13 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.SummaryListRow
 class ConsignmentCheckYourAnswersHelper(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages, config: FrontendAppConfig)
     extends AnswersHelper(userAnswers, mode) {
 
+  def moreThanOneConsignor: Option[SummaryListRow] = getAnswerAndBuildRow[Boolean](
+    page = MoreThanOneConsignorPage,
+    formatAnswer = formatAsYesOrNo,
+    prefix = "traderDetails.consignment.moreThanOneConsignor",
+    id = Some("change-has-more-than-one-consignor")
+  )
+
   def consignorEoriYesNo: Option[SummaryListRow] = getAnswerAndBuildRow[Boolean](
     page = consignor.EoriYesNoPage,
     formatAnswer = formatAsYesOrNo,

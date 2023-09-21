@@ -38,7 +38,7 @@ object ConsignmentDomain {
       consignee <- consigneeReader
     } yield ConsignmentDomain(consignor, consignee)
 
-  private def consignorReader: UserAnswersReader[Option[ConsignmentConsignorDomain]] = {
+  private def consignorReader(implicit phaseConfig: PhaseConfig): UserAnswersReader[Option[ConsignmentConsignorDomain]] = {
     lazy val mandatoryConsignorReader: UserAnswersReader[Option[ConsignmentConsignorDomain]] =
       UserAnswersReader[ConsignmentConsignorDomain].map(Some(_))
 

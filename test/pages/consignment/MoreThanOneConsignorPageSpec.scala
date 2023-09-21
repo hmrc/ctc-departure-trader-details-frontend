@@ -21,17 +21,17 @@ import models.{DynamicAddress, EoriNumber}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import pages.behaviours.PageBehaviours
-import pages.consignment.consignee._
+import pages.consignment.consignor._
 
-class MoreThanOneConsigneePageSpec extends PageBehaviours {
+class MoreThanOneConsignorPageSpec extends PageBehaviours {
 
-  "MoreThanOneConsigneePage" - {
+  "MoreThanOneConsignorPage" - {
 
-    beRetrievable[Boolean](MoreThanOneConsigneePage)
+    beRetrievable[Boolean](MoreThanOneConsignorPage)
 
-    beSettable[Boolean](MoreThanOneConsigneePage)
+    beSettable[Boolean](MoreThanOneConsignorPage)
 
-    beRemovable[Boolean](MoreThanOneConsigneePage)
+    beRemovable[Boolean](MoreThanOneConsignorPage)
 
     "cleanup" - {
       val eori    = arbitrary[EoriNumber].sample.value
@@ -40,17 +40,17 @@ class MoreThanOneConsigneePageSpec extends PageBehaviours {
       val address = arbitrary[DynamicAddress].sample.value
 
       "when Yes selected" - {
-        "must clean up Consignee pages" in {
+        "must clean up Consignor pages" in {
           val preChange = emptyUserAnswers
             .setValue(EoriYesNoPage, true)
-            .setValue(EoriNumberPage, eori.value)
+            .setValue(EoriPage, eori.value)
             .setValue(NamePage, name)
             .setValue(CountryPage, country)
             .setValue(AddressPage, address)
 
-          val postChange = preChange.setValue(MoreThanOneConsigneePage, true)
+          val postChange = preChange.setValue(MoreThanOneConsignorPage, true)
 
-          postChange.get(EoriNumberPage) mustNot be(defined)
+          postChange.get(EoriPage) mustNot be(defined)
           postChange.get(EoriYesNoPage) mustNot be(defined)
           postChange.get(NamePage) mustNot be(defined)
           postChange.get(CountryPage) mustNot be(defined)
@@ -62,14 +62,14 @@ class MoreThanOneConsigneePageSpec extends PageBehaviours {
         "must do nothing" in {
           val preChange = emptyUserAnswers
             .setValue(EoriYesNoPage, true)
-            .setValue(EoriNumberPage, eori.value)
+            .setValue(EoriPage, eori.value)
             .setValue(NamePage, name)
             .setValue(CountryPage, country)
             .setValue(AddressPage, address)
 
-          val postChange = preChange.setValue(MoreThanOneConsigneePage, false)
+          val postChange = preChange.setValue(MoreThanOneConsignorPage, false)
 
-          postChange.get(EoriNumberPage) must be(defined)
+          postChange.get(EoriPage) must be(defined)
           postChange.get(EoriYesNoPage) must be(defined)
           postChange.get(NamePage) must be(defined)
           postChange.get(CountryPage) must be(defined)
