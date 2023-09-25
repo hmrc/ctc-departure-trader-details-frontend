@@ -17,7 +17,8 @@
 package connectors
 
 import config.FrontendAppConfig
-import models.{LocalReferenceNumber, UserAnswers}
+import models.LockCheck._
+import models.{LocalReferenceNumber, LockCheck, UserAnswers}
 import play.api.Logging
 import play.api.http.Status._
 import uk.gov.hmrc.http.HttpReads.Implicits._
@@ -52,12 +53,18 @@ class CacheConnector @Inject() (
     }
   }
 
-  def checkLock(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] = {
-    val url = s"$baseUrl/user-answers/${userAnswers.lrn}/lock"
+  def checkLock(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[LockCheck] = {
 
-    http.GET[HttpResponse](url).map {
-      _.status == OK
-    }
+    val url = s"$baseUrl/user-answers/${userAnswers.lrn}/lock"
+    http
+      .GET[HttpResponse](url)
+      .map {
+        _.status match {
+          case OK     => Unlocked
+          case LOCKED => Locked
+          case _      => LockCheckFailure
+        }
+      }
   }
 
   def put(lrn: LocalReferenceNumber)(implicit hc: HeaderCarrier): Future[Boolean] = {
