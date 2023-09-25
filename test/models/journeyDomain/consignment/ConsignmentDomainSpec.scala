@@ -18,14 +18,14 @@ package models.journeyDomain.consignment
 
 import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
+import config.Constants.{NoSecurityDetails, TIR}
 import config.PhaseConfig
 import generators.Generators
-import models.SecurityDetailsType.{EntrySummaryDeclarationSecurityDetails, NoSecurityDetails}
 import models.journeyDomain.consignment.ConsignmentConsigneeDomain.ConsigneeWithEori
 import models.journeyDomain.consignment.ConsignmentConsignorDomain.ConsignorWithoutEori
 import models.journeyDomain.{EitherType, UserAnswersReader}
 import models.reference.Country
-import models.{DeclarationType, DynamicAddress, EoriNumber, Phase, SecurityDetailsType}
+import models.{DynamicAddress, EoriNumber, Phase}
 import org.mockito.Mockito.when
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
@@ -39,8 +39,9 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
     val name                      = Gen.alphaNumStr.sample.value
     val eoriNumber                = Gen.alphaNumStr.sample.value
     val address                   = arbitrary[DynamicAddress].sample.value
-    val nonOption4DeclarationType = arbitrary[DeclarationType](arbitraryNonTIRDeclarationType).sample.value
-    val securityDetailsType       = arbitrary[SecurityDetailsType].sample.value
+    val nonOption4DeclarationType = arbitrary[String](arbitraryNonTIRDeclarationType).sample.value
+    val securityDetailsType       = arbitrary[String](arbitrarySecurityDetailsType).sample.value
+    val someSecurityType          = arbitrary[String](arbitrarySomeSecurityDetailsType).sample.value
     val country                   = arbitrary[Country].sample.value
 
     "can be parsed from UserAnswers" - {
@@ -77,7 +78,7 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
 
           val userAnswers = emptyUserAnswers
             .setValue(DeclarationTypePage, nonOption4DeclarationType)
-            .setValue(SecurityDetailsTypePage, EntrySummaryDeclarationSecurityDetails)
+            .setValue(SecurityDetailsTypePage, someSecurityType)
             .unsafeSetVal(ApprovedOperatorPage)(true)
             .unsafeSetVal(consignor.EoriYesNoPage)(false)
             .unsafeSetVal(consignor.NamePage)(name)
@@ -169,7 +170,7 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
         "when the consignor fields are populated but we don't want security details but have the ApprovedOperatorPage as Yes, but we have an option4 declarationType" in {
 
           val userAnswers = emptyUserAnswers
-            .setValue(DeclarationTypePage, DeclarationType.Option4)
+            .setValue(DeclarationTypePage, TIR)
             .setValue(SecurityDetailsTypePage, NoSecurityDetails)
             .unsafeSetVal(consignor.EoriYesNoPage)(false)
             .unsafeSetVal(consignor.NamePage)(name)

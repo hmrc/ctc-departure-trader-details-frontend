@@ -18,12 +18,12 @@ package models.journeyDomain.holderOfTransit
 
 import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
+import config.Constants.TIR
 import generators.Generators
-import models.DeclarationType.Option4
 import models.journeyDomain.holderOfTransit.HolderOfTransitDomain.{HolderOfTransitWithEori, HolderOfTransitWithoutEori}
 import models.journeyDomain.{EitherType, UserAnswersReader}
 import models.reference.Country
-import models.{DeclarationType, DynamicAddress, EoriNumber}
+import models.{DynamicAddress, EoriNumber}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks.forAll
@@ -40,7 +40,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
   private val contactName           = Gen.alphaNumStr.sample.value
   private val contactPhone          = Gen.alphaNumStr.sample.value
   private val tirNumber             = Gen.alphaNumStr.sample.value
-  private val nonTIRDeclarationType = Gen.oneOf(DeclarationType.values.filterNot(_ == Option4)).sample.value
+  private val nonTIRDeclarationType = arbitrary[String](arbitraryNonTIRDeclarationType).sample.value
 
   "HolderOfTransitDomain" - {
 
@@ -112,7 +112,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
       "when all mandatory pages are answered for TIR" in {
 
         val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, Option4)
+          .setValue(DeclarationTypePage, TIR)
           .unsafeSetVal(EoriPage)(eori.value)
           .unsafeSetVal(AddContactPage)(false)
           .unsafeSetVal(TirIdentificationPage)(tirNumber)
@@ -148,7 +148,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
       "when all optional pages are answered for TIR" in {
 
         val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, Option4)
+          .setValue(DeclarationTypePage, TIR)
           .unsafeSetVal(EoriPage)(eori.value)
           .unsafeSetVal(AddContactPage)(true)
           .unsafeSetVal(contact.NamePage)(contactName)
@@ -178,7 +178,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         )
 
         val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, Option4)
+          .setValue(DeclarationTypePage, TIR)
           .unsafeSetVal(EoriPage)(eori.value)
           .unsafeSetVal(AddContactPage)(true)
           .unsafeSetVal(contact.NamePage)(contactName)
@@ -198,7 +198,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
       "when contact details are missing when not optional" in {
 
         val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, Option4)
+          .setValue(DeclarationTypePage, TIR)
           .unsafeSetVal(EoriPage)(eori.value)
           .unsafeSetVal(AddContactPage)(true)
           .unsafeSetVal(TirIdentificationYesNoPage)(true)
@@ -225,7 +225,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
       "when TIR identification is missing when not optional" in {
 
         val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, Option4)
+          .setValue(DeclarationTypePage, TIR)
           .unsafeSetVal(EoriPage)(eori.value)
           .unsafeSetVal(AddContactPage)(true)
           .unsafeSetVal(contact.NamePage)(contactName)
@@ -245,7 +245,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
       "when all mandatory pages are answered for TIR" in {
 
         val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, Option4)
+          .setValue(DeclarationTypePage, TIR)
           .unsafeSetVal(NamePage)(name)
           .unsafeSetVal(CountryPage)(country)
           .unsafeSetVal(AddressPage)(address)
@@ -280,7 +280,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
       "when all optional pages are answered for TIR" in {
 
         val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, Option4)
+          .setValue(DeclarationTypePage, TIR)
           .unsafeSetVal(NamePage)(name)
           .unsafeSetVal(CountryPage)(country)
           .unsafeSetVal(AddressPage)(address)
@@ -342,7 +342,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         )
 
         val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, Option4)
+          .setValue(DeclarationTypePage, TIR)
           .unsafeSetVal(NamePage)(name)
           .unsafeSetVal(CountryPage)(country)
           .unsafeSetVal(AddressPage)(address)
@@ -362,7 +362,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
       "when tir identification number is missing when not optional" in {
 
         val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, Option4)
+          .setValue(DeclarationTypePage, TIR)
           .unsafeSetVal(NamePage)(name)
           .unsafeSetVal(CountryPage)(country)
           .unsafeSetVal(AddressPage)(address)
@@ -376,7 +376,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
       "when contact details are missing when not optional" in {
 
         val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, Option4)
+          .setValue(DeclarationTypePage, TIR)
           .unsafeSetVal(NamePage)(name)
           .unsafeSetVal(CountryPage)(country)
           .unsafeSetVal(AddressPage)(address)

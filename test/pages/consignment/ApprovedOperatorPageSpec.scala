@@ -16,8 +16,8 @@
 
 package pages.consignment
 
-import models.SecurityDetailsType.NoSecurityDetails
-import models.{DynamicAddress, SecurityDetailsType}
+import config.Constants.NoSecurityDetails
+import models.DynamicAddress
 import org.scalacheck.Arbitrary.arbitrary
 import pages.behaviours.PageBehaviours
 import pages.consignment.consignor._
@@ -93,7 +93,7 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
 
       "when Yes selected and we have Security Details" - {
         "must clean up authorisations and items" in {
-          forAll(arbitrary[SecurityDetailsType](arbitrarySomeSecurityDetailsType), arbitrary[String]) {
+          forAll(arbitrary[String](arbitrarySomeSecurityDetailsType), arbitrary[String]) {
             (securityType, eori) =>
               val userAnswers = emptyUserAnswers
                 .setValue(SecurityDetailsTypePage, securityType)

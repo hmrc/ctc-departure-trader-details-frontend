@@ -18,13 +18,13 @@ package models.journeyDomain
 
 import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
+import config.Constants.{NoSecurityDetails, TIR}
 import generators.Generators
-import models.SecurityDetailsType.NoSecurityDetails
 import models.journeyDomain.consignment.ConsignmentConsigneeDomain.ConsigneeWithEori
 import models.journeyDomain.consignment.ConsignmentDomain
 import models.journeyDomain.holderOfTransit.HolderOfTransitDomain.HolderOfTransitWithoutEori
 import models.reference.Country
-import models.{DeclarationType, DynamicAddress, EoriNumber, SecurityDetailsType}
+import models.{DynamicAddress, EoriNumber}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import pages.consignment._
@@ -35,12 +35,12 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
 
   "TraderDetailsDomain" - {
 
-    val nonOption4DeclarationType = arbitrary[DeclarationType](arbitraryNonTIRDeclarationType).sample.value
+    val nonOption4DeclarationType = arbitrary[String](arbitraryNonTIRDeclarationType).sample.value
     val holderOfTransitName       = Gen.alphaNumStr.sample.value
     val eoriNumber                = Gen.alphaNumStr.sample.value
     val holderOfTransitCountry    = arbitrary[Country].sample.value
     val holderOfTransitAddress    = arbitrary[DynamicAddress].sample.value
-    val someSecurityType          = arbitrary[SecurityDetailsType](arbitrarySomeSecurityDetailsType).sample.value
+    val someSecurityType          = arbitrary[String](arbitrarySomeSecurityDetailsType).sample.value
     val tirNumber                 = Gen.alphaNumStr.sample.value
 
     "can be parsed from UserAnswers" - {
@@ -87,7 +87,7 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
       "when ActingAsRepresentativePage is missing" in {
 
         val userAnswers = emptyUserAnswers
-          .setValue(DeclarationTypePage, DeclarationType.Option4)
+          .setValue(DeclarationTypePage, TIR)
           .setValue(SecurityDetailsTypePage, NoSecurityDetails)
           .unsafeSetVal(hot.EoriYesNoPage)(false)
           .unsafeSetVal(hot.TirIdentificationPage)(tirNumber)
@@ -105,7 +105,7 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
         "and consignor EORI yes/no is missing" in {
 
           val userAnswers = emptyUserAnswers
-            .setValue(DeclarationTypePage, DeclarationType.Option4)
+            .setValue(DeclarationTypePage, TIR)
             .setValue(SecurityDetailsTypePage, NoSecurityDetails)
             .unsafeSetVal(hot.EoriYesNoPage)(false)
             .unsafeSetVal(hot.TirIdentificationPage)(tirNumber)

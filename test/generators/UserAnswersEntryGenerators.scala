@@ -34,8 +34,8 @@ trait UserAnswersEntryGenerators {
   private def generateExternalAnswer: PartialFunction[Gettable[_], Gen[JsValue]] = {
     import pages.external._
     {
-      case DeclarationTypePage     => arbitrary[DeclarationType].map(Json.toJson(_))
-      case SecurityDetailsTypePage => arbitrary[SecurityDetailsType].map(Json.toJson(_))
+      case DeclarationTypePage     => arbitrary[String](arbitraryDeclarationType).map(Json.toJson(_))
+      case SecurityDetailsTypePage => arbitrary[String](arbitrarySecurityDetailsType).map(Json.toJson(_))
     }
   }
 

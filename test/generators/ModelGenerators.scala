@@ -27,29 +27,24 @@ import uk.gov.hmrc.http.HttpVerbs._
 trait ModelGenerators {
   self: Generators =>
 
-  implicit lazy val arbitraryDeclarationType: Arbitrary[DeclarationType] =
+  lazy val arbitraryDeclarationType: Arbitrary[String] =
     Arbitrary {
-      Gen.oneOf(DeclarationType.values)
+      Gen.oneOf("T", "T1", "T2", "T2F", "TIR")
     }
 
-  implicit lazy val arbitrarySecurityDetailsType: Arbitrary[SecurityDetailsType] =
+  lazy val arbitrarySecurityDetailsType: Arbitrary[String] =
     Arbitrary {
-      Gen.oneOf(SecurityDetailsType.values)
+      Gen.oneOf("0", "1", "2", "3")
     }
 
-  lazy val arbitrarySomeSecurityDetailsType: Arbitrary[SecurityDetailsType] =
+  lazy val arbitrarySomeSecurityDetailsType: Arbitrary[String] =
     Arbitrary {
-      Gen.oneOf(SecurityDetailsType.values.filterNot(_ == SecurityDetailsType.NoSecurityDetails))
+      Gen.oneOf("1", "2", "3")
     }
 
-  lazy val arbitraryNonTDeclarationType: Arbitrary[DeclarationType] =
+  lazy val arbitraryNonTIRDeclarationType: Arbitrary[String] =
     Arbitrary {
-      Gen.oneOf(DeclarationType.values.filterNot(_ == DeclarationType.Option1))
-    }
-
-  lazy val arbitraryNonTIRDeclarationType: Arbitrary[DeclarationType] =
-    Arbitrary {
-      Gen.oneOf(DeclarationType.values.filterNot(_ == DeclarationType.Option4))
+      Gen.oneOf("T", "T1", "T2", "T2F")
     }
 
   implicit lazy val arbitraryCountryCode: Arbitrary[CountryCode] =
