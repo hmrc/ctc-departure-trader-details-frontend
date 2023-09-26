@@ -78,6 +78,5 @@ class TaskStatusSpec extends SpecBase {
       val result = JsString("foo").validate[TaskStatus]
       result mustBe a[JsError]
     }
-
   }
 }
