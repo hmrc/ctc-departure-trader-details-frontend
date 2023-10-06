@@ -16,7 +16,7 @@
 
 package pages.consignment
 
-import config.Constants.NoSecurityDetails
+import config.Constants.SecurityType.NoSecurityDetails
 import models.{Mode, UserAnswers}
 import pages.QuestionPage
 import pages.external.{AuthorisationsAndLimitSection, ItemsSection, SecurityDetailsTypePage}

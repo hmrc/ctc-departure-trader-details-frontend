@@ -18,7 +18,8 @@ package models.journeyDomain
 
 import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
-import config.Constants.{NoSecurityDetails, TIR}
+import config.Constants.DeclarationType.TIR
+import config.Constants.SecurityType.NoSecurityDetails
 import generators.Generators
 import models.journeyDomain.consignment.ConsignmentConsigneeDomain.ConsigneeWithEori
 import models.journeyDomain.consignment.ConsignmentDomain

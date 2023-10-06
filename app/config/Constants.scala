@@ -17,6 +17,12 @@
 package config
 
 object Constants {
-  val TIR               = "TIR"
-  val NoSecurityDetails = "0"
+
+  object DeclarationType {
+    val TIR = "TIR"
+  }
+
+  object SecurityType {
+    val NoSecurityDetails = "0"
+  }
 }

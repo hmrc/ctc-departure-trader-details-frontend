@@ -17,7 +17,8 @@
 package models.journeyDomain.consignment
 
 import cats.implicits._
-import config.Constants.{NoSecurityDetails, TIR}
+import config.Constants.DeclarationType.TIR
+import config.Constants.SecurityType.NoSecurityDetails
 import config.PhaseConfig
 import models.Phase
 import models.journeyDomain._

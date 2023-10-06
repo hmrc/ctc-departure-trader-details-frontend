@@ -18,7 +18,7 @@ package models.journeyDomain.holderOfTransit
 
 import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
-import config.Constants.TIR
+import config.Constants.DeclarationType.TIR
 import generators.Generators
 import models.journeyDomain.holderOfTransit.HolderOfTransitDomain.{HolderOfTransitWithEori, HolderOfTransitWithoutEori}
 import models.journeyDomain.{EitherType, UserAnswersReader}

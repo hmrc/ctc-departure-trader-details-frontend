@@ -16,7 +16,7 @@
 
 package pages.consignment
 
-import config.Constants.NoSecurityDetails
+import config.Constants.SecurityType.NoSecurityDetails
 import models.DynamicAddress
 import org.scalacheck.Arbitrary.arbitrary
 import pages.behaviours.PageBehaviours
