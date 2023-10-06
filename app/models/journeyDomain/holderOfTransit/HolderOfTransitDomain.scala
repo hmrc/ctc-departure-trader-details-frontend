@@ -17,7 +17,7 @@
 package models.journeyDomain.holderOfTransit
 
 import cats.implicits._
-import config.Constants.TIR
+import config.Constants.DeclarationType.TIR
 import models.journeyDomain.{GettableAsFilterForNextReaderOps, GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
