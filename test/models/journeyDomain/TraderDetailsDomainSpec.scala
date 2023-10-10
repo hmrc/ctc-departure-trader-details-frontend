@@ -22,7 +22,6 @@ import config.Constants.DeclarationType.TIR
 import config.Constants.SecurityType.NoSecurityDetails
 import generators.Generators
 import models.journeyDomain.consignment.ConsignmentConsigneeDomain.ConsigneeWithEori
-import models.journeyDomain.consignment.ConsignmentConsignorDomain.ConsignorWithEori
 import models.journeyDomain.consignment.ConsignmentDomain
 import models.journeyDomain.holderOfTransit.HolderOfTransitDomain.HolderOfTransitWithoutEori
 import models.reference.Country
@@ -36,6 +35,32 @@ import pages.{ActingAsRepresentativePage, holderOfTransit => hot}
 class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with Generators {
 
   "TraderDetailsDomain" - {
+
+    "must redirect to the correct domain" - {
+      "when status is Amended" in {
+        val userAnswers = emptyUserAnswers
+          .copy(status = SubmissionState.Amended)
+          .setValue(DeclarationTypePage, TIR)
+          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
+        val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain](
+          TraderDetailsDomain.userAnswersParser
+        ).run(userAnswers)
+
+        result.left.value.page mustBe consignor.EoriYesNoPage
+      }
+
+      "when status is not Amended" in {
+        val userAnswers = emptyUserAnswers
+          .setValue(DeclarationTypePage, TIR)
+          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
+        val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain](
+          TraderDetailsDomain.userAnswersParser
+        ).run(userAnswers)
+
+        result.left.value.page mustBe hot.EoriYesNoPage
+      }
+
+    }
 
     val eoriNumber       = Gen.alphaNumStr.sample.value
     val someSecurityType = arbitrary[String](arbitrarySomeSecurityDetailsType).sample.value
@@ -219,7 +244,30 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
         result.value mustBe expectedResult
       }
 
-      "cannot be parsed from UserAnswers" - {}
+      "cannot be parsed from UserAnswers" - {
+        val userAnswers = emptyUserAnswers
+          .copy(status = SubmissionState.Amended)
+          .setValue(DeclarationTypePage, someSecurityType)
+          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
+          .unsafeSetVal(ApprovedOperatorPage)(true)
+          .unsafeSetVal(MoreThanOneConsigneePage)(false)
+          .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
+          .unsafeSetVal(consignor.EoriYesNoPage)(true)
+          .unsafeSetVal(consignor.EoriPage)(eoriNumber)
+          .unsafeSetVal(consignor.AddContactPage)(false)
+
+        val expectedResult = TraderDetailsDomainAmending(
+          consignment = ConsignmentDomain(
+            consignor = None,
+            consignee = Some(ConsigneeWithEori(EoriNumber(eoriNumber)))
+          )
+        )
+
+        val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain].run(userAnswers)
+
+        result.left.value.page mustBe consignee.EoriYesNoPage
+
+      }
 
     }
   }
