@@ -17,7 +17,7 @@
 package base
 
 import config.{FrontendAppConfig, PhaseConfig}
-import models.{EoriNumber, Index, LocalReferenceNumber, RichJsObject, UserAnswers}
+import models.{EoriNumber, Index, LocalReferenceNumber, RichJsObject, SubmissionState, UserAnswers}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
@@ -53,7 +53,7 @@ trait SpecBase
 
   def fakeRequest: FakeRequest[AnyContent] = FakeRequest("", "")
 
-  val emptyUserAnswers: UserAnswers = UserAnswers(lrn, eoriNumber, Json.obj())
+  val emptyUserAnswers: UserAnswers = UserAnswers(lrn, eoriNumber, status = SubmissionState.NotSubmitted)
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
 

@@ -20,30 +20,60 @@ import config.PhaseConfig
 import models.journeyDomain.consignment.ConsignmentDomain
 import models.journeyDomain.holderOfTransit.HolderOfTransitDomain
 import models.journeyDomain.representative.RepresentativeDomain
-import models.{Mode, UserAnswers}
+import models.{Mode, SubmissionState, UserAnswers}
 import pages.ActingAsRepresentativePage
 import play.api.mvc.Call
 
-case class TraderDetailsDomain(
+trait TraderDetailsDomain extends JourneyDomainModel {
+  val consignment: ConsignmentDomain
+}
+
+case class TraderDetailsDomainDefault(
   holderOfTransit: HolderOfTransitDomain,
   representative: Option[RepresentativeDomain],
   consignment: ConsignmentDomain
-) extends JourneyDomainModel {
+) extends TraderDetailsDomain {
 
   override def routeIfCompleted(userAnswers: UserAnswers, mode: Mode, stage: Stage): Option[Call] =
     Some(controllers.routes.CheckYourAnswersController.onPageLoad(userAnswers.lrn))
 }
 
-object TraderDetailsDomain {
+object TraderDetailsDomainDefault {
 
   implicit def userAnswersParser(implicit phaseConfig: PhaseConfig): UserAnswersReader[TraderDetailsDomain] =
     for {
       holderOfTransit <- UserAnswersReader[HolderOfTransitDomain]
       representative  <- ActingAsRepresentativePage.filterOptionalDependent(identity)(UserAnswersReader[RepresentativeDomain])
       consignment     <- UserAnswersReader[ConsignmentDomain]
-    } yield TraderDetailsDomain(
+    } yield TraderDetailsDomainDefault(
       holderOfTransit,
       representative,
       consignment
     )
+}
+
+case class TraderDetailsDomainAmending(
+  consignment: ConsignmentDomain
+) extends TraderDetailsDomain
+
+object TraderDetailsDomainAmending {
+
+  implicit def userAnswersParser(implicit phaseConfig: PhaseConfig): UserAnswersReader[TraderDetailsDomain] =
+    for {
+      consignment <- UserAnswersReader[ConsignmentDomain]
+    } yield TraderDetailsDomainAmending(
+      consignment
+    )
+}
+
+object TraderDetailsDomain {
+
+  implicit def userAnswersParser(implicit phaseConfig: PhaseConfig): UserAnswersReader[TraderDetailsDomain] = {
+    val status: UserAnswers => EitherType[SubmissionState.Value] = ua => Right(ua.status)
+
+    UserAnswersReader(status).flatMap {
+      case SubmissionState.Amended => TraderDetailsDomainAmending.userAnswersParser
+      case _                       => TraderDetailsDomainDefault.userAnswersParser
+    }
+  }
 }
