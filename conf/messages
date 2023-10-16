@@ -61,12 +61,6 @@ traderDetails.holderOfTransit.eori.error.length = The transit holder’s EORI nu
 traderDetails.holderOfTransit.eori.error.invalid = The transit holder’s EORI number must only include letters a to z and numbers 0 to 9
 traderDetails.holderOfTransit.eori.change.hidden = the transit holder’s EORI number
 
-traderDetails.holderOfTransit.tirIdentificationYesNo.title = Do you know the TIR holder’s identification number?
-traderDetails.holderOfTransit.tirIdentificationYesNo.heading = Do you know the TIR holder’s identification number?
-traderDetails.holderOfTransit.tirIdentificationYesNo.checkYourAnswersLabel = Is the TIR holder’s identification number known?
-traderDetails.holderOfTransit.tirIdentificationYesNo.error.required = Select yes if you know the TIR holder’s identification number
-traderDetails.holderOfTransit.tirIdentificationYesNo.change.hidden = if you know the Transit procedure TIR identification number
-
 traderDetails.holderOfTransit.tirIdentification.title = What is the TIR holder’s identification number?
 traderDetails.holderOfTransit.tirIdentification.heading = What is the TIR holder’s identification number?
 traderDetails.holderOfTransit.tirIdentification.checkYourAnswersLabel = TIR holder’s identification number

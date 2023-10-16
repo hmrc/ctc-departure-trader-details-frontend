@@ -68,7 +68,6 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
           .unsafeSetVal(CountryPage)(country)
           .unsafeSetVal(AddressPage)(address)
           .unsafeSetVal(AddContactPage)(false)
-          .unsafeSetVal(TirIdentificationYesNoPage)(false)
 
         val result: EitherType[HolderOfTransitDomain] = UserAnswersReader[HolderOfTransitDomain].run(userAnswers)
 
@@ -201,7 +200,6 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
           .setValue(DeclarationTypePage, TIR)
           .unsafeSetVal(EoriPage)(eori.value)
           .unsafeSetVal(AddContactPage)(true)
-          .unsafeSetVal(TirIdentificationYesNoPage)(true)
           .unsafeSetVal(TirIdentificationPage)(tirNumber)
 
         val result: EitherType[HolderOfTransitWithEori] = UserAnswersReader[HolderOfTransitWithEori].run(userAnswers)
