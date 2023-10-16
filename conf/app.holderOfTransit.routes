@@ -11,11 +11,6 @@ POST       /eori/:lrn                                     controllers.holderOfTr
 GET        /change-eori/:lrn                              controllers.holderOfTransit.EoriController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 POST       /change-eori/:lrn                              controllers.holderOfTransit.EoriController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
 
-GET        /add-tir-holder-id/:lrn                        controllers.holderOfTransit.TirIdentificationYesNoController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-POST       /add-tir-holder-id/:lrn                        controllers.holderOfTransit.TirIdentificationYesNoController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
-GET        /change-add-tir-holder-id/:lrn                 controllers.holderOfTransit.TirIdentificationYesNoController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
-POST       /change-add-tir-holder-id/:lrn                 controllers.holderOfTransit.TirIdentificationYesNoController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
-
 GET        /tir-holder-id/:lrn                            controllers.holderOfTransit.TirIdentificationController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
 POST       /tir-holder-id/:lrn                            controllers.holderOfTransit.TirIdentificationController.onSubmit(lrn: LocalReferenceNumber, mode: Mode = NormalMode)
 GET        /change-tir-holder-id/:lrn                     controllers.holderOfTransit.TirIdentificationController.onPageLoad(lrn: LocalReferenceNumber, mode: Mode = CheckMode)
