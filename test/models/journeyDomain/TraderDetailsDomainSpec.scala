@@ -39,7 +39,7 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
     "must redirect to the correct domain" - {
       "when status is Amended" in {
         val userAnswers = emptyUserAnswers
-          .copy(status = SubmissionState.Amended)
+          .copy(status = SubmissionState.Amendment)
           .setValue(DeclarationTypePage, TIR)
           .setValue(SecurityDetailsTypePage, NoSecurityDetails)
         val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain](
@@ -221,7 +221,7 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
       "can be parsed from UserAnswers" in {
 
         val userAnswers = emptyUserAnswers
-          .copy(status = SubmissionState.Amended)
+          .copy(status = SubmissionState.Amendment)
           .setValue(DeclarationTypePage, someSecurityType)
           .setValue(SecurityDetailsTypePage, NoSecurityDetails)
           .unsafeSetVal(ApprovedOperatorPage)(true)
@@ -246,7 +246,7 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
 
       "cannot be parsed from UserAnswers" - {
         val userAnswers = emptyUserAnswers
-          .copy(status = SubmissionState.Amended)
+          .copy(status = SubmissionState.Amendment)
           .setValue(DeclarationTypePage, someSecurityType)
           .setValue(SecurityDetailsTypePage, NoSecurityDetails)
           .unsafeSetVal(ApprovedOperatorPage)(true)

@@ -129,8 +129,13 @@ trait ModelGenerators {
       Gen.oneOf(Locked, Unlocked, LockCheckFailure)
     }
 
-  implicit lazy val arbitrarySubmissionState: Arbitrary[SubmissionState.Value] = Arbitrary {
-    Gen.oneOf(SubmissionState.values.toSeq)
+  implicit lazy val arbitrarySubmissionState: Arbitrary[SubmissionState] = Arbitrary {
+    val values = Seq(
+      SubmissionState.NotSubmitted,
+      SubmissionState.Submitted,
+      SubmissionState.RejectedPendingChanges
+    )
+    Gen.oneOf(values)
   }
 
 }

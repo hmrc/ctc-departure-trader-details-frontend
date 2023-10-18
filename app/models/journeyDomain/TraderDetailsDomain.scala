@@ -69,11 +69,11 @@ object TraderDetailsDomainAmending {
 object TraderDetailsDomain {
 
   implicit def userAnswersParser(implicit phaseConfig: PhaseConfig): UserAnswersReader[TraderDetailsDomain] = {
-    val status: UserAnswers => EitherType[SubmissionState.Value] = ua => Right(ua.status)
+    val status: UserAnswers => EitherType[SubmissionState] = ua => Right(ua.status)
 
     UserAnswersReader(status).flatMap {
-      case SubmissionState.Amended => TraderDetailsDomainAmending.userAnswersParser
-      case _                       => TraderDetailsDomainDefault.userAnswersParser
+      case SubmissionState.Amendment => TraderDetailsDomainAmending.userAnswersParser
+      case _                         => TraderDetailsDomainDefault.userAnswersParser
     }
   }
 }

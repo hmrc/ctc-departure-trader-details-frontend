@@ -25,9 +25,9 @@ import scala.util.{Failure, Success, Try}
 final case class UserAnswers(
   lrn: LocalReferenceNumber,
   eoriNumber: EoriNumber,
+  status: SubmissionState,
   data: JsObject = Json.obj(),
-  tasks: Map[String, TaskStatus] = Map(),
-  status: SubmissionState.Value
+  tasks: Map[String, TaskStatus] = Map()
 ) {
 
   def get[A](page: Gettable[A])(implicit rds: Reads[A]): Option[A] =
@@ -77,17 +77,17 @@ object UserAnswers {
     (
       (__ \ "lrn").read[LocalReferenceNumber] and
         (__ \ "eoriNumber").read[EoriNumber] and
+        (__ \ "isSubmitted").read[SubmissionState] and
         (__ \ "data").read[JsObject] and
-        (__ \ "tasks").read[Map[String, TaskStatus]] and
-        (__ \ "isSubmitted").read[SubmissionState.Value]
+        (__ \ "tasks").read[Map[String, TaskStatus]]
     )(UserAnswers.apply _)
 
   implicit lazy val writes: Writes[UserAnswers] =
     (
       (__ \ "lrn").write[LocalReferenceNumber] and
         (__ \ "eoriNumber").write[EoriNumber] and
+        (__ \ "isSubmitted").write[SubmissionState] and
         (__ \ "data").write[JsObject] and
-        (__ \ "tasks").write[Map[String, TaskStatus]] and
-        (__ \ "isSubmitted").write[SubmissionState.Value]
+        (__ \ "tasks").write[Map[String, TaskStatus]]
     )(unlift(UserAnswers.unapply))
 }
