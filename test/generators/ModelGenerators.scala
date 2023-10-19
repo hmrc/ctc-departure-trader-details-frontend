@@ -133,7 +133,8 @@ trait ModelGenerators {
     val values = Seq(
       SubmissionState.NotSubmitted,
       SubmissionState.Submitted,
-      SubmissionState.RejectedPendingChanges
+      SubmissionState.RejectedPendingChanges,
+      SubmissionState.Amendment
     )
     Gen.oneOf(values)
   }
