@@ -69,7 +69,7 @@ trait ViewBehaviours extends SpecBase with ViewSpecAssertions {
 
   "must append service to feedback link" in {
     val link = getElementBySelector(doc, ".govuk-phase-banner__text > .govuk-link")
-    getElementHref(link) must fullyMatch regex "http:\\/\\/localhost:9250\\/contact\\/beta-feedback\\?service=CTCTraders&backUrl=.*"
+    getElementHref(link) must fullyMatch regex "http:\\/\\/localhost:9250\\/contact\\/beta-feedback\\?service=CTCTraders&referrerUrl=.*"
   }
 
   "must render accessibility statement link" in {
@@ -79,7 +79,7 @@ trait ViewBehaviours extends SpecBase with ViewSpecAssertions {
       .find(_.text() == "Accessibility statement")
       .get
 
-    getElementHref(link) must include("http://localhost:12346/accessibility-statement/manage-transit-movements?referrerUrl=")
+    getElementHref(link) must include("http://localhost:12346/accessibility-statement/manage-transit-movements-p5?referrerUrl=")
   }
 
   "must not render language toggle" in {

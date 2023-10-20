@@ -68,7 +68,7 @@ class HolderOfTransitViewModelSpec extends SpecBase with Generators {
         sections.head.rows.head.value.content.asHtml.toString() mustBe "Yes"
         sections.head.rows(1).value.content.asHtml.toString() mustBe "eori"
         sections.head.rows(2).value.content.asHtml.toString() mustBe "name"
-        sections.head.rows(3).value.content.asHtml.toString() mustBe "Great Britain"
+        sections.head.rows(3).value.content.asHtml.toString() mustBe "Great Britain - GB"
         sections.head.rows(4).value.content.asHtml.toString() mustBe "line1<br>line2<br>postal code"
         sections.head.rows(5).value.content.asHtml.toString() mustBe "tir id"
 

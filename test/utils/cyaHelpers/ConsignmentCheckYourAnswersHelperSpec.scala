@@ -194,7 +194,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               result mustBe Some(
                 SummaryListRow(
                   key = Key("Consignor’s country".toText),
-                  value = Value(country.description.toText),
+                  value = Value(country.toString.toText),
                   actions = Some(
                     Actions(
                       items = List(
@@ -590,7 +590,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               result mustBe Some(
                 SummaryListRow(
                   key = Key("Consignee’s country".toText),
-                  value = Value(country.description.toText),
+                  value = Value(country.toString.toText),
                   actions = Some(
                     Actions(
                       items = List(

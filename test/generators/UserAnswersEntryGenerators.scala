@@ -55,7 +55,6 @@ trait UserAnswersEntryGenerators {
     {
       case EoriYesNoPage               => arbitrary[Boolean].map(JsBoolean)
       case EoriPage                    => Gen.alphaNumStr.map(JsString)
-      case TirIdentificationYesNoPage  => arbitrary[Boolean].map(JsBoolean)
       case TirIdentificationPage       => Gen.alphaNumStr.map(JsString)
       case NamePage                    => Gen.alphaNumStr.map(JsString)
       case CountryPage                 => arbitrary[Country].map(Json.toJson(_))
