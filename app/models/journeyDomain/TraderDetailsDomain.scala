@@ -26,17 +26,16 @@ import play.api.mvc.Call
 
 trait TraderDetailsDomain extends JourneyDomainModel {
   val consignment: ConsignmentDomain
+
+  override def routeIfCompleted(userAnswers: UserAnswers, mode: Mode, stage: Stage): Option[Call] =
+    Some(controllers.routes.CheckYourAnswersController.onPageLoad(userAnswers.lrn))
 }
 
 case class TraderDetailsDomainDefault(
   holderOfTransit: HolderOfTransitDomain,
   representative: Option[RepresentativeDomain],
   consignment: ConsignmentDomain
-) extends TraderDetailsDomain {
-
-  override def routeIfCompleted(userAnswers: UserAnswers, mode: Mode, stage: Stage): Option[Call] =
-    Some(controllers.routes.CheckYourAnswersController.onPageLoad(userAnswers.lrn))
-}
+) extends TraderDetailsDomain
 
 object TraderDetailsDomainDefault {
 

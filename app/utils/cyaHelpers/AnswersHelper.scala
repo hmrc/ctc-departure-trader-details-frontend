@@ -57,12 +57,12 @@ class AnswersHelper(userAnswers: UserAnswers, mode: Mode)(implicit messages: Mes
     prefix: String,
     id: Option[String],
     args: Any*
-  )(predicate: T => Boolean)(implicit rds: Reads[T]): Option[SummaryListRow] =
+  )(implicit rds: Reads[T], predicate: ProvideChangeLink): Option[SummaryListRow] =
     for {
       answer <- userAnswers.get(page)
       call   <- page.route(userAnswers, mode)
     } yield
-      if (predicate(answer)) {
+      if (predicate.value) {
         buildRowWithNoChangeLink(
           prefix = prefix,
           answer = formatAnswer(answer),

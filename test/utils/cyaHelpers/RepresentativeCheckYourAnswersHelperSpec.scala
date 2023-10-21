@@ -253,4 +253,122 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
       }
     }
   }
+
+  "RepresentativeCheckYourAnswersHelper on amendment journey" - {
+
+    "actingAsRepresentative" - {
+
+      "must return Some(Row)" - {
+        s"when $ActingAsRepresentativePage is defined" in {
+          forAll(arbitrary[Mode]) {
+            mode =>
+              val answers = emptyUserAnswersWithAmendment.setValue(ActingAsRepresentativePage, true)
+
+              val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
+              val result = helper.actingAsRepresentative
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("Are you acting as a representative?".toText),
+                  value = Value("Yes".toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+
+    "eori" - {
+
+      "must return Some(Row)" - {
+        s"when $EoriPage is defined" in {
+          forAll(Gen.alphaNumStr, arbitrary[Mode]) {
+            (eori, mode) =>
+              val answers = emptyUserAnswersWithAmendment.setValue(EoriPage, eori)
+
+              val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
+              val result = helper.eori
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("EORI number or Trader Identification Number (TIN)".toText),
+                  value = Value(eori.toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+
+    "addDetails" - {
+
+      "must return Some(Row)" - {
+        s"when $AddDetailsPage is defined" in {
+          forAll(arbitrary[Mode]) {
+            mode =>
+              val answers = emptyUserAnswersWithAmendment.setValue(AddDetailsPage, true)
+
+              val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
+              val result = helper.addDetails
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("Do you want to add your details?".toText),
+                  value = Value("Yes".toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+
+    "name" - {
+
+      "must return Some(Row)" - {
+        s"when $NamePage is defined" in {
+          forAll(Gen.alphaNumStr, arbitrary[Mode]) {
+            (representativeName, mode) =>
+              val answers = emptyUserAnswersWithAmendment.setValue(NamePage, representativeName)
+
+              val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
+              val result = helper.name
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("Name".toText),
+                  value = Value(representativeName.toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+
+    "phoneNumber" - {
+
+      "must return Some(Row)" - {
+        s"when $TelephoneNumberPage is defined" in {
+          forAll(Gen.alphaNumStr, arbitrary[Mode]) {
+            (representativePhoneNumber, mode) =>
+              val answers = emptyUserAnswersWithAmendment.setValue(TelephoneNumberPage, representativePhoneNumber)
+
+              val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
+              val result = helper.phoneNumber
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("Phone number".toText),
+                  value = Value(representativePhoneNumber.toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+  }
 }

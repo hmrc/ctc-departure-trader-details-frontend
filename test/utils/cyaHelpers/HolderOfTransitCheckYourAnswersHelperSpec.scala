@@ -431,4 +431,214 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
       }
     }
   }
+
+  "HolderOfTransitCheckYourAnswersHelper on amendment journey" - {
+
+    "tirIdentification" - {
+
+      "must return Some(Row)" - {
+        s"when $TirIdentificationPage is defined" in {
+          forAll(Gen.alphaNumStr, arbitrary[Mode]) {
+            (eori, mode) =>
+              val answers = emptyUserAnswersWithAmendment.setValue(TirIdentificationPage, eori)
+
+              val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
+              val result = helper.tirIdentification
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("TIR holder’s identification number".toText),
+                  value = Value(eori.toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+
+    "eoriYesNo" - {
+
+      "must return Some(Row)" - {
+        s"when $EoriYesNoPage is defined" in {
+          forAll(arbitrary[Mode]) {
+            mode =>
+              val answers = emptyUserAnswersWithAmendment.setValue(EoriYesNoPage, true)
+
+              val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
+              val result = helper.eoriYesNo
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("Do you know the transit holder’s EORI number?".toText),
+                  value = Value("Yes".toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+
+    "eori" - {
+
+      "must return Some(Row)" - {
+        s"when $EoriPage is defined" in {
+          forAll(Gen.alphaNumStr, arbitrary[Mode]) {
+            (eori, mode) =>
+              val answers = emptyUserAnswersWithAmendment.setValue(EoriPage, eori)
+
+              val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
+              val result = helper.eori
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("EORI number".toText),
+                  value = Value(eori.toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+
+    "name" - {
+
+      "must return Some(Row)" - {
+        s"when $NamePage is defined" in {
+          forAll(Gen.alphaNumStr, arbitrary[Mode]) {
+            (name, mode) =>
+              val answers = emptyUserAnswersWithAmendment.setValue(NamePage, name)
+
+              val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
+              val result = helper.name
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("Transit holder’s name".toText),
+                  value = Value(name.toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+
+    "country" - {
+
+      "must return Some(Row)" - {
+        s"when $CountryPage is defined" in {
+          forAll(arbitrary[Country], arbitrary[Mode]) {
+            (country, mode) =>
+              val answers = emptyUserAnswersWithAmendment.setValue(CountryPage, country)
+
+              val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
+              val result = helper.country
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("Transit holder’s country".toText),
+                  value = Value(country.toString.toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+
+    "address" - {
+
+      "must return Some(Row)" - {
+        s"when $AddressPage is defined" in {
+          forAll(arbitrary[DynamicAddress], arbitrary[Mode]) {
+            (address, mode) =>
+              val answers = emptyUserAnswersWithAmendment.setValue(AddressPage, address)
+
+              val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
+              val result = helper.address
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("Transit holder’s address".toText),
+                  value = Value(HtmlContent(Seq(Some(address.numberAndStreet), Some(address.city), address.postalCode).flatten.mkString("<br>"))),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+
+    "addContact" - {
+
+      "must return Some(Row)" - {
+        s"when $AddContactPage is defined" in {
+          forAll(arbitrary[Mode]) {
+            mode =>
+              val answers = emptyUserAnswersWithAmendment.setValue(AddContactPage, true)
+
+              val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
+              val result = helper.addContact
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("Do you want to add a contact?".toText),
+                  value = Value("Yes".toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+
+    "contactName" - {
+
+      "must return Some(Row)" - {
+        s"when ${contact.NamePage} is defined" in {
+          forAll(Gen.alphaNumStr, arbitrary[Mode]) {
+            (contactName, mode) =>
+              val answers = emptyUserAnswersWithAmendment.setValue(contact.NamePage, contactName)
+
+              val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
+              val result = helper.contactName
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("Contact’s name".toText),
+                  value = Value(contactName.toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+
+    "contactTelephoneNumber" - {
+
+      "must return Some(Row)" - {
+        s"when ${contact.TelephoneNumberPage} is defined" in {
+          forAll(Gen.alphaNumStr, arbitrary[Mode]) {
+            (contactTelephoneNumber, mode) =>
+              val answers = emptyUserAnswersWithAmendment.setValue(contact.TelephoneNumberPage, contactTelephoneNumber)
+
+              val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
+              val result = helper.contactTelephoneNumber
+
+              result mustBe Some(
+                SummaryListRow(
+                  key = Key("Transit holder’s contact phone number".toText),
+                  value = Value(contactTelephoneNumber.toText),
+                  actions = None
+                )
+              )
+          }
+        }
+      }
+    }
+  }
 }
