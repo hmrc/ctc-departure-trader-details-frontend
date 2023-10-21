@@ -66,8 +66,4 @@ object SubmissionState {
     state => JsString(state.asString)
   }
 
-  implicit class RichSubmissionState(value: SubmissionState) {
-
-    def showErrorContent: Boolean = value == RejectedPendingChanges
-  }
 }
