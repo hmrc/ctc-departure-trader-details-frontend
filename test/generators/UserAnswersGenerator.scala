@@ -21,7 +21,7 @@ import models.journeyDomain.consignment.{ConsignmentConsigneeDomain, Consignment
 import models.journeyDomain.holderOfTransit.HolderOfTransitDomain
 import models.journeyDomain.representative.RepresentativeDomain
 import models.journeyDomain.{ReaderError, TraderDetailsDomain, UserAnswersReader}
-import models.{EoriNumber, LocalReferenceNumber, RichJsObject, UserAnswers}
+import models.{EoriNumber, LocalReferenceNumber, RichJsObject, SubmissionState, UserAnswers}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}
 
@@ -33,7 +33,8 @@ trait UserAnswersGenerator extends UserAnswersEntryGenerators {
       for {
         lrn        <- arbitrary[LocalReferenceNumber]
         eoriNumber <- arbitrary[EoriNumber]
-        answers    <- buildUserAnswers[TraderDetailsDomain](UserAnswers(lrn, eoriNumber))
+        status     <- arbitrary[SubmissionState]
+        answers    <- buildUserAnswers[TraderDetailsDomain](UserAnswers(lrn, eoriNumber, status = status))
       } yield answers
     }
 

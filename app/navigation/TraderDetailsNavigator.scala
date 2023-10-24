@@ -33,8 +33,10 @@ trait TraderDetailsNavigatorProvider {
   def apply(mode: Mode): UserAnswersNavigator
 }
 
-class TraderDetailsNavigator(override val mode: Mode)(implicit override val appConfig: FrontendAppConfig, override val phaseConfig: PhaseConfig)
-    extends UserAnswersNavigator {
+class TraderDetailsNavigator(override val mode: Mode)(implicit
+  override val appConfig: FrontendAppConfig,
+  override val phaseConfig: PhaseConfig
+) extends UserAnswersNavigator {
 
   override type T = TraderDetailsDomain
 
