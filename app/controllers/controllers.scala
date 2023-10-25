@@ -16,7 +16,7 @@
 
 import cats.data.ReaderT
 import config.{FrontendAppConfig, PhaseConfig}
-import models.TaskStatus.{Completed, InProgress}
+import models.TaskStatus.InProgress
 import models.journeyDomain.{TraderDetailsDomain, UserAnswersReader, WriterError}
 import models.requests.MandatoryDataRequest
 import models.{LocalReferenceNumber, UserAnswers}

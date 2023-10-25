@@ -245,30 +245,23 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
       }
 
       "cannot be parsed from UserAnswers" - {
-        val userAnswers = emptyUserAnswers
-          .copy(status = SubmissionState.Amendment)
-          .setValue(DeclarationTypePage, someSecurityType)
-          .setValue(SecurityDetailsTypePage, NoSecurityDetails)
-          .unsafeSetVal(ApprovedOperatorPage)(true)
-          .unsafeSetVal(MoreThanOneConsigneePage)(false)
-          .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
-          .unsafeSetVal(consignor.EoriYesNoPage)(true)
-          .unsafeSetVal(consignor.EoriPage)(eoriNumber)
-          .unsafeSetVal(consignor.AddContactPage)(false)
+        "when add consignee EORI yes/no is unanswered" in {
+          val userAnswers = emptyUserAnswers
+            .copy(status = SubmissionState.Amendment)
+            .setValue(DeclarationTypePage, someSecurityType)
+            .setValue(SecurityDetailsTypePage, NoSecurityDetails)
+            .unsafeSetVal(ApprovedOperatorPage)(true)
+            .unsafeSetVal(MoreThanOneConsigneePage)(false)
+            .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
+            .unsafeSetVal(consignor.EoriYesNoPage)(true)
+            .unsafeSetVal(consignor.EoriPage)(eoriNumber)
+            .unsafeSetVal(consignor.AddContactPage)(false)
 
-        val expectedResult = TraderDetailsDomainAmending(
-          consignment = ConsignmentDomain(
-            consignor = None,
-            consignee = Some(ConsigneeWithEori(EoriNumber(eoriNumber)))
-          )
-        )
+          val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain].run(userAnswers)
 
-        val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain].run(userAnswers)
-
-        result.left.value.page mustBe consignee.EoriYesNoPage
-
+          result.left.value.page mustBe consignee.EoriYesNoPage
+        }
       }
-
     }
   }
 }
