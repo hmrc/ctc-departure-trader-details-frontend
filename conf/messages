@@ -35,7 +35,7 @@ traderDetails.actingRepresentative.paragraph = This means moving the goods for s
 traderDetails.actingRepresentative.change.hidden = if you are acting as a representative
 
 traderDetails.checkYourAnswers.heading = Check your answers
-traderDetails.checkYourAnswers.title = Check your answers
+traderDetails.checkYourAnswers.title = Check your answers - Trader details
 traderDetails.checkYourAnswers.transitHolder = Transit holder
 traderDetails.checkYourAnswers.additionalContact = Additional contact
 traderDetails.checkYourAnswers.representative = Representative
