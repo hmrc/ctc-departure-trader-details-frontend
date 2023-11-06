@@ -18,6 +18,7 @@ package connectors
 
 import base.{AppWithDefaultMockFixtures, SpecBase, WireMockServerHandler}
 import com.github.tomakehurst.wiremock.client.WireMock.{aResponse, get, okJson, urlEqualTo}
+import connectors.ReferenceDataConnector.NoReferenceDataFoundException
 import models.reference._
 import org.scalacheck.Gen
 import org.scalatest.Assertion
@@ -69,12 +70,21 @@ class ReferenceDataConnectorSpec extends SpecBase with AppWithDefaultMockFixture
        |}
        |""".stripMargin
 
+  private val emptyResponseJson: String =
+    """
+      |{
+      |  "data": []
+      |}
+      |""".stripMargin
+
   "Reference Data" - {
 
     "getCountries" - {
+      val url = s"/$baseUrl/lists/CountryCodesForAddress"
+
       "must return Seq of Country when successful" in {
         server.stubFor(
-          get(urlEqualTo(s"/$baseUrl/lists/CountryCodesForAddress"))
+          get(urlEqualTo(url))
             .willReturn(okJson(countriesResponseJson("CountryCodesForAddress")))
         )
 
@@ -86,15 +96,21 @@ class ReferenceDataConnectorSpec extends SpecBase with AppWithDefaultMockFixture
         connector.getCountriesFullList().futureValue mustEqual expectedResult
       }
 
+      "must throw a NoReferenceDataFoundException for an empty response" in {
+        checkNoReferenceDataFoundResponse(url, connector.getCountriesFullList())
+      }
+
       "must return an exception when an error response is returned" in {
-        checkErrorResponse(s"/$baseUrl/lists/CountryCodesForAddress", connector.getCountriesFullList())
+        checkErrorResponse(url, connector.getCountriesFullList())
       }
     }
 
     "getCountriesWithoutZip" - {
+      val url = s"/$baseUrl/lists/CountryWithoutZip"
+
       "must return Seq of Country when successful" in {
         server.stubFor(
-          get(urlEqualTo(s"/$baseUrl/lists/CountryWithoutZip"))
+          get(urlEqualTo(url))
             .willReturn(okJson(countriesResponseJson("CountryWithoutZip")))
         )
 
@@ -106,17 +122,29 @@ class ReferenceDataConnectorSpec extends SpecBase with AppWithDefaultMockFixture
         connector.getCountriesWithoutZip().futureValue mustEqual expectedResult
       }
 
+      "must throw a NoReferenceDataFoundException for an empty response" in {
+        checkNoReferenceDataFoundResponse(url, connector.getCountriesWithoutZip())
+      }
+
       "must return an exception when an error response is returned" in {
-        checkErrorResponse(s"/$baseUrl/country-without-zip", connector.getCountriesWithoutZip())
+        checkErrorResponse(url, connector.getCountriesWithoutZip())
       }
     }
+  }
 
+  private def checkNoReferenceDataFoundResponse(url: String, result: => Future[_]): Assertion = {
+    server.stubFor(
+      get(urlEqualTo(url))
+        .willReturn(okJson(emptyResponseJson))
+    )
+
+    whenReady[Throwable, Assertion](result.failed) {
+      _ mustBe a[NoReferenceDataFoundException]
+    }
   }
 
   private def checkErrorResponse(url: String, result: => Future[_]): Assertion = {
-    val errorResponses: Gen[Int] = Gen
-      .chooseNum(400: Int, 599: Int)
-      .suchThat(_ != 404)
+    val errorResponses: Gen[Int] = Gen.chooseNum(400: Int, 599: Int)
 
     forAll(errorResponses) {
       errorResponse =>
@@ -128,7 +156,7 @@ class ReferenceDataConnectorSpec extends SpecBase with AppWithDefaultMockFixture
             )
         )
 
-        whenReady(result.failed) {
+        whenReady[Throwable, Assertion](result.failed) {
           _ mustBe an[Exception]
         }
     }
