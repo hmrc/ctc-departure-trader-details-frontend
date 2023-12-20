@@ -16,11 +16,11 @@
 
 package pages.consignment
 
-import models.{Index, Mode, UserAnswers}
+import models.{Mode, RichJsArray, UserAnswers}
 import pages.QuestionPage
 import pages.external.{ItemConsigneeSection, ItemsSection}
 import pages.sections.{TraderDetailsConsigneeSection, TraderDetailsConsignmentSection}
-import play.api.libs.json.JsPath
+import play.api.libs.json.{JsArray, JsPath}
 import play.api.mvc.Call
 
 import scala.util.{Success, Try}
@@ -41,12 +41,11 @@ case object MoreThanOneConsigneePage extends QuestionPage[Boolean] {
   private def removeItemLevelConsignees(userAnswers: UserAnswers): Try[UserAnswers] =
     userAnswers
       .get(ItemsSection)
-      .map(_.value.toSeq)
-      .getOrElse(Nil)
+      .getOrElse(JsArray())
       .zipWithIndex
       .foldLeft[Try[UserAnswers]](Success(userAnswers)) {
         case (acc, (_, index)) =>
-          acc.map(_.remove(ItemConsigneeSection(Index(index))))
+          acc.map(_.remove(ItemConsigneeSection(index)))
       }
 
   override def route(userAnswers: UserAnswers, mode: Mode): Option[Call] =
