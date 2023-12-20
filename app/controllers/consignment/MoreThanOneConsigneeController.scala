@@ -16,9 +16,9 @@
 
 package controllers.consignment
 
-import config.PhaseConfig
+import config.{FrontendAppConfig, PhaseConfig}
 import controllers.actions.Actions
-import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
+import controllers.{NavigatorOps, SettableOps, SettableOpsRunner, UpdateOps}
 import forms.YesNoFormProvider
 import models.{LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
@@ -40,7 +40,7 @@ class MoreThanOneConsigneeController @Inject() (
   formProvider: YesNoFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: MoreThanOneConsigneeView
-)(implicit ec: ExecutionContext, phaseConfig: PhaseConfig)
+)(implicit ec: ExecutionContext, phaseConfig: PhaseConfig, appConfig: FrontendAppConfig)
     extends FrontendBaseController
     with I18nSupport {
 
@@ -64,7 +64,13 @@ class MoreThanOneConsigneeController @Inject() (
           formWithErrors => Future.successful(BadRequest(view(formWithErrors, lrn, mode))),
           value => {
             implicit val navigator: UserAnswersNavigator = navigatorProvider(mode)
-            MoreThanOneConsigneePage.writeToUserAnswers(value).updateTask().writeToSession().navigate()
+            MoreThanOneConsigneePage
+              .writeToUserAnswers(value)
+              .updateTask()
+              .writeToSession()
+              .getNextPage()
+              .updateItems(lrn)
+              .navigate()
           }
         )
   }

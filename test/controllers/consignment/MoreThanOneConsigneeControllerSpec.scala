@@ -20,10 +20,10 @@ import base.{AppWithDefaultMockFixtures, SpecBase}
 import forms.YesNoFormProvider
 import models.NormalMode
 import navigation.TraderDetailsNavigatorProvider
-import pages.consignment._
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
+import pages.consignment._
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
@@ -96,8 +96,9 @@ class MoreThanOneConsigneeControllerSpec extends SpecBase with AppWithDefaultMoc
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual onwardRoute.url
-
+      redirectLocation(result).value mustEqual
+        s"http://localhost:10127/manage-transit-movements/departures/items/$lrn/update-task?" +
+        s"continue=http://localhost:10130${onwardRoute.url}"
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in {
