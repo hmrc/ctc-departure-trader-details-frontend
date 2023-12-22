@@ -21,7 +21,7 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import pages.behaviours.PageBehaviours
 import pages.consignment.consignee._
-import pages.external.ItemConsigneeSection
+import pages.external.{ConsignmentCountryOfDestinationInCL009Page, ItemConsigneeSection}
 import play.api.libs.json.Json
 
 class MoreThanOneConsigneePageSpec extends PageBehaviours {
@@ -56,15 +56,45 @@ class MoreThanOneConsigneePageSpec extends PageBehaviours {
       }
 
       "when NO selected" - {
-        "must clean up consignee at each item" in {
-          val userAnswers = emptyUserAnswers
-            .setValue(ItemConsigneeSection(Index(0)), Json.obj("foo" -> "bar"))
-            .setValue(ItemConsigneeSection(Index(1)), Json.obj("foo" -> "bar"))
+        "and country of destination is in CL009" - {
+          "must clean up consignee at each item" in {
+            val userAnswers = emptyUserAnswers
+              .setValue(ConsignmentCountryOfDestinationInCL009Page, true)
+              .setValue(ItemConsigneeSection(Index(0)), Json.obj("foo" -> "bar"))
+              .setValue(ItemConsigneeSection(Index(1)), Json.obj("foo" -> "bar"))
 
-          val result = userAnswers.setValue(MoreThanOneConsigneePage, false)
+            val result = userAnswers.setValue(MoreThanOneConsigneePage, false)
 
-          result.get(ItemConsigneeSection(Index(0))) must not be defined
-          result.get(ItemConsigneeSection(Index(1))) must not be defined
+            result.get(ItemConsigneeSection(Index(0))) must not be defined
+            result.get(ItemConsigneeSection(Index(1))) must not be defined
+          }
+        }
+
+        "and country of destination is not in CL009" - {
+          "must not clean up consignee at each item" in {
+            val userAnswers = emptyUserAnswers
+              .setValue(ConsignmentCountryOfDestinationInCL009Page, false)
+              .setValue(ItemConsigneeSection(Index(0)), Json.obj("foo" -> "bar"))
+              .setValue(ItemConsigneeSection(Index(1)), Json.obj("foo" -> "bar"))
+
+            val result = userAnswers.setValue(MoreThanOneConsigneePage, false)
+
+            result.get(ItemConsigneeSection(Index(0))) must be(defined)
+            result.get(ItemConsigneeSection(Index(1))) must be(defined)
+          }
+        }
+
+        "and country of destination is undefined" - {
+          "must not clean up consignee at each item" in {
+            val userAnswers = emptyUserAnswers
+              .setValue(ItemConsigneeSection(Index(0)), Json.obj("foo" -> "bar"))
+              .setValue(ItemConsigneeSection(Index(1)), Json.obj("foo" -> "bar"))
+
+            val result = userAnswers.setValue(MoreThanOneConsigneePage, false)
+
+            result.get(ItemConsigneeSection(Index(0))) must be(defined)
+            result.get(ItemConsigneeSection(Index(1))) must be(defined)
+          }
         }
       }
     }

@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package pages
+package pages.external
 
-import play.api.libs.json.{__, JsPath}
+import pages.ReadOnlyPage
+import play.api.libs.json.JsPath
 
-package object external {
+case object ConsignmentCountryOfDestinationInCL009Page extends ReadOnlyPage[Boolean] {
 
-  lazy val preTaskListPath: JsPath = __ \ "preTaskList"
+  override def path: JsPath = preRequisitesPath \ "itemsDestinationCountry" \ toString
 
-  lazy val transportDetailsPath: JsPath = __ \ "transportDetails"
-
-  lazy val preRequisitesPath: JsPath = transportDetailsPath \ "preRequisites"
-
+  override def toString: String = "isInCL009"
 }

@@ -18,7 +18,7 @@ package pages.consignment
 
 import models.{Mode, RichJsArray, UserAnswers}
 import pages.QuestionPage
-import pages.external.{ItemConsigneeSection, ItemsSection}
+import pages.external.{ConsignmentCountryOfDestinationInCL009Page, ItemConsigneeSection, ItemsSection}
 import pages.sections.{TraderDetailsConsigneeSection, TraderDetailsConsignmentSection}
 import play.api.libs.json.{JsArray, JsPath}
 import play.api.mvc.Call
@@ -39,14 +39,19 @@ case object MoreThanOneConsigneePage extends QuestionPage[Boolean] {
     }
 
   private def removeItemLevelConsignees(userAnswers: UserAnswers): Try[UserAnswers] =
-    userAnswers
-      .get(ItemsSection)
-      .getOrElse(JsArray())
-      .zipWithIndex
-      .foldLeft[Try[UserAnswers]](Success(userAnswers)) {
-        case (acc, (_, index)) =>
-          acc.map(_.remove(ItemConsigneeSection(index)))
-      }
+    userAnswers.get(ConsignmentCountryOfDestinationInCL009Page) match {
+      case Some(true) =>
+        userAnswers
+          .get(ItemsSection)
+          .getOrElse(JsArray())
+          .zipWithIndex
+          .foldLeft[Try[UserAnswers]](Success(userAnswers)) {
+            case (acc, (_, index)) =>
+              acc.map(_.remove(ItemConsigneeSection(index)))
+          }
+      case _ =>
+        Success(userAnswers)
+    }
 
   override def route(userAnswers: UserAnswers, mode: Mode): Option[Call] =
     Some(controllers.consignment.routes.MoreThanOneConsigneeController.onPageLoad(userAnswers.lrn, mode))
