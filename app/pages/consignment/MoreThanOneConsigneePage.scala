@@ -16,13 +16,14 @@
 
 package pages.consignment
 
-import models.{Mode, UserAnswers}
+import models.{Mode, RichJsArray, UserAnswers}
 import pages.QuestionPage
+import pages.external.{ConsignmentCountryOfDestinationInCL009Page, ItemConsigneeSection, ItemsSection}
 import pages.sections.{TraderDetailsConsigneeSection, TraderDetailsConsignmentSection}
-import play.api.libs.json.JsPath
+import play.api.libs.json.{JsArray, JsPath}
 import play.api.mvc.Call
 
-import scala.util.Try
+import scala.util.{Success, Try}
 
 case object MoreThanOneConsigneePage extends QuestionPage[Boolean] {
 
@@ -32,8 +33,24 @@ case object MoreThanOneConsigneePage extends QuestionPage[Boolean] {
 
   override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
     value match {
-      case Some(true) => userAnswers.remove(TraderDetailsConsigneeSection)
-      case _          => super.cleanup(value, userAnswers)
+      case Some(true)  => userAnswers.remove(TraderDetailsConsigneeSection)
+      case Some(false) => removeItemLevelConsignees(userAnswers)
+      case _           => super.cleanup(value, userAnswers)
+    }
+
+  private def removeItemLevelConsignees(userAnswers: UserAnswers): Try[UserAnswers] =
+    userAnswers.get(ConsignmentCountryOfDestinationInCL009Page) match {
+      case Some(true) =>
+        userAnswers
+          .get(ItemsSection)
+          .getOrElse(JsArray())
+          .zipWithIndex
+          .foldLeft[Try[UserAnswers]](Success(userAnswers)) {
+            case (acc, (_, index)) =>
+              acc.map(_.remove(ItemConsigneeSection(index)))
+          }
+      case _ =>
+        Success(userAnswers)
     }
 
   override def route(userAnswers: UserAnswers, mode: Mode): Option[Call] =

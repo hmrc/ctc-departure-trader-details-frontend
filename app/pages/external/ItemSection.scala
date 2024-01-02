@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package pages
+package pages.external
 
-import play.api.libs.json.{__, JsPath}
+import models.Index
+import pages.sections.ReadOnlySection
+import play.api.libs.json.{JsObject, JsPath}
 
-package object external {
+case class ItemSection(index: Index) extends ReadOnlySection[JsObject] {
 
-  lazy val preTaskListPath: JsPath = __ \ "preTaskList"
-
-  lazy val transportDetailsPath: JsPath = __ \ "transportDetails"
-
-  lazy val preRequisitesPath: JsPath = transportDetailsPath \ "preRequisites"
+  override def path: JsPath = ItemsSection.path \ index.position
 
 }
