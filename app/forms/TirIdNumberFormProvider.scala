@@ -17,6 +17,7 @@
 package forms
 
 import forms.mappings.Mappings
+import models.RichString
 import models.domain.StringFieldRegex.{tirIdNumberCharacterRegex, tirIdNumberFormatRegex}
 import play.api.data.Form
 
@@ -28,7 +29,7 @@ class TirIdNumberFormProvider @Inject() extends Mappings {
 
   def apply(prefix: String): Form[String] =
     Form(
-      "value" -> textWithSpacesRemoved(s"$prefix.error.required")
+      "value" -> adaptedText(s"$prefix.error.required")(_.removeSpaces())
         .verifying(
           forms.StopOnFirstFail[String](
             maxLength(tirNumberMaxLength, s"$prefix.error.length", Seq(tirNumberMaxLength)),
