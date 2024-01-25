@@ -329,13 +329,10 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
           val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
           result.left.value.page mustBe consignee.EoriYesNoPage
-          result.value.pages mustBe Seq(
+          result.left.value.pages mustBe Seq(
             ApprovedOperatorPage,
             MoreThanOneConsigneePage,
-            consignee.EoriNumberPage,
-            consignor.EoriYesNoPage,
-            consignor.EoriPage,
-            TraderDetailsSection
+            consignee.EoriYesNoPage
           )
         }
       }
