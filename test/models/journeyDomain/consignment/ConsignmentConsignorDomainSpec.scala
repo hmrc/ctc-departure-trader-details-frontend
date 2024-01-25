@@ -48,8 +48,19 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
           .unsafeSetVal(consignor.EoriPage)(eori.value)
           .unsafeSetVal(consignor.AddContactPage)(false)
 
+        val expectedResult = ConsignorWithEori(
+          eori = eori,
+          contact = None
+        )
+
         val result = ConsignmentConsignorDomain.userAnswersReader.apply(Nil).run(userAnswers)
-        result.value.value mustBe an[ConsignorWithEori]
+
+        result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          consignor.EoriYesNoPage,
+          consignor.EoriPage,
+          consignor.AddContactPage
+        )
       }
 
       "when EORI is not defined" in {
@@ -61,8 +72,23 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
           .unsafeSetVal(consignor.AddressPage)(address)
           .unsafeSetVal(consignor.AddContactPage)(false)
 
+        val expectedResult = ConsignorWithoutEori(
+          name = name,
+          country = country,
+          address = address,
+          contact = None
+        )
+
         val result = ConsignmentConsignorDomain.userAnswersReader.apply(Nil).run(userAnswers)
-        result.value.value mustBe an[ConsignorWithoutEori]
+
+        result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          consignor.EoriYesNoPage,
+          consignor.NamePage,
+          consignor.CountryPage,
+          consignor.AddressPage,
+          consignor.AddContactPage
+        )
       }
     }
 
@@ -75,9 +101,11 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
         val result = ConsignmentConsignorDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe consignor.EoriYesNoPage
+        result.left.value.pages mustBe Seq(
+          consignor.EoriYesNoPage
+        )
       }
     }
-
   }
 
   "ConsignorWithEori" - {
@@ -96,7 +124,12 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
         )
 
         val result = ConsignorWithEori.userAnswersReader.apply(Nil).run(userAnswers)
+
         result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          consignor.EoriPage,
+          consignor.AddContactPage
+        )
       }
 
       "when all optional pages are defined" in {
@@ -118,7 +151,14 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
         )
 
         val result = ConsignorWithEori.userAnswersReader.apply(Nil).run(userAnswers)
+
         result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          consignor.EoriPage,
+          consignor.AddContactPage,
+          consignor.contact.NamePage,
+          consignor.contact.TelephoneNumberPage
+        )
       }
     }
 
@@ -190,7 +230,14 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
         )
 
         val result = ConsignorWithoutEori.userAnswersReader.apply(Nil).run(userAnswers)
+
         result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          consignor.NamePage,
+          consignor.CountryPage,
+          consignor.AddressPage,
+          consignor.AddContactPage
+        )
       }
 
       "when all optional pages are defined" in {
@@ -216,7 +263,16 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
         )
 
         val result = ConsignorWithoutEori.userAnswersReader.apply(Nil).run(userAnswers)
+
         result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          consignor.NamePage,
+          consignor.CountryPage,
+          consignor.AddressPage,
+          consignor.AddContactPage,
+          consignor.contact.NamePage,
+          consignor.contact.TelephoneNumberPage
+        )
       }
     }
 
@@ -273,5 +329,4 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
       }
     }
   }
-
 }

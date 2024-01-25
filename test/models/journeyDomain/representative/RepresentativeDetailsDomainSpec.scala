@@ -44,6 +44,10 @@ class RepresentativeDetailsDomainSpec extends SpecBase with UserAnswersSpecHelpe
         val result = RepresentativeDetailsDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          NamePage,
+          TelephoneNumberPage
+        )
       }
     }
 
@@ -59,6 +63,9 @@ class RepresentativeDetailsDomainSpec extends SpecBase with UserAnswersSpecHelpe
         val result = RepresentativeDetailsDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe NamePage
+        result.left.value.pages mustBe Seq(
+          NamePage
+        )
       }
 
       "when representative does not add a telephone number" in {
@@ -70,6 +77,10 @@ class RepresentativeDetailsDomainSpec extends SpecBase with UserAnswersSpecHelpe
         val result = RepresentativeDetailsDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe TelephoneNumberPage
+        result.left.value.pages mustBe Seq(
+          NamePage,
+          TelephoneNumberPage
+        )
       }
     }
   }

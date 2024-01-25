@@ -44,6 +44,10 @@ class ConsignmentConsignorContactDomainSpec extends SpecBase with UserAnswersSpe
         val result = ConsignmentConsignorContactDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          NamePage,
+          TelephoneNumberPage
+        )
       }
     }
 
@@ -58,6 +62,9 @@ class ConsignmentConsignorContactDomainSpec extends SpecBase with UserAnswersSpe
         val result = ConsignmentConsignorContactDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe NamePage
+        result.left.value.pages mustBe Seq(
+          NamePage
+        )
       }
 
       "when additional contact has no telephone number" in {
@@ -69,6 +76,10 @@ class ConsignmentConsignorContactDomainSpec extends SpecBase with UserAnswersSpe
         val result = ConsignmentConsignorContactDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe TelephoneNumberPage
+        result.left.value.pages mustBe Seq(
+          NamePage,
+          TelephoneNumberPage
+        )
       }
     }
   }

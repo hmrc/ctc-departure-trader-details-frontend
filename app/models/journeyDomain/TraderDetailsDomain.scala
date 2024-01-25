@@ -20,24 +20,23 @@ import config.PhaseConfig
 import models.journeyDomain.consignment.ConsignmentDomain
 import models.journeyDomain.holderOfTransit.HolderOfTransitDomain
 import models.journeyDomain.representative.RepresentativeDomain
-import models.{Mode, SubmissionState, UserAnswers}
+import models.{SubmissionState, UserAnswers}
 import pages.ActingAsRepresentativePage
-import play.api.mvc.Call
+import pages.sections.{Section, TraderDetailsSection}
 
 trait TraderDetailsDomain extends JourneyDomainModel {
   val consignment: ConsignmentDomain
 
-  override def routeIfCompleted(userAnswers: UserAnswers, mode: Mode, stage: Stage): Option[Call] =
-    Some(controllers.routes.CheckYourAnswersController.onPageLoad(userAnswers.lrn))
+  override def page: Option[Section[_]] = Some(TraderDetailsSection)
 }
 
 object TraderDetailsDomain {
 
   implicit def userAnswersReader(implicit phaseConfig: PhaseConfig): UserAnswersReader[TraderDetailsDomain] =
     UserAnswersReader
-      .success(
+      .success {
         (userAnswers: UserAnswers) => userAnswers.status
-      )
+      }
       .to {
         case SubmissionState.Amendment => TraderDetailsDomainAmending.userAnswersParser
         case _                         => TraderDetailsDomainDefault.userAnswersParser

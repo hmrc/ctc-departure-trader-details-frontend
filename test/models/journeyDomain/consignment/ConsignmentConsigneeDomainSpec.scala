@@ -45,8 +45,14 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
           .unsafeSetVal(EoriYesNoPage)(true)
           .unsafeSetVal(EoriNumberPage)(eori.value)
 
+        val expectedResult = ConsigneeWithEori(eori)
+
         val result = ConsignmentConsigneeDomain.userAnswersReader.apply(Nil).run(userAnswers)
-        result.value.value mustBe an[ConsigneeWithEori]
+        result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          EoriYesNoPage,
+          EoriNumberPage
+        )
       }
 
       "when EORI is not defined" in {
@@ -57,8 +63,20 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
           .unsafeSetVal(CountryPage)(country)
           .unsafeSetVal(AddressPage)(address)
 
+        val expectedResult = ConsigneeWithoutEori(
+          name = name,
+          country = country,
+          address = address
+        )
+
         val result = ConsignmentConsigneeDomain.userAnswersReader.apply(Nil).run(userAnswers)
-        result.value.value mustBe an[ConsigneeWithoutEori]
+        result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          EoriYesNoPage,
+          NamePage,
+          CountryPage,
+          AddressPage
+        )
       }
     }
 
@@ -71,9 +89,11 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
         val result = ConsignmentConsigneeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe EoriYesNoPage
+        result.left.value.pages mustBe Seq(
+          EoriYesNoPage
+        )
       }
     }
-
   }
 
   "ConsigneeWithEori" - {
@@ -90,6 +110,9 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
         val result = ConsigneeWithEori.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          EoriNumberPage
+        )
       }
     }
 
@@ -102,6 +125,9 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
         val result = ConsigneeWithEori.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe EoriNumberPage
+        result.left.value.pages mustBe Seq(
+          EoriNumberPage
+        )
       }
     }
   }
@@ -124,7 +150,13 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
         )
 
         val result = ConsigneeWithoutEori.userAnswersReader.apply(Nil).run(userAnswers)
+
         result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          NamePage,
+          CountryPage,
+          AddressPage
+        )
       }
     }
 

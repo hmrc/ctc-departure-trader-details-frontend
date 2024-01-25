@@ -70,6 +70,11 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
           result.value.value mustBe expectedResult
+          result.value.pages mustBe Seq(
+            ApprovedOperatorPage,
+            consignee.EoriYesNoPage,
+            consignee.EoriNumberPage
+          )
         }
 
         "when the consignor fields are complete" in {
@@ -103,6 +108,16 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
           result.value.value mustBe expectedResult
+          result.value.pages mustBe Seq(
+            ApprovedOperatorPage,
+            consignor.EoriYesNoPage,
+            consignor.NamePage,
+            consignor.CountryPage,
+            consignor.AddressPage,
+            consignor.AddContactPage,
+            consignee.EoriYesNoPage,
+            consignee.EoriNumberPage
+          )
         }
 
         "when the consignor fields are populated but we don't want security details but have the ApprovedOperatorPage as Yes" in {
@@ -124,6 +139,11 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
           result.value.value mustBe expectedResult
+          result.value.pages mustBe Seq(
+            ApprovedOperatorPage,
+            consignee.EoriYesNoPage,
+            consignee.EoriNumberPage
+          )
         }
 
         "when the consignor fields are populated we do not want security details and have the ApprovedOperatorPage as No" in {
@@ -157,6 +177,16 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
           result.value.value mustBe expectedResult
+          result.value.pages mustBe Seq(
+            ApprovedOperatorPage,
+            consignor.EoriYesNoPage,
+            consignor.NamePage,
+            consignor.CountryPage,
+            consignor.AddressPage,
+            consignor.AddContactPage,
+            consignee.EoriYesNoPage,
+            consignee.EoriNumberPage
+          )
         }
 
         "when the consignor fields are populated but we don't want security details but have the ApprovedOperatorPage as Yes, but we have an option4 declarationType" in {
@@ -189,6 +219,15 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
           result.value.value mustBe expectedResult
+          result.value.pages mustBe Seq(
+            consignor.EoriYesNoPage,
+            consignor.NamePage,
+            consignor.CountryPage,
+            consignor.AddressPage,
+            consignor.AddContactPage,
+            consignee.EoriYesNoPage,
+            consignee.EoriNumberPage
+          )
         }
       }
 
@@ -211,6 +250,10 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
           result.value.value mustBe expectedResult
+          result.value.pages mustBe Seq(
+            ApprovedOperatorPage,
+            MoreThanOneConsigneePage
+          )
         }
 
         "when not more than one consignee" in {
@@ -231,6 +274,12 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
           result.value.value mustBe expectedResult
+          result.value.pages mustBe Seq(
+            ApprovedOperatorPage,
+            MoreThanOneConsigneePage,
+            consignee.EoriYesNoPage,
+            consignee.EoriNumberPage
+          )
         }
       }
     }
@@ -250,6 +299,9 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
           result.left.value.page mustBe ApprovedOperatorPage
+          result.left.value.pages mustBe Seq(
+            ApprovedOperatorPage
+          )
         }
       }
 
@@ -266,6 +318,10 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
           val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
           result.left.value.page mustBe MoreThanOneConsigneePage
+          result.left.value.pages mustBe Seq(
+            ApprovedOperatorPage,
+            MoreThanOneConsigneePage
+          )
         }
       }
     }

@@ -48,6 +48,10 @@ class RepresentativeDomainSpec extends SpecBase with UserAnswersSpecHelper with 
         val result = RepresentativeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          EoriPage,
+          AddDetailsPage
+        )
       }
 
       "when all optional fields complete" in {
@@ -66,6 +70,12 @@ class RepresentativeDomainSpec extends SpecBase with UserAnswersSpecHelper with 
         val result = RepresentativeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          EoriPage,
+          AddDetailsPage,
+          NamePage,
+          TelephoneNumberPage
+        )
       }
     }
 
@@ -78,6 +88,9 @@ class RepresentativeDomainSpec extends SpecBase with UserAnswersSpecHelper with 
         val result = RepresentativeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe EoriPage
+        result.left.value.pages mustBe Seq(
+          EoriPage
+        )
       }
 
       "when additional representative details are not optional and has no name" in {
@@ -89,6 +102,11 @@ class RepresentativeDomainSpec extends SpecBase with UserAnswersSpecHelper with 
         val result = RepresentativeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe NamePage
+        result.left.value.pages mustBe Seq(
+          EoriPage,
+          AddDetailsPage,
+          NamePage
+        )
       }
 
       "when additional representative details are not optional and has no telephone number" in {
@@ -101,6 +119,12 @@ class RepresentativeDomainSpec extends SpecBase with UserAnswersSpecHelper with 
         val result = RepresentativeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe TelephoneNumberPage
+        result.left.value.pages mustBe Seq(
+          EoriPage,
+          AddDetailsPage,
+          NamePage,
+          TelephoneNumberPage
+        )
       }
     }
   }

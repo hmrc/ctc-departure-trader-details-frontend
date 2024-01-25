@@ -53,9 +53,20 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
           .unsafeSetVal(EoriPage)(eori.value)
           .unsafeSetVal(AddContactPage)(false)
 
+        val expectedResult = HolderOfTransitWithEori(
+          eori = eori,
+          additionalContact = None,
+          tir = None
+        )
+
         val result = HolderOfTransitDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value.value mustBe an[HolderOfTransitWithEori]
+        result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          EoriYesNoPage,
+          EoriPage,
+          AddContactPage
+        )
       }
 
       "when EORI is not defined" in {
@@ -68,9 +79,24 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
           .unsafeSetVal(AddressPage)(address)
           .unsafeSetVal(AddContactPage)(false)
 
+        val expectedResult = HolderOfTransitWithoutEori(
+          name = name,
+          country = country,
+          address = address,
+          additionalContact = None,
+          tir = None
+        )
+
         val result = HolderOfTransitDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value.value mustBe an[HolderOfTransitWithoutEori]
+        result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          EoriYesNoPage,
+          NamePage,
+          CountryPage,
+          AddressPage,
+          AddContactPage
+        )
       }
     }
 
@@ -83,9 +109,11 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         val result = HolderOfTransitDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe EoriYesNoPage
+        result.left.value.pages mustBe Seq(
+          EoriYesNoPage
+        )
       }
     }
-
   }
 
   "HolderOfTransitWithEori" - {
@@ -104,7 +132,10 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         val expectedResult = HolderOfTransitWithEori(eori, None, None)
 
         result.value.value mustBe expectedResult
-
+        result.value.pages mustBe Seq(
+          EoriPage,
+          AddContactPage
+        )
       }
 
       "when all mandatory pages are answered for TIR" in {
@@ -120,7 +151,11 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         val expectedResult = HolderOfTransitWithEori(eori, None, Some(tirNumber))
 
         result.value.value mustBe expectedResult
-
+        result.value.pages mustBe Seq(
+          EoriPage,
+          AddContactPage,
+          TirIdentificationPage
+        )
       }
 
       "when all optional pages are answered for non TIR" in {
@@ -141,6 +176,12 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         )
 
         result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          EoriPage,
+          AddContactPage,
+          contact.NamePage,
+          contact.TelephoneNumberPage
+        )
       }
 
       "when all optional pages are answered for TIR" in {
@@ -162,6 +203,13 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         )
 
         result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          EoriPage,
+          AddContactPage,
+          contact.NamePage,
+          contact.TelephoneNumberPage,
+          TirIdentificationPage
+        )
       }
     }
 
@@ -204,6 +252,11 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         val result = HolderOfTransitWithEori.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe contact.NamePage
+        result.left.value.pages mustBe Seq(
+          EoriPage,
+          AddContactPage,
+          contact.NamePage
+        )
       }
 
       "when DeclarationType is missing" in {
@@ -231,6 +284,13 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         val result = HolderOfTransitWithEori.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe TirIdentificationPage
+        result.left.value.pages mustBe Seq(
+          EoriPage,
+          AddContactPage,
+          contact.NamePage,
+          contact.TelephoneNumberPage,
+          TirIdentificationPage
+        )
       }
     }
   }
@@ -254,7 +314,13 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         val expectedResult = HolderOfTransitWithoutEori(name, country, address, None, Some(tirNumber))
 
         result.value.value mustBe expectedResult
-
+        result.value.pages mustBe Seq(
+          NamePage,
+          CountryPage,
+          AddressPage,
+          AddContactPage,
+          TirIdentificationPage
+        )
       }
 
       "when all mandatory pages are answered for non TIR" in {
@@ -271,7 +337,12 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         val expectedResult = HolderOfTransitWithoutEori(name, country, address, None, None)
 
         result.value.value mustBe expectedResult
-
+        result.value.pages mustBe Seq(
+          NamePage,
+          CountryPage,
+          AddressPage,
+          AddContactPage
+        )
       }
 
       "when all optional pages are answered for TIR" in {
@@ -297,7 +368,15 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         )
 
         result.value.value mustBe expectedResult
-
+        result.value.pages mustBe Seq(
+          NamePage,
+          CountryPage,
+          AddressPage,
+          AddContactPage,
+          contact.NamePage,
+          contact.TelephoneNumberPage,
+          TirIdentificationPage
+        )
       }
 
       "when all optional pages are answered for non TIR" in {
@@ -322,7 +401,14 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         )
 
         result.value.value mustBe expectedResult
-
+        result.value.pages mustBe Seq(
+          NamePage,
+          CountryPage,
+          AddressPage,
+          AddContactPage,
+          contact.NamePage,
+          contact.TelephoneNumberPage
+        )
       }
     }
 
@@ -368,6 +454,13 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         val result = HolderOfTransitWithoutEori.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe TirIdentificationPage
+        result.left.value.pages mustBe Seq(
+          NamePage,
+          CountryPage,
+          AddressPage,
+          AddContactPage,
+          TirIdentificationPage
+        )
       }
 
       "when contact details are missing when not optional" in {
@@ -383,6 +476,13 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
         val result = HolderOfTransitWithoutEori.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe contact.NamePage
+        result.left.value.pages mustBe Seq(
+          NamePage,
+          CountryPage,
+          AddressPage,
+          AddContactPage,
+          contact.NamePage
+        )
       }
 
       "when DeclarationType is missing" in {
@@ -399,5 +499,4 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
       }
     }
   }
-
 }
