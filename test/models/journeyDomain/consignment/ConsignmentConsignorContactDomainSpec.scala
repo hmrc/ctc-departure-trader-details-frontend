@@ -18,10 +18,9 @@ package models.journeyDomain.consignment
 
 import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
-import pages.consignment.consignor.contact._
 import generators.Generators
-import models.journeyDomain.{EitherType, UserAnswersReader}
 import org.scalacheck.Gen
+import pages.consignment.consignor.contact._
 
 class ConsignmentConsignorContactDomainSpec extends SpecBase with UserAnswersSpecHelper with Generators {
 
@@ -42,9 +41,9 @@ class ConsignmentConsignorContactDomainSpec extends SpecBase with UserAnswersSpe
           telephoneNumber = telephoneNumber
         )
 
-        val result: EitherType[ConsignmentConsignorContactDomain] = UserAnswersReader[ConsignmentConsignorContactDomain].run(userAnswers)
+        val result = ConsignmentConsignorContactDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value mustBe expectedResult
+        result.value.value mustBe expectedResult
       }
     }
 
@@ -56,7 +55,7 @@ class ConsignmentConsignorContactDomainSpec extends SpecBase with UserAnswersSpe
         val userAnswers = emptyUserAnswers
           .unsafeSetVal(TelephoneNumberPage)(telephoneNumber)
 
-        val result: EitherType[ConsignmentConsignorContactDomain] = UserAnswersReader[ConsignmentConsignorContactDomain].run(userAnswers)
+        val result = ConsignmentConsignorContactDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe NamePage
       }
@@ -67,7 +66,7 @@ class ConsignmentConsignorContactDomainSpec extends SpecBase with UserAnswersSpe
         val userAnswers = emptyUserAnswers
           .unsafeSetVal(NamePage)(name)
 
-        val result: EitherType[ConsignmentConsignorContactDomain] = UserAnswersReader[ConsignmentConsignorContactDomain].run(userAnswers)
+        val result = ConsignmentConsignorContactDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe TelephoneNumberPage
       }

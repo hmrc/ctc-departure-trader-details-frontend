@@ -19,7 +19,6 @@ package models.journeyDomain.holderOfTransit
 import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
 import generators.Generators
-import models.journeyDomain.{EitherType, UserAnswersReader}
 import org.scalacheck.Gen
 import pages.holderOfTransit.contact._
 
@@ -42,9 +41,9 @@ class AdditionalContactDomainSpec extends SpecBase with UserAnswersSpecHelper wi
           telephoneNumber = telephoneNumber
         )
 
-        val result: EitherType[AdditionalContactDomain] = UserAnswersReader[AdditionalContactDomain].run(userAnswers)
+        val result = AdditionalContactDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value mustBe expectedResult
+        result.value.value mustBe expectedResult
       }
     }
 
@@ -56,7 +55,7 @@ class AdditionalContactDomainSpec extends SpecBase with UserAnswersSpecHelper wi
         val userAnswers = emptyUserAnswers
           .unsafeSetVal(TelephoneNumberPage)(telephoneNumber)
 
-        val result: EitherType[AdditionalContactDomain] = UserAnswersReader[AdditionalContactDomain].run(userAnswers)
+        val result = AdditionalContactDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe NamePage
       }
@@ -67,7 +66,7 @@ class AdditionalContactDomainSpec extends SpecBase with UserAnswersSpecHelper wi
         val userAnswers = emptyUserAnswers
           .unsafeSetVal(NamePage)(name)
 
-        val result: EitherType[AdditionalContactDomain] = UserAnswersReader[AdditionalContactDomain].run(userAnswers)
+        val result = AdditionalContactDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe TelephoneNumberPage
       }

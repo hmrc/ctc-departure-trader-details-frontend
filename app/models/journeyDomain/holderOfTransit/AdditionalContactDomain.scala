@@ -16,10 +16,8 @@
 
 package models.journeyDomain.holderOfTransit
 
-import cats.implicits.catsSyntaxTuple2Semigroupal
-import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
-import pages.holderOfTransit.contact.NamePage
-import pages.holderOfTransit.contact.TelephoneNumberPage
+import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, Read}
+import pages.holderOfTransit.contact.{NamePage, TelephoneNumberPage}
 
 case class AdditionalContactDomain(
   name: String,
@@ -28,9 +26,9 @@ case class AdditionalContactDomain(
 
 object AdditionalContactDomain {
 
-  implicit val userAnswersReader: UserAnswersReader[AdditionalContactDomain] =
+  implicit val userAnswersReader: Read[AdditionalContactDomain] =
     (
       NamePage.reader,
       TelephoneNumberPage.reader
-    ).tupled.map((AdditionalContactDomain.apply _).tupled)
+    ).map(AdditionalContactDomain.apply)
 }

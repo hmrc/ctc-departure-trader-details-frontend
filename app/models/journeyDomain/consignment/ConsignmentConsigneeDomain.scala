@@ -16,8 +16,7 @@
 
 package models.journeyDomain.consignment
 
-import cats.implicits.{catsSyntaxTuple3Semigroupal, toFunctorOps}
-import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
+import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, Read}
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
 import pages.consignment.consignee._
@@ -26,21 +25,20 @@ sealed trait ConsignmentConsigneeDomain extends JourneyDomainModel
 
 object ConsignmentConsigneeDomain {
 
-  implicit val userAnswersReader: UserAnswersReader[ConsignmentConsigneeDomain] =
-    EoriYesNoPage.reader.flatMap {
-      case true  => UserAnswersReader[ConsigneeWithEori].widen[ConsignmentConsigneeDomain]
-      case false => UserAnswersReader[ConsigneeWithoutEori].widen[ConsignmentConsigneeDomain]
+  implicit val userAnswersReader: Read[ConsignmentConsigneeDomain] =
+    EoriYesNoPage.reader.to {
+      case true  => ConsigneeWithEori.userAnswersReader
+      case false => ConsigneeWithoutEori.userAnswersReader
     }
 
   case class ConsigneeWithEori(eori: EoriNumber) extends ConsignmentConsigneeDomain
 
   object ConsigneeWithEori {
 
-    implicit val userAnswersReader: UserAnswersReader[ConsigneeWithEori] =
-      EoriNumberPage.reader.map(
-        eori => ConsigneeWithEori(EoriNumber(eori))
-      )
-
+    implicit val userAnswersReader: Read[ConsignmentConsigneeDomain] =
+      EoriNumberPage.reader.to {
+        eori => Read.apply(ConsigneeWithEori(EoriNumber(eori)))
+      }
   }
 
   case class ConsigneeWithoutEori(
@@ -51,11 +49,11 @@ object ConsignmentConsigneeDomain {
 
   object ConsigneeWithoutEori {
 
-    implicit val userAnswersReader: UserAnswersReader[ConsigneeWithoutEori] =
+    implicit val userAnswersReader: Read[ConsignmentConsigneeDomain] =
       (
         NamePage.reader,
         CountryPage.reader,
         AddressPage.reader
-      ).tupled.map((ConsigneeWithoutEori.apply _).tupled)
+      ).map(ConsigneeWithoutEori.apply)
   }
 }

@@ -16,8 +16,7 @@
 
 package models.journeyDomain.consignment
 
-import cats.implicits.{catsSyntaxTuple2Semigroupal, catsSyntaxTuple4Semigroupal, toFunctorOps}
-import models.journeyDomain.{GettableAsFilterForNextReaderOps, GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
+import models.journeyDomain._
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
 import pages.consignment.consignor._
@@ -28,10 +27,10 @@ sealed trait ConsignmentConsignorDomain extends JourneyDomainModel {
 
 object ConsignmentConsignorDomain {
 
-  implicit val userAnswersReader: UserAnswersReader[ConsignmentConsignorDomain] =
-    EoriYesNoPage.reader.flatMap {
-      case true  => UserAnswersReader[ConsignorWithEori].widen[ConsignmentConsignorDomain]
-      case false => UserAnswersReader[ConsignorWithoutEori].widen[ConsignmentConsignorDomain]
+  implicit val userAnswersReader: Read[ConsignmentConsignorDomain] =
+    EoriYesNoPage.reader.to {
+      case true  => ConsignorWithEori.userAnswersReader
+      case false => ConsignorWithoutEori.userAnswersReader
     }
 
   case class ConsignorWithEori(
@@ -41,11 +40,11 @@ object ConsignmentConsignorDomain {
 
   object ConsignorWithEori {
 
-    implicit val userAnswersReader: UserAnswersReader[ConsignorWithEori] =
+    implicit val userAnswersReader: Read[ConsignmentConsignorDomain] =
       (
-        EoriPage.reader.map(EoriNumber(_)),
-        AddContactPage.filterOptionalDependent(identity)(UserAnswersReader[ConsignmentConsignorContactDomain])
-      ).tupled.map((ConsignorWithEori.apply _).tupled)
+        EoriPage.reader.apply(_: Pages).map(_.to(EoriNumber(_))),
+        AddContactPage.filterOptionalDependent(identity)(ConsignmentConsignorContactDomain.userAnswersReader)
+      ).map(ConsignorWithEori.apply)
 
   }
 
@@ -58,12 +57,12 @@ object ConsignmentConsignorDomain {
 
   object ConsignorWithoutEori {
 
-    implicit val userAnswersReader: UserAnswersReader[ConsignorWithoutEori] =
+    implicit val userAnswersReader: Read[ConsignmentConsignorDomain] =
       (
         NamePage.reader,
         CountryPage.reader,
         AddressPage.reader,
-        AddContactPage.filterOptionalDependent(identity)(UserAnswersReader[ConsignmentConsignorContactDomain])
-      ).tupled.map((ConsignorWithoutEori.apply _).tupled)
+        AddContactPage.filterOptionalDependent(identity)(ConsignmentConsignorContactDomain.userAnswersReader)
+      ).map(ConsignorWithoutEori.apply)
   }
 }

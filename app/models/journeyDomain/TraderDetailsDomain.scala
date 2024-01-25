@@ -31,6 +31,20 @@ trait TraderDetailsDomain extends JourneyDomainModel {
     Some(controllers.routes.CheckYourAnswersController.onPageLoad(userAnswers.lrn))
 }
 
+object TraderDetailsDomain {
+
+  implicit def userAnswersReader(implicit phaseConfig: PhaseConfig): UserAnswersReader[TraderDetailsDomain] =
+    UserAnswersReader
+      .success(
+        (userAnswers: UserAnswers) => userAnswers.status
+      )
+      .to {
+        case SubmissionState.Amendment => TraderDetailsDomainAmending.userAnswersParser
+        case _                         => TraderDetailsDomainDefault.userAnswersParser
+      }
+      .apply(Nil)
+}
+
 case class TraderDetailsDomainDefault(
   holderOfTransit: HolderOfTransitDomain,
   representative: Option[RepresentativeDomain],
@@ -39,16 +53,12 @@ case class TraderDetailsDomainDefault(
 
 object TraderDetailsDomainDefault {
 
-  implicit def userAnswersParser(implicit phaseConfig: PhaseConfig): UserAnswersReader[TraderDetailsDomain] =
-    for {
-      holderOfTransit <- UserAnswersReader[HolderOfTransitDomain]
-      representative  <- ActingAsRepresentativePage.filterOptionalDependent(identity)(UserAnswersReader[RepresentativeDomain])
-      consignment     <- UserAnswersReader[ConsignmentDomain]
-    } yield TraderDetailsDomainDefault(
-      holderOfTransit,
-      representative,
-      consignment
-    )
+  implicit def userAnswersParser(implicit phaseConfig: PhaseConfig): Read[TraderDetailsDomain] =
+    (
+      HolderOfTransitDomain.userAnswersReader,
+      ActingAsRepresentativePage.filterOptionalDependent(identity)(RepresentativeDomain.userAnswersReader),
+      ConsignmentDomain.userAnswersReader
+    ).map(TraderDetailsDomainDefault.apply)
 }
 
 case class TraderDetailsDomainAmending(
@@ -57,22 +67,6 @@ case class TraderDetailsDomainAmending(
 
 object TraderDetailsDomainAmending {
 
-  implicit def userAnswersParser(implicit phaseConfig: PhaseConfig): UserAnswersReader[TraderDetailsDomain] =
-    for {
-      consignment <- UserAnswersReader[ConsignmentDomain]
-    } yield TraderDetailsDomainAmending(
-      consignment
-    )
-}
-
-object TraderDetailsDomain {
-
-  implicit def userAnswersParser(implicit phaseConfig: PhaseConfig): UserAnswersReader[TraderDetailsDomain] = {
-    val status: UserAnswers => EitherType[SubmissionState] = ua => Right(ua.status)
-
-    UserAnswersReader(status).flatMap {
-      case SubmissionState.Amendment => TraderDetailsDomainAmending.userAnswersParser
-      case _                         => TraderDetailsDomainDefault.userAnswersParser
-    }
-  }
+  implicit def userAnswersParser(implicit phaseConfig: PhaseConfig): Read[TraderDetailsDomain] =
+    ConsignmentDomain.userAnswersReader.map(TraderDetailsDomainAmending.apply)
 }

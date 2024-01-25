@@ -20,7 +20,6 @@ import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
 import generators.Generators
 import models.journeyDomain.consignment.ConsignmentConsignorDomain.{ConsignorWithEori, ConsignorWithoutEori}
-import models.journeyDomain.{EitherType, UserAnswersReader}
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
 import org.scalacheck.Arbitrary.arbitrary
@@ -49,8 +48,8 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
           .unsafeSetVal(consignor.EoriPage)(eori.value)
           .unsafeSetVal(consignor.AddContactPage)(false)
 
-        val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
-        result.value mustBe an[ConsignorWithEori]
+        val result = ConsignmentConsignorDomain.userAnswersReader.apply(Nil).run(userAnswers)
+        result.value.value mustBe an[ConsignorWithEori]
       }
 
       "when EORI is not defined" in {
@@ -62,8 +61,8 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
           .unsafeSetVal(consignor.AddressPage)(address)
           .unsafeSetVal(consignor.AddContactPage)(false)
 
-        val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
-        result.value mustBe an[ConsignorWithoutEori]
+        val result = ConsignmentConsignorDomain.userAnswersReader.apply(Nil).run(userAnswers)
+        result.value.value mustBe an[ConsignorWithoutEori]
       }
     }
 
@@ -73,7 +72,7 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
 
         val userAnswers = emptyUserAnswers
 
-        val result: EitherType[ConsignmentConsignorDomain] = UserAnswersReader[ConsignmentConsignorDomain].run(userAnswers)
+        val result = ConsignmentConsignorDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe consignor.EoriYesNoPage
       }
@@ -96,8 +95,8 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
           contact = None
         )
 
-        val result: EitherType[ConsignorWithEori] = UserAnswersReader[ConsignorWithEori].run(userAnswers)
-        result.value mustBe expectedResult
+        val result = ConsignorWithEori.userAnswersReader.apply(Nil).run(userAnswers)
+        result.value.value mustBe expectedResult
       }
 
       "when all optional pages are defined" in {
@@ -118,8 +117,8 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
           )
         )
 
-        val result: EitherType[ConsignorWithEori] = UserAnswersReader[ConsignorWithEori].run(userAnswers)
-        result.value mustBe expectedResult
+        val result = ConsignorWithEori.userAnswersReader.apply(Nil).run(userAnswers)
+        result.value.value mustBe expectedResult
       }
     }
 
@@ -140,7 +139,7 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
           mandatoryPage =>
             val invalidUserAnswers = userAnswers.unsafeRemove(mandatoryPage)
 
-            val result: EitherType[ConsignorWithEori] = UserAnswersReader[ConsignorWithEori].run(invalidUserAnswers)
+            val result = ConsignorWithEori.userAnswersReader.apply(Nil).run(invalidUserAnswers)
 
             result.left.value.page mustBe mandatoryPage
         }
@@ -163,7 +162,7 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
           mandatoryPage =>
             val invalidUserAnswers = userAnswers.unsafeRemove(mandatoryPage)
 
-            val result: EitherType[ConsignorWithEori] = UserAnswersReader[ConsignorWithEori].run(invalidUserAnswers)
+            val result = ConsignorWithEori.userAnswersReader.apply(Nil).run(invalidUserAnswers)
 
             result.left.value.page mustBe mandatoryPage
         }
@@ -190,8 +189,8 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
           None
         )
 
-        val result: EitherType[ConsignorWithoutEori] = UserAnswersReader[ConsignorWithoutEori].run(userAnswers)
-        result.value mustBe expectedResult
+        val result = ConsignorWithoutEori.userAnswersReader.apply(Nil).run(userAnswers)
+        result.value.value mustBe expectedResult
       }
 
       "when all optional pages are defined" in {
@@ -216,8 +215,8 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
           )
         )
 
-        val result: EitherType[ConsignorWithoutEori] = UserAnswersReader[ConsignorWithoutEori].run(userAnswers)
-        result.value mustBe expectedResult
+        val result = ConsignorWithoutEori.userAnswersReader.apply(Nil).run(userAnswers)
+        result.value.value mustBe expectedResult
       }
     }
 
@@ -242,7 +241,7 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
           mandatoryPage =>
             val invalidUserAnswers = userAnswers.unsafeRemove(mandatoryPage)
 
-            val result: EitherType[ConsignorWithoutEori] = UserAnswersReader[ConsignorWithoutEori].run(invalidUserAnswers)
+            val result = ConsignorWithoutEori.userAnswersReader.apply(Nil).run(invalidUserAnswers)
 
             result.left.value.page mustBe mandatoryPage
         }
@@ -267,7 +266,7 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
           mandatoryPage =>
             val invalidUserAnswers = userAnswers.unsafeRemove(mandatoryPage)
 
-            val result: EitherType[ConsignorWithoutEori] = UserAnswersReader[ConsignorWithoutEori].run(invalidUserAnswers)
+            val result = ConsignorWithoutEori.userAnswersReader.apply(Nil).run(invalidUserAnswers)
 
             result.left.value.page mustBe mandatoryPage
         }

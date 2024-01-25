@@ -16,9 +16,8 @@
 
 package models.journeyDomain.representative
 
-import cats.implicits.catsSyntaxTuple2Semigroupal
 import models.EoriNumber
-import models.journeyDomain.{GettableAsFilterForNextReaderOps, GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
+import models.journeyDomain._
 import pages.representative.{AddDetailsPage, EoriPage}
 
 case class RepresentativeDomain(
@@ -28,9 +27,9 @@ case class RepresentativeDomain(
 
 object RepresentativeDomain {
 
-  implicit val userAnswersReader: UserAnswersReader[RepresentativeDomain] =
+  implicit val userAnswersReader: Read[RepresentativeDomain] =
     (
-      EoriPage.reader.map(EoriNumber(_)),
-      AddDetailsPage.filterOptionalDependent(identity)(UserAnswersReader[RepresentativeDetailsDomain])
-    ).tupled.map((RepresentativeDomain.apply _).tupled)
+      EoriPage.reader.apply(_: Pages).map(_.to(EoriNumber(_))),
+      AddDetailsPage.filterOptionalDependent(identity)(RepresentativeDetailsDomain.userAnswersReader)
+    ).map(RepresentativeDomain.apply)
 }

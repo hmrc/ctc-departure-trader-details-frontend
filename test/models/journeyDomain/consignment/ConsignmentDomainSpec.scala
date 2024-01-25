@@ -24,7 +24,6 @@ import config.PhaseConfig
 import generators.Generators
 import models.journeyDomain.consignment.ConsignmentConsigneeDomain.ConsigneeWithEori
 import models.journeyDomain.consignment.ConsignmentConsignorDomain.ConsignorWithoutEori
-import models.journeyDomain.{EitherType, UserAnswersReader}
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber, Phase}
 import org.mockito.Mockito.when
@@ -68,11 +67,9 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
             consignee = Some(consigneeWithEori)
           )
 
-          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
-            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
-          ).run(userAnswers)
+          val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
-          result.value mustBe expectedResult
+          result.value.value mustBe expectedResult
         }
 
         "when the consignor fields are complete" in {
@@ -103,11 +100,9 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
             consignee = Some(consigneeWithEori)
           )
 
-          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
-            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
-          ).run(userAnswers)
+          val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
-          result.value mustBe expectedResult
+          result.value.value mustBe expectedResult
         }
 
         "when the consignor fields are populated but we don't want security details but have the ApprovedOperatorPage as Yes" in {
@@ -126,11 +121,9 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
             consignee = Some(consigneeWithEori)
           )
 
-          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
-            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
-          ).run(userAnswers)
+          val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
-          result.value mustBe expectedResult
+          result.value.value mustBe expectedResult
         }
 
         "when the consignor fields are populated we do not want security details and have the ApprovedOperatorPage as No" in {
@@ -161,11 +154,9 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
             consignee = Some(consigneeWithEori)
           )
 
-          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
-            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
-          ).run(userAnswers)
+          val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
-          result.value mustBe expectedResult
+          result.value.value mustBe expectedResult
         }
 
         "when the consignor fields are populated but we don't want security details but have the ApprovedOperatorPage as Yes, but we have an option4 declarationType" in {
@@ -195,11 +186,9 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
             consignee = Some(consigneeWithEori)
           )
 
-          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
-            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
-          ).run(userAnswers)
+          val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
-          result.value mustBe expectedResult
+          result.value.value mustBe expectedResult
         }
       }
 
@@ -219,11 +208,9 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
             consignee = None
           )
 
-          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
-            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
-          ).run(userAnswers)
+          val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
-          result.value mustBe expectedResult
+          result.value.value mustBe expectedResult
         }
 
         "when not more than one consignee" in {
@@ -241,11 +228,9 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
             consignee = Some(ConsigneeWithEori(EoriNumber(eoriNumber)))
           )
 
-          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
-            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
-          ).run(userAnswers)
+          val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
-          result.value mustBe expectedResult
+          result.value.value mustBe expectedResult
         }
       }
     }
@@ -262,9 +247,7 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
             .setValue(DeclarationTypePage, nonOption4DeclarationType)
             .setValue(SecurityDetailsTypePage, securityDetailsType)
 
-          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
-            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
-          ).run(userAnswers)
+          val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
           result.left.value.page mustBe ApprovedOperatorPage
         }
@@ -280,9 +263,7 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
             .setValue(SecurityDetailsTypePage, NoSecurityDetails)
             .setValue(ApprovedOperatorPage, true)
 
-          val result: EitherType[ConsignmentDomain] = UserAnswersReader[ConsignmentDomain](
-            ConsignmentDomain.userAnswersReader(mockPhaseConfig)
-          ).run(userAnswers)
+          val result = ConsignmentDomain.userAnswersReader(mockPhaseConfig).apply(Nil).run(userAnswers)
 
           result.left.value.page mustBe MoreThanOneConsigneePage
         }

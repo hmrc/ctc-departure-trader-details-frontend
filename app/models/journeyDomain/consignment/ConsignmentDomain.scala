@@ -16,7 +16,6 @@
 
 package models.journeyDomain.consignment
 
-import cats.implicits._
 import config.Constants.DeclarationType.TIR
 import config.Constants.SecurityType.NoSecurityDetails
 import config.PhaseConfig
@@ -32,33 +31,34 @@ case class ConsignmentDomain(
 
 object ConsignmentDomain {
 
-  implicit def userAnswersReader(implicit phaseConfig: PhaseConfig): UserAnswersReader[ConsignmentDomain] =
-    for {
-      consignor <- consignorReader
-      consignee <- consigneeReader
-    } yield ConsignmentDomain(consignor, consignee)
+  implicit def userAnswersReader(implicit phaseConfig: PhaseConfig): Read[ConsignmentDomain] =
+    (
+      consignorReader,
+      consigneeReader
+    ).map(ConsignmentDomain.apply)
 
-  private def consignorReader: UserAnswersReader[Option[ConsignmentConsignorDomain]] = {
-    lazy val mandatoryConsignorReader: UserAnswersReader[Option[ConsignmentConsignorDomain]] =
-      UserAnswersReader[ConsignmentConsignorDomain].map(Some(_))
+  private def consignorReader: Read[Option[ConsignmentConsignorDomain]] = {
+    lazy val mandatoryConsignorReader: Read[Option[ConsignmentConsignorDomain]] =
+      ConsignmentConsignorDomain.userAnswersReader.toOption
 
-    DeclarationTypePage.reader.flatMap {
+    DeclarationTypePage.reader.to {
       case TIR => mandatoryConsignorReader
       case _ =>
-        for {
-          securityDetailsType <- SecurityDetailsTypePage.reader
-          reducedDataSet      <- ApprovedOperatorPage.reader
-          reader <- (securityDetailsType, reducedDataSet) match {
-            case (NoSecurityDetails, true) => none[ConsignmentConsignorDomain].pure[UserAnswersReader]
-            case _                         => mandatoryConsignorReader
-          }
-        } yield reader
+        (
+          SecurityDetailsTypePage.reader,
+          ApprovedOperatorPage.reader
+        ).to {
+          case (NoSecurityDetails, true) => UserAnswersReader.none
+          case _                         => mandatoryConsignorReader
+        }
     }
   }
 
-  private def consigneeReader(implicit phaseConfig: PhaseConfig): UserAnswersReader[Option[ConsignmentConsigneeDomain]] =
+  private def consigneeReader(implicit phaseConfig: PhaseConfig): Read[Option[ConsignmentConsigneeDomain]] =
     phaseConfig.phase match {
-      case Phase.Transition     => MoreThanOneConsigneePage.filterOptionalDependent(!_)(UserAnswersReader[ConsignmentConsigneeDomain])
-      case Phase.PostTransition => UserAnswersReader[ConsignmentConsigneeDomain].map(Some(_))
+      case Phase.Transition =>
+        MoreThanOneConsigneePage.filterOptionalDependent(!_)(ConsignmentConsigneeDomain.userAnswersReader)
+      case Phase.PostTransition =>
+        ConsignmentConsigneeDomain.userAnswersReader.toOption
     }
 }

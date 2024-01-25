@@ -19,9 +19,8 @@ package models.journeyDomain.representative
 import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
 import generators.Generators
-import pages.representative._
-import models.journeyDomain.{EitherType, UserAnswersReader}
 import org.scalacheck.Gen
+import pages.representative._
 
 class RepresentativeDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with Generators {
 
@@ -42,9 +41,9 @@ class RepresentativeDetailsDomainSpec extends SpecBase with UserAnswersSpecHelpe
           telephoneNumber = telephoneNumber
         )
 
-        val result: EitherType[RepresentativeDetailsDomain] = UserAnswersReader[RepresentativeDetailsDomain].run(userAnswers)
+        val result = RepresentativeDetailsDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value mustBe expectedResult
+        result.value.value mustBe expectedResult
       }
     }
 
@@ -57,7 +56,7 @@ class RepresentativeDetailsDomainSpec extends SpecBase with UserAnswersSpecHelpe
         val userAnswers = emptyUserAnswers
           .unsafeSetVal(TelephoneNumberPage)(telephoneNumber)
 
-        val result: EitherType[RepresentativeDetailsDomain] = UserAnswersReader[RepresentativeDetailsDomain].run(userAnswers)
+        val result = RepresentativeDetailsDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe NamePage
       }
@@ -68,7 +67,7 @@ class RepresentativeDetailsDomainSpec extends SpecBase with UserAnswersSpecHelpe
         val userAnswers = emptyUserAnswers
           .unsafeSetVal(NamePage)(name)
 
-        val result: EitherType[RepresentativeDetailsDomain] = UserAnswersReader[RepresentativeDetailsDomain].run(userAnswers)
+        val result = RepresentativeDetailsDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe TelephoneNumberPage
       }
