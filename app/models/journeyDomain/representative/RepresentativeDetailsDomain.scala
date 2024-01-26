@@ -16,8 +16,7 @@
 
 package models.journeyDomain.representative
 
-import cats.implicits.catsSyntaxTuple2Semigroupal
-import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
+import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, Read}
 import pages.representative.{NamePage, TelephoneNumberPage}
 
 case class RepresentativeDetailsDomain(
@@ -27,9 +26,9 @@ case class RepresentativeDetailsDomain(
 
 object RepresentativeDetailsDomain {
 
-  implicit val userAnswersReader: UserAnswersReader[RepresentativeDetailsDomain] =
+  implicit val userAnswersReader: Read[RepresentativeDetailsDomain] =
     (
       NamePage.reader,
       TelephoneNumberPage.reader
-    ).tupled.map((RepresentativeDetailsDomain.apply _).tupled)
+    ).map(RepresentativeDetailsDomain.apply)
 }

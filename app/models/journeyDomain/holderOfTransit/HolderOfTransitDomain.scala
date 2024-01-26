@@ -16,9 +16,8 @@
 
 package models.journeyDomain.holderOfTransit
 
-import cats.implicits._
 import config.Constants.DeclarationType.TIR
-import models.journeyDomain.{GettableAsFilterForNextReaderOps, GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
+import models.journeyDomain._
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
 import pages.external.DeclarationTypePage
@@ -31,10 +30,10 @@ sealed trait HolderOfTransitDomain extends JourneyDomainModel {
 
 object HolderOfTransitDomain {
 
-  implicit val userAnswersReader: UserAnswersReader[HolderOfTransitDomain] =
-    EoriYesNoPage.reader.flatMap {
-      case true  => UserAnswersReader[HolderOfTransitWithEori].widen[HolderOfTransitDomain]
-      case false => UserAnswersReader[HolderOfTransitWithoutEori].widen[HolderOfTransitDomain]
+  implicit val userAnswersReader: Read[HolderOfTransitDomain] =
+    EoriYesNoPage.reader.to {
+      case true  => HolderOfTransitWithEori.userAnswersReader
+      case false => HolderOfTransitWithoutEori.userAnswersReader
     }
 
   case class HolderOfTransitWithEori(
@@ -45,12 +44,12 @@ object HolderOfTransitDomain {
 
   object HolderOfTransitWithEori {
 
-    implicit val userAnswersReader: UserAnswersReader[HolderOfTransitWithEori] =
+    implicit val userAnswersReader: Read[HolderOfTransitDomain] =
       (
-        EoriPage.reader.map(EoriNumber(_)),
-        AddContactPage.filterOptionalDependent(identity)(UserAnswersReader[AdditionalContactDomain]),
+        EoriPage.reader.apply(_: Pages).map(_.to(EoriNumber(_))),
+        AddContactPage.filterOptionalDependent(identity)(AdditionalContactDomain.userAnswersReader),
         DeclarationTypePage.filterOptionalDependent(_ == TIR)(TirIdentificationPage.reader)
-      ).tupled.map((HolderOfTransitWithEori.apply _).tupled)
+      ).map(HolderOfTransitWithEori.apply)
 
   }
 
@@ -64,13 +63,13 @@ object HolderOfTransitDomain {
 
   object HolderOfTransitWithoutEori {
 
-    implicit val userAnswersReader: UserAnswersReader[HolderOfTransitWithoutEori] =
+    implicit val userAnswersReader: Read[HolderOfTransitDomain] =
       (
         NamePage.reader,
         CountryPage.reader,
         AddressPage.reader,
-        AddContactPage.filterOptionalDependent(identity)(UserAnswersReader[AdditionalContactDomain]),
+        AddContactPage.filterOptionalDependent(identity)(AdditionalContactDomain.userAnswersReader),
         DeclarationTypePage.filterOptionalDependent(_ == TIR)(TirIdentificationPage.reader)
-      ).tupled.map((HolderOfTransitWithoutEori.apply _).tupled)
+      ).map(HolderOfTransitWithoutEori.apply)
   }
 }

@@ -41,5 +41,5 @@ class TraderDetailsNavigator(override val mode: Mode)(implicit
   override type T = TraderDetailsDomain
 
   implicit override val reader: UserAnswersReader[TraderDetailsDomain] =
-    TraderDetailsDomain.userAnswersParser
+    TraderDetailsDomain.userAnswersReader
 }

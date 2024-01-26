@@ -20,7 +20,6 @@ import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
 import generators.Generators
 import models.journeyDomain.consignment.ConsignmentConsigneeDomain.{ConsigneeWithEori, ConsigneeWithoutEori}
-import models.journeyDomain.{EitherType, UserAnswersReader}
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
 import org.scalacheck.Arbitrary.arbitrary
@@ -46,8 +45,14 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
           .unsafeSetVal(EoriYesNoPage)(true)
           .unsafeSetVal(EoriNumberPage)(eori.value)
 
-        val result: EitherType[ConsignmentConsigneeDomain] = UserAnswersReader[ConsignmentConsigneeDomain].run(userAnswers)
-        result.value mustBe an[ConsigneeWithEori]
+        val expectedResult = ConsigneeWithEori(eori)
+
+        val result = ConsignmentConsigneeDomain.userAnswersReader.apply(Nil).run(userAnswers)
+        result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          EoriYesNoPage,
+          EoriNumberPage
+        )
       }
 
       "when EORI is not defined" in {
@@ -58,8 +63,20 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
           .unsafeSetVal(CountryPage)(country)
           .unsafeSetVal(AddressPage)(address)
 
-        val result: EitherType[ConsignmentConsigneeDomain] = UserAnswersReader[ConsignmentConsigneeDomain].run(userAnswers)
-        result.value mustBe an[ConsigneeWithoutEori]
+        val expectedResult = ConsigneeWithoutEori(
+          name = name,
+          country = country,
+          address = address
+        )
+
+        val result = ConsignmentConsigneeDomain.userAnswersReader.apply(Nil).run(userAnswers)
+        result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          EoriYesNoPage,
+          NamePage,
+          CountryPage,
+          AddressPage
+        )
       }
     }
 
@@ -69,12 +86,14 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
 
         val userAnswers = emptyUserAnswers
 
-        val result: EitherType[ConsignmentConsigneeDomain] = UserAnswersReader[ConsignmentConsigneeDomain].run(userAnswers)
+        val result = ConsignmentConsigneeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe EoriYesNoPage
+        result.left.value.pages mustBe Seq(
+          EoriYesNoPage
+        )
       }
     }
-
   }
 
   "ConsigneeWithEori" - {
@@ -88,8 +107,12 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
 
         val expectedResult = ConsigneeWithEori(eori = eori)
 
-        val result: EitherType[ConsigneeWithEori] = UserAnswersReader[ConsigneeWithEori].run(userAnswers)
-        result.value mustBe expectedResult
+        val result = ConsigneeWithEori.userAnswersReader.apply(Nil).run(userAnswers)
+
+        result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          EoriNumberPage
+        )
       }
     }
 
@@ -99,9 +122,12 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
 
         val userAnswers = emptyUserAnswers
 
-        val result: EitherType[ConsigneeWithEori] = UserAnswersReader[ConsigneeWithEori].run(userAnswers)
+        val result = ConsigneeWithEori.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.left.value.page mustBe EoriNumberPage
+        result.left.value.pages mustBe Seq(
+          EoriNumberPage
+        )
       }
     }
   }
@@ -123,8 +149,14 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
           address = address
         )
 
-        val result: EitherType[ConsigneeWithoutEori] = UserAnswersReader[ConsigneeWithoutEori].run(userAnswers)
-        result.value mustBe expectedResult
+        val result = ConsigneeWithoutEori.userAnswersReader.apply(Nil).run(userAnswers)
+
+        result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          NamePage,
+          CountryPage,
+          AddressPage
+        )
       }
     }
 
@@ -147,7 +179,7 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
           mandatoryPage =>
             val invalidUserAnswers = userAnswers.unsafeRemove(mandatoryPage)
 
-            val result: EitherType[ConsigneeWithoutEori] = UserAnswersReader[ConsigneeWithoutEori].run(invalidUserAnswers)
+            val result = ConsigneeWithoutEori.userAnswersReader.apply(Nil).run(invalidUserAnswers)
 
             result.left.value.page mustBe mandatoryPage
         }

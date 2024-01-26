@@ -30,6 +30,7 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import pages.consignment._
 import pages.external.{DeclarationTypePage, SecurityDetailsTypePage}
+import pages.sections.TraderDetailsSection
 import pages.{ActingAsRepresentativePage, holderOfTransit => hot}
 
 class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with Generators {
@@ -42,24 +43,27 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
           .copy(status = SubmissionState.Amendment)
           .setValue(DeclarationTypePage, TIR)
           .setValue(SecurityDetailsTypePage, NoSecurityDetails)
-        val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain](
-          TraderDetailsDomain.userAnswersParser
-        ).run(userAnswers)
+
+        val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
         result.left.value.page mustBe consignor.EoriYesNoPage
+        result.left.value.pages mustBe Seq(
+          consignor.EoriYesNoPage
+        )
       }
 
       "when status is not Amended" in {
         val userAnswers = emptyUserAnswers
           .setValue(DeclarationTypePage, TIR)
           .setValue(SecurityDetailsTypePage, NoSecurityDetails)
-        val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain](
-          TraderDetailsDomain.userAnswersParser
-        ).run(userAnswers)
+
+        val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
         result.left.value.page mustBe hot.EoriYesNoPage
+        result.left.value.pages mustBe Seq(
+          hot.EoriYesNoPage
+        )
       }
-
     }
 
     val eoriNumber       = Gen.alphaNumStr.sample.value
@@ -107,9 +111,22 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
             )
           )
 
-          val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain].run(userAnswers)
+          val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
-          result.value mustBe expectedResult
+          result.value.value mustBe expectedResult
+          result.value.pages mustBe Seq(
+            hot.EoriYesNoPage,
+            hot.NamePage,
+            hot.CountryPage,
+            hot.AddressPage,
+            hot.AddContactPage,
+            ActingAsRepresentativePage,
+            ApprovedOperatorPage,
+            MoreThanOneConsigneePage,
+            consignee.EoriYesNoPage,
+            consignee.EoriNumberPage,
+            TraderDetailsSection
+          )
         }
       }
 
@@ -121,15 +138,24 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
             .setValue(DeclarationTypePage, TIR)
             .setValue(SecurityDetailsTypePage, NoSecurityDetails)
             .unsafeSetVal(hot.EoriYesNoPage)(false)
-            .unsafeSetVal(hot.TirIdentificationPage)(tirNumber)
             .unsafeSetVal(hot.NamePage)(holderOfTransitName)
             .unsafeSetVal(hot.CountryPage)(holderOfTransitCountry)
             .unsafeSetVal(hot.AddressPage)(holderOfTransitAddress)
+            .unsafeSetVal(hot.TirIdentificationPage)(tirNumber)
             .unsafeSetVal(hot.AddContactPage)(false)
 
-          val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain].run(userAnswers)
+          val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
           result.left.value.page mustBe ActingAsRepresentativePage
+          result.left.value.pages mustBe Seq(
+            hot.EoriYesNoPage,
+            hot.NamePage,
+            hot.CountryPage,
+            hot.AddressPage,
+            hot.AddContactPage,
+            hot.TirIdentificationPage,
+            ActingAsRepresentativePage
+          )
         }
 
         "when TIR declaration type" - {
@@ -146,9 +172,19 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
               .unsafeSetVal(hot.AddContactPage)(false)
               .unsafeSetVal(ActingAsRepresentativePage)(false)
 
-            val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain].run(userAnswers)
+            val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
             result.left.value.page mustBe consignor.EoriYesNoPage
+            result.left.value.pages mustBe Seq(
+              hot.EoriYesNoPage,
+              hot.NamePage,
+              hot.CountryPage,
+              hot.AddressPage,
+              hot.AddContactPage,
+              hot.TirIdentificationPage,
+              ActingAsRepresentativePage,
+              consignor.EoriYesNoPage
+            )
           }
         }
 
@@ -165,9 +201,18 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
               .unsafeSetVal(hot.AddContactPage)(false)
               .unsafeSetVal(ActingAsRepresentativePage)(false)
 
-            val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain].run(userAnswers)
+            val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
             result.left.value.page mustBe ApprovedOperatorPage
+            result.left.value.pages mustBe Seq(
+              hot.EoriYesNoPage,
+              hot.NamePage,
+              hot.CountryPage,
+              hot.AddressPage,
+              hot.AddContactPage,
+              ActingAsRepresentativePage,
+              ApprovedOperatorPage
+            )
           }
 
           "and there is no security" - {
@@ -186,9 +231,19 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
                   .unsafeSetVal(ActingAsRepresentativePage)(false)
                   .unsafeSetVal(ApprovedOperatorPage)(false)
 
-                val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain].run(userAnswers)
+                val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
                 result.left.value.page mustBe consignor.EoriYesNoPage
+                result.left.value.pages mustBe Seq(
+                  hot.EoriYesNoPage,
+                  hot.NamePage,
+                  hot.CountryPage,
+                  hot.AddressPage,
+                  hot.AddContactPage,
+                  ActingAsRepresentativePage,
+                  ApprovedOperatorPage,
+                  consignor.EoriYesNoPage
+                )
               }
             }
           }
@@ -207,9 +262,19 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
                 .unsafeSetVal(ActingAsRepresentativePage)(false)
                 .unsafeSetVal(ApprovedOperatorPage)(arbitrary[Boolean].sample.value)
 
-              val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain].run(userAnswers)
+              val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
               result.left.value.page mustBe consignor.EoriYesNoPage
+              result.left.value.pages mustBe Seq(
+                hot.EoriYesNoPage,
+                hot.NamePage,
+                hot.CountryPage,
+                hot.AddressPage,
+                hot.AddContactPage,
+                ActingAsRepresentativePage,
+                ApprovedOperatorPage,
+                consignor.EoriYesNoPage
+              )
             }
           }
         }
@@ -228,9 +293,6 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
           .unsafeSetVal(MoreThanOneConsigneePage)(false)
           .unsafeSetVal(consignee.EoriYesNoPage)(true)
           .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
-          .unsafeSetVal(consignor.EoriYesNoPage)(true)
-          .unsafeSetVal(consignor.EoriPage)(eoriNumber)
-          .unsafeSetVal(consignor.AddContactPage)(false)
 
         val expectedResult = TraderDetailsDomainAmending(
           consignment = ConsignmentDomain(
@@ -239,9 +301,16 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
           )
         )
 
-        val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain].run(userAnswers)
+        val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
-        result.value mustBe expectedResult
+        result.value.value mustBe expectedResult
+        result.value.pages mustBe Seq(
+          ApprovedOperatorPage,
+          MoreThanOneConsigneePage,
+          consignee.EoriYesNoPage,
+          consignee.EoriNumberPage,
+          TraderDetailsSection
+        )
       }
 
       "cannot be parsed from UserAnswers" - {
@@ -257,9 +326,14 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
             .unsafeSetVal(consignor.EoriPage)(eoriNumber)
             .unsafeSetVal(consignor.AddContactPage)(false)
 
-          val result: EitherType[TraderDetailsDomain] = UserAnswersReader[TraderDetailsDomain].run(userAnswers)
+          val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
           result.left.value.page mustBe consignee.EoriYesNoPage
+          result.left.value.pages mustBe Seq(
+            ApprovedOperatorPage,
+            MoreThanOneConsigneePage,
+            consignee.EoriYesNoPage
+          )
         }
       }
     }

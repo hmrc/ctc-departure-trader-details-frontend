@@ -17,10 +17,11 @@
 package generators
 
 import config.PhaseConfig
+import models.journeyDomain.OpsError.ReaderError
 import models.journeyDomain.consignment.{ConsignmentConsigneeDomain, ConsignmentConsignorDomain, ConsignmentDomain}
 import models.journeyDomain.holderOfTransit.HolderOfTransitDomain
 import models.journeyDomain.representative.RepresentativeDomain
-import models.journeyDomain.{ReaderError, TraderDetailsDomain, UserAnswersReader}
+import models.journeyDomain.{TraderDetailsDomain, UserAnswersReader}
 import models.{EoriNumber, LocalReferenceNumber, RichJsObject, SubmissionState, UserAnswers}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}
@@ -44,7 +45,7 @@ trait UserAnswersGenerator extends UserAnswersEntryGenerators {
 
     def rec(userAnswers: UserAnswers): Gen[UserAnswers] =
       userAnswersReader.run(userAnswers) match {
-        case Left(ReaderError(page, _)) =>
+        case Left(ReaderError(page, _, _)) =>
           generateAnswer
             .apply(page)
             .map {
@@ -64,17 +65,27 @@ trait UserAnswersGenerator extends UserAnswersEntryGenerators {
     buildUserAnswers[TraderDetailsDomain](userAnswers)
 
   def arbitraryHolderOfTransitAnswers(userAnswers: UserAnswers): Gen[UserAnswers] =
-    buildUserAnswers[HolderOfTransitDomain](userAnswers)
+    buildUserAnswers[HolderOfTransitDomain](userAnswers) {
+      HolderOfTransitDomain.userAnswersReader.apply(Nil)
+    }
 
   def arbitraryRepresentativeAnswers(userAnswers: UserAnswers): Gen[UserAnswers] =
-    buildUserAnswers[RepresentativeDomain](userAnswers)
+    buildUserAnswers[RepresentativeDomain](userAnswers) {
+      RepresentativeDomain.userAnswersReader.apply(Nil)
+    }
 
   def arbitraryConsignmentAnswers(userAnswers: UserAnswers)(implicit phaseConfig: PhaseConfig): Gen[UserAnswers] =
-    buildUserAnswers[ConsignmentDomain](userAnswers)
+    buildUserAnswers[ConsignmentDomain](userAnswers) {
+      ConsignmentDomain.userAnswersReader.apply(Nil)
+    }
 
   def arbitraryConsignorAnswers(userAnswers: UserAnswers): Gen[UserAnswers] =
-    buildUserAnswers[ConsignmentConsignorDomain](userAnswers)
+    buildUserAnswers[ConsignmentConsignorDomain](userAnswers) {
+      ConsignmentConsignorDomain.userAnswersReader.apply(Nil)
+    }
 
   def arbitraryConsigneeAnswers(userAnswers: UserAnswers): Gen[UserAnswers] =
-    buildUserAnswers[ConsignmentConsigneeDomain](userAnswers)
+    buildUserAnswers[ConsignmentConsigneeDomain](userAnswers) {
+      ConsignmentConsigneeDomain.userAnswersReader.apply(Nil)
+    }
 }

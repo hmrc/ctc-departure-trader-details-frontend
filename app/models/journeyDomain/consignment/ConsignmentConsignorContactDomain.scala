@@ -16,10 +16,8 @@
 
 package models.journeyDomain.consignment
 
-import cats.implicits.catsSyntaxTuple2Semigroupal
-import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, UserAnswersReader}
-import pages.consignment.consignor.contact.NamePage
-import pages.consignment.consignor.contact.TelephoneNumberPage
+import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, Read}
+import pages.consignment.consignor.contact.{NamePage, TelephoneNumberPage}
 
 case class ConsignmentConsignorContactDomain(
   name: String,
@@ -28,9 +26,9 @@ case class ConsignmentConsignorContactDomain(
 
 object ConsignmentConsignorContactDomain {
 
-  implicit val userAnswersReader: UserAnswersReader[ConsignmentConsignorContactDomain] =
+  implicit val userAnswersReader: Read[ConsignmentConsignorContactDomain] =
     (
       NamePage.reader,
       TelephoneNumberPage.reader
-    ).tupled.map((ConsignmentConsignorContactDomain.apply _).tupled)
+    ).map(ConsignmentConsignorContactDomain.apply)
 }
