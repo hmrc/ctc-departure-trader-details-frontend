@@ -110,7 +110,7 @@ class MainTemplateSpec extends SpecBase with ViewSpecAssertions with ScalaCheckP
 
           val link = getElementBySelector(doc, ".hmrc-report-technical-issue")
           getElementHref(link) must startWith(s"mailto:${config.feedbackEmail}")
-          link.text() mustBe "If you have any questions or issues, email us at nctsphase5_userresearch@hmrc.gov.uk"
+          link.text() mustBe s"If you have any questions or issues, email us at ${config.feedbackEmail}"
       }
     }
   }
