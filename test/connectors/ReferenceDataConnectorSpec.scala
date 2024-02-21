@@ -17,6 +17,7 @@
 package connectors
 
 import base.{AppWithDefaultMockFixtures, SpecBase, WireMockServerHandler}
+import cats.data.NonEmptySet
 import com.github.tomakehurst.wiremock.client.WireMock.{aResponse, get, okJson, urlEqualTo}
 import connectors.ReferenceDataConnector.NoReferenceDataFoundException
 import models.reference._
@@ -88,7 +89,7 @@ class ReferenceDataConnectorSpec extends SpecBase with AppWithDefaultMockFixture
             .willReturn(okJson(countriesResponseJson("CountryCodesForAddress")))
         )
 
-        val expectedResult: Seq[Country] = Seq(
+        val expectedResult = NonEmptySet.of(
           Country(CountryCode("GB"), "United Kingdom"),
           Country(CountryCode("AD"), "Andorra")
         )
@@ -114,7 +115,7 @@ class ReferenceDataConnectorSpec extends SpecBase with AppWithDefaultMockFixture
             .willReturn(okJson(countriesResponseJson("CountryWithoutZip")))
         )
 
-        val expectedResult: Seq[CountryCode] = Seq(
+        val expectedResult = NonEmptySet.of(
           CountryCode("GB"),
           CountryCode("AD")
         )
