@@ -22,14 +22,14 @@ To toggle between the Phase 5 transition and post-transition modes we have defin
 <pre>
 sm2 --start CTC_TRADERS_P5_ACCEPTANCE_TRANSITION
 sm2 --stop CTC_DEPARTURE_TRADER_DETAILS_FRONTEND_TRANSITION
-sbt -Dplay.aditional.module=config.TransitionModule run
+sbt -Dplay.additional.module=config.TransitionModule run
 </pre>
 
 #### Final
 <pre>
 sm2 --start CTC_TRADERS_P5_ACCEPTANCE
 sm2 --stop CTC_DEPARTURE_TRADER_DETAILS_FRONTEND
-sbt -Dplay.aditional.module=config.PostTransitionModule run
+sbt -Dplay.additional.module=config.PostTransitionModule run
 </pre>
 
 ### License
