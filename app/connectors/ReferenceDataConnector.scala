@@ -16,6 +16,8 @@
 
 package connectors
 
+import cats.Order
+import cats.data.NonEmptySet
 import config.FrontendAppConfig
 import connectors.ReferenceDataConnector.NoReferenceDataFoundException
 import models.reference._
@@ -23,36 +25,43 @@ import play.api.Logging
 import play.api.http.Status.OK
 import play.api.libs.json.{JsError, JsResultException, JsSuccess, Reads}
 import sttp.model.HeaderNames
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpReads, HttpResponse}
+import uk.gov.hmrc.http.client.HttpClientV2
+import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse, StringContextOps}
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpClient) extends Logging {
+class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpClientV2) extends Logging {
 
-  def getCountriesFullList()(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[Seq[Country]] = {
-    val serviceUrl = s"${config.referenceDataUrl}/lists/CountryCodesForAddress"
-    http.GET[Seq[Country]](serviceUrl, headers = version2Header)
+  def getCountriesFullList()(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[NonEmptySet[Country]] = {
+    val url = url"${config.referenceDataUrl}/lists/CountryCodesForAddress"
+    http
+      .get(url)
+      .setHeader(version2Header: _*)
+      .execute[NonEmptySet[Country]]
   }
 
-  def getCountriesWithoutZip()(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[Seq[CountryCode]] = {
-    val serviceUrl = s"${config.referenceDataUrl}/lists/CountryWithoutZip"
-    http.GET[Seq[CountryCode]](serviceUrl, headers = version2Header)
+  def getCountriesWithoutZip()(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[NonEmptySet[CountryCode]] = {
+    val url = url"${config.referenceDataUrl}/lists/CountryWithoutZip"
+    http
+      .get(url)
+      .setHeader(version2Header: _*)
+      .execute[NonEmptySet[CountryCode]]
   }
 
   private def version2Header: Seq[(String, String)] = Seq(
     HeaderNames.Accept -> "application/vnd.hmrc.2.0+json"
   )
 
-  implicit def responseHandlerGeneric[A](implicit reads: Reads[A]): HttpReads[Seq[A]] =
+  implicit def responseHandlerGeneric[A](implicit reads: Reads[A], order: Order[A]): HttpReads[NonEmptySet[A]] =
     (_: String, _: String, response: HttpResponse) => {
       response.status match {
         case OK =>
-          (response.json \ "data").validate[Seq[A]] match {
+          (response.json \ "data").validate[List[A]] match {
             case JsSuccess(Nil, _) =>
               throw new NoReferenceDataFoundException
-            case JsSuccess(value, _) =>
-              value
+            case JsSuccess(head :: tail, _) =>
+              NonEmptySet.of(head, tail: _*)
             case JsError(errors) =>
               throw JsResultException(errors)
           }

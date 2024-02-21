@@ -33,6 +33,7 @@ package services
  */
 
 import base.SpecBase
+import cats.data.NonEmptySet
 import connectors.ReferenceDataConnector
 import generators.Generators
 import models.SelectableList
@@ -53,7 +54,7 @@ class CountriesServiceSpec extends SpecBase with BeforeAndAfterEach with Generat
   private val country1: Country = Country(CountryCode("GB"), "United Kingdom")
   private val country2: Country = Country(CountryCode("FR"), "France")
   private val country3: Country = Country(CountryCode("ES"), "Spain")
-  private val countries         = Seq(country1, country2, country3)
+  private val countries         = NonEmptySet.of(country1, country2, country3)
 
   override def beforeEach(): Unit = {
     reset(mockRefDataConnector)
@@ -82,7 +83,7 @@ class CountriesServiceSpec extends SpecBase with BeforeAndAfterEach with Generat
           .thenReturn(Future.successful(countries.map(_.code)))
 
         service.getCountriesWithoutZip().futureValue mustBe
-          Seq(country1.code, country2.code, country3.code)
+          Seq(country3.code, country2.code, country1.code)
 
         verify(mockRefDataConnector).getCountriesWithoutZip()(any(), any())
       }
@@ -113,7 +114,6 @@ class CountriesServiceSpec extends SpecBase with BeforeAndAfterEach with Generat
           val result = service.doesCountryRequireZip(country).futureValue
 
           result mustBe false
-
         }
       }
     }
