@@ -37,13 +37,13 @@
 @select = @{
     Select(
         hint = hint.map(x => Hint(content = Text(x))),
-        items = SelectItem(value = None, text = placeholder) +: selectItems,
+        items = SelectItem() +: selectItems,
         errorMessage = field.error.map { e =>
             ErrorMessage.errorMessageWithDefaultStringsTranslated(content = Text(messages(e.message, e.args: _*)))
         }
     )
     .withFormField(field)
-    .asAccessibleAutocomplete(Some(AccessibleAutocomplete(showAllValues = true)))
+    .asAccessibleAutocomplete(Some(AccessibleAutocomplete(defaultValue = None, showAllValues = true)))
 }
 
 @selectType match {
