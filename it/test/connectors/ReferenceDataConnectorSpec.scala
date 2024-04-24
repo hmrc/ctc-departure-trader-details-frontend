@@ -16,7 +16,6 @@
 
 package connectors
 
-import cats.data.NonEmptySet
 import com.github.tomakehurst.wiremock.client.WireMock.{aResponse, get, okJson, urlEqualTo}
 import connectors.ReferenceDataConnector.NoReferenceDataFoundException
 import itbase.{ItSpecBase, WireMockServerHandler}
@@ -89,12 +88,12 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
             .willReturn(okJson(countriesResponseJson("CountryCodesForAddress")))
         )
 
-        val expectedResult = NonEmptySet.of(
-          Country(CountryCode("GB"), "United Kingdom"),
-          Country(CountryCode("AD"), "Andorra")
+        val expectedResult = List(
+          Country(CountryCode("AD"), "Andorra"),
+          Country(CountryCode("GB"), "United Kingdom")
         )
 
-        connector.getCountriesFullList().futureValue mustEqual expectedResult
+        connector.getCountriesFullList().futureValue.toNonEmptyList.toList mustEqual expectedResult
       }
 
       "must throw a NoReferenceDataFoundException for an empty response" in {
@@ -115,12 +114,12 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
             .willReturn(okJson(countriesResponseJson("CountryWithoutZip")))
         )
 
-        val expectedResult = NonEmptySet.of(
-          CountryCode("GB"),
-          CountryCode("AD")
+        val expectedResult = List(
+          CountryCode("AD"),
+          CountryCode("GB")
         )
 
-        connector.getCountriesWithoutZip().futureValue mustEqual expectedResult
+        connector.getCountriesWithoutZip().futureValue.toNonEmptyList.toList mustEqual expectedResult
       }
 
       "must throw a NoReferenceDataFoundException for an empty response" in {
