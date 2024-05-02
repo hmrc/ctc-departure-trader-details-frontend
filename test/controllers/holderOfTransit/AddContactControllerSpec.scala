@@ -128,7 +128,7 @@ class AddContactControllerSpec extends SpecBase with AppWithDefaultMockFixtures 
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl
+      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl(lrn)
 
     }
 
@@ -144,7 +144,7 @@ class AddContactControllerSpec extends SpecBase with AppWithDefaultMockFixtures 
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl
+      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl(lrn)
 
     }
   }
