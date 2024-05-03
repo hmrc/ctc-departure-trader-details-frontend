@@ -268,7 +268,7 @@ class AddressControllerSpec extends SpecBase with AppWithDefaultMockFixtures wit
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl
+      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl(lrn)
 
     }
 
@@ -287,7 +287,7 @@ class AddressControllerSpec extends SpecBase with AppWithDefaultMockFixtures wit
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl
+      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl(lrn)
 
     }
 

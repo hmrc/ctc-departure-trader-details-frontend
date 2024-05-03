@@ -129,7 +129,7 @@ class EoriControllerSpec extends SpecBase with AppWithDefaultMockFixtures with M
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl
+      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl(lrn)
 
     }
 
@@ -144,7 +144,7 @@ class EoriControllerSpec extends SpecBase with AppWithDefaultMockFixtures with M
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl
+      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl(lrn)
 
     }
   }

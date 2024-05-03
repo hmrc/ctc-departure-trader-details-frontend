@@ -25,7 +25,7 @@ import javax.inject.Inject
 class Actions @Inject() (
   identifierAction: IdentifierAction,
   dataRetrievalActionProvider: DataRetrievalActionProvider,
-  dataRequiredAction: DataRequiredAction,
+  dataRequiredAction: DataRequiredActionProvider,
   lockAction: LockActionProvider,
   dependentTasksAction: DependentTasksAction
 ) {
@@ -34,5 +34,5 @@ class Actions @Inject() (
     identifierAction andThen dataRetrievalActionProvider(lrn)
 
   def requireData(lrn: LocalReferenceNumber): ActionBuilder[DataRequest, AnyContent] =
-    getData(lrn) andThen dataRequiredAction andThen lockAction() andThen dependentTasksAction
+    getData(lrn) andThen dataRequiredAction(lrn) andThen lockAction() andThen dependentTasksAction
 }
