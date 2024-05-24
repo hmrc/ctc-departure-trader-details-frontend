@@ -129,7 +129,7 @@ class MoreThanOneConsigneeControllerSpec extends SpecBase with AppWithDefaultMoc
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl
+      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl(lrn)
 
     }
 
@@ -145,7 +145,7 @@ class MoreThanOneConsigneeControllerSpec extends SpecBase with AppWithDefaultMoc
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl
+      redirectLocation(result).value mustEqual frontendAppConfig.sessionExpiredUrl(lrn)
 
     }
   }
