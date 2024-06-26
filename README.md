@@ -8,6 +8,8 @@ Service manager port: 10130
 
 Run unit tests:
 <pre>sbt test</pre>
+Run integration tests:
+<pre>sbt it/test</pre>
 Run accessibility linter tests:
 <pre>sbt A11y/test</pre>
 
@@ -40,8 +42,17 @@ The following features can be toggled in [application.conf](conf/application.con
 | `play.additional.module`     | `String`      | `sbt -Dplay.additional.module=config.PostTransitionModule run`  | Controls which module (TransitionModule or PostTransitionModule) we bind to the application at start-up.                                                                                       |
 | `play.http.router`           | `String`      | `sbt -Dplay.http.router=testOnlyDoNotUseInAppConf.Routes run`   | Controls which router is used for the application, either `prod.Routes` or `testOnlyDoNotUseInAppConf.Routes`      
 
+### Scaffold
 
-See [manage-transit-movements-departure-frontend README](https://github.com/hmrc/manage-transit-movements-departure-frontend/blob/main/README.md) for details on scaffold, user answers reader and the tampermonkey scripts.
+See [manage-transit-movements-departure-frontend](https://github.com/hmrc/manage-transit-movements-departure-frontend/blob/main/README.md#running-scaffold)
+
+### User answers reader 
+
+See [manage-transit-movements-departure-frontend](https://github.com/hmrc/manage-transit-movements-departure-frontend/blob/main/README.md#user-answers-reader)
+
+### Tampermonkey
+
+See [manage-transit-movements-departure-frontend](https://github.com/hmrc/manage-transit-movements-departure-frontend/blob/main/README.md#tampermonkey-scripts)
 
 ### License
 
