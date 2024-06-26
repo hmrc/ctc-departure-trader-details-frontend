@@ -120,7 +120,7 @@ On the task list screen of the departure frontend you will see this menu if the 
 
 ![image](https://github.com/hmrc/manage-transit-movements-departure-frontend/assets/99188015/8b2959ef-bbdf-409f-aa45-1c8949937a2b)
 
-To use the scripts, simply press the journey you want answered, and the scripts will go through and answer each question for you.
+To use the scripts, on the task list screen of the [manage-transit-movements-departure-frontend](https://github.com/hmrc/manage-transit-movements-departure-frontend/), simply press the journey you want answered, and the scripts will go through and answer each question for you.
 
 Keep in mind sometimes if a page has been updated and the scripts have not, you will have to manually intervene and answer a question and then the scripts will run again as usual, or, if the scripts get stuck, and you want to stop them, you can press the "Stop Scripts" button.
 
