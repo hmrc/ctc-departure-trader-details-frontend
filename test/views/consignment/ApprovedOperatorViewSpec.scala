@@ -37,9 +37,9 @@ class ApprovedOperatorViewSpec extends YesNoViewBehaviours {
 
   behave like pageWithHeading()
 
-  behave like pageWithContent("p", "This simplifies the declaration process, enabling you to complete submissions with less data.")
+  behave like pageWithContent("p", "This reduces the number of mandatory questions in this form, enabling you to complete your declaration with less data.")
 
-  behave like pageWithHint("You can only use a reduced data set if you are an approved airline, shipping or rail freight operator.")
+  behave like pageWithHint("You can only use this if you are an approved airline, shipping or rail freight operator and hold a reduced data set authorisation.")
 
   behave like pageWithRadioItems()
 

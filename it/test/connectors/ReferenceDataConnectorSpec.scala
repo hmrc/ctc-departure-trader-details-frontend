@@ -41,19 +41,19 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
 
   private lazy val connector: ReferenceDataConnector = app.injector.instanceOf[ReferenceDataConnector]
 
-  private def countriesResponseJson(listName: String): String =
+  private def countryCodesForAddressResponseJson: String =
     s"""
        |{
        |  "_links": {
        |    "self": {
-       |      "href": "/customs-reference-data/lists/$listName"
+       |      "href": "/customs-reference-data/lists/CountryCodesForAddress"
        |    }
        |  },
        |  "meta": {
        |    "version": "fb16648c-ea06-431e-bbf6-483dc9ebed6e",
        |    "snapshotDate": "2023-01-01"
        |  },
-       |  "id": "$listName",
+       |  "id": "CountryCodesForAddress",
        |  "data": [
        |    {
        |      "activeFrom": "2023-01-23",
@@ -66,6 +66,30 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
        |      "code": "AD",
        |      "state": "valid",
        |      "description": "Andorra"
+       |    }
+       |  ]
+       |}
+       |""".stripMargin
+
+  private def countryWithoutZipResponseJson: String =
+    s"""
+       |{
+       |  "_links": {
+       |    "self": {
+       |      "href": "/customs-reference-data/lists/CountryWithoutZip"
+       |    }
+       |  },
+       |  "meta": {
+       |    "version": "fb16648c-ea06-431e-bbf6-483dc9ebed6e",
+       |    "snapshotDate": "2023-01-01"
+       |  },
+       |  "id": "CountryWithoutZip",
+       |  "data": [
+       |    {
+       |      "activeFrom": "2023-01-23",
+       |      "code": "GB",
+       |      "state": "valid",
+       |      "description": "United Kingdom"
        |    }
        |  ]
        |}
@@ -86,7 +110,7 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
       "must return Seq of Country when successful" in {
         server.stubFor(
           get(urlEqualTo(url))
-            .willReturn(okJson(countriesResponseJson("CountryCodesForAddress")))
+            .willReturn(okJson(countryCodesForAddressResponseJson))
         )
 
         val expectedResult = NonEmptySet.of(
@@ -106,29 +130,29 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
       }
     }
 
-    "getCountriesWithoutZip" - {
-      val url = s"/$baseUrl/lists/CountryWithoutZip"
+    "getCountriesWithoutZipCountry" - {
+      def url(countryId: String) = s"/$baseUrl/lists/CountryWithoutZip?data.code=$countryId"
 
       "must return Seq of Country when successful" in {
+        val countryId = "GB"
         server.stubFor(
-          get(urlEqualTo(url))
-            .willReturn(okJson(countriesResponseJson("CountryWithoutZip")))
+          get(urlEqualTo(url(countryId)))
+            .willReturn(okJson(countryWithoutZipResponseJson))
         )
 
-        val expectedResult = NonEmptySet.of(
-          CountryCode("GB"),
-          CountryCode("AD")
-        )
+        val expectedResult = CountryCode(countryId)
 
-        connector.getCountriesWithoutZip().futureValue mustEqual expectedResult
+        connector.getCountriesWithoutZipCountry(countryId).futureValue mustEqual expectedResult
       }
 
       "must throw a NoReferenceDataFoundException for an empty response" in {
-        checkNoReferenceDataFoundResponse(url, connector.getCountriesWithoutZip())
+        val countryId = "FR"
+        checkNoReferenceDataFoundResponse(url(countryId), connector.getCountriesWithoutZipCountry(countryId))
       }
 
       "must return an exception when an error response is returned" in {
-        checkErrorResponse(url, connector.getCountriesWithoutZip())
+        val countryId = "FR"
+        checkErrorResponse(url(countryId), connector.getCountriesWithoutZipCountry(countryId))
       }
     }
   }
