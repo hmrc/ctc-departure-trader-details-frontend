@@ -27,20 +27,20 @@ import queries.Gettable
 trait UserAnswersEntryGenerators {
   self: Generators =>
 
-  def generateAnswer: PartialFunction[Gettable[_], Gen[JsValue]] =
+  def generateAnswer: PartialFunction[Gettable[?], Gen[JsValue]] =
     generateExternalAnswer orElse
       generateTraderDetailsAnswer
 
-  private def generateExternalAnswer: PartialFunction[Gettable[_], Gen[JsValue]] = {
-    import pages.external._
+  private def generateExternalAnswer: PartialFunction[Gettable[?], Gen[JsValue]] = {
+    import pages.external.*
     {
       case DeclarationTypePage     => arbitrary[String](arbitraryDeclarationType).map(Json.toJson(_))
       case SecurityDetailsTypePage => arbitrary[String](arbitrarySecurityDetailsType).map(Json.toJson(_))
     }
   }
 
-  private def generateTraderDetailsAnswer: PartialFunction[Gettable[_], Gen[JsValue]] = {
-    import pages._
+  private def generateTraderDetailsAnswer: PartialFunction[Gettable[?], Gen[JsValue]] = {
+    import pages.*
     {
       generateHolderOfTransitAnswer orElse
         generateRepresentativeAnswer orElse
@@ -50,33 +50,33 @@ trait UserAnswersEntryGenerators {
     }
   }
 
-  private def generateHolderOfTransitAnswer: PartialFunction[Gettable[_], Gen[JsValue]] = {
-    import pages.holderOfTransit._
+  private def generateHolderOfTransitAnswer: PartialFunction[Gettable[?], Gen[JsValue]] = {
+    import pages.holderOfTransit.*
     {
       case EoriYesNoPage               => arbitrary[Boolean].map(JsBoolean)
-      case EoriPage                    => Gen.alphaNumStr.map(JsString)
-      case TirIdentificationPage       => Gen.alphaNumStr.map(JsString)
-      case NamePage                    => Gen.alphaNumStr.map(JsString)
+      case EoriPage                    => Gen.alphaNumStr.map(JsString.apply)
+      case TirIdentificationPage       => Gen.alphaNumStr.map(JsString.apply)
+      case NamePage                    => Gen.alphaNumStr.map(JsString.apply)
       case CountryPage                 => arbitrary[Country].map(Json.toJson(_))
       case AddressPage                 => arbitrary[DynamicAddress].map(Json.toJson(_))
       case AddContactPage              => arbitrary[Boolean].map(JsBoolean)
-      case contact.NamePage            => Gen.alphaNumStr.map(JsString)
-      case contact.TelephoneNumberPage => Gen.alphaNumStr.map(JsString)
+      case contact.NamePage            => Gen.alphaNumStr.map(JsString.apply)
+      case contact.TelephoneNumberPage => Gen.alphaNumStr.map(JsString.apply)
     }
   }
 
-  private def generateRepresentativeAnswer: PartialFunction[Gettable[_], Gen[JsValue]] = {
-    import pages.representative._
+  private def generateRepresentativeAnswer: PartialFunction[Gettable[?], Gen[JsValue]] = {
+    import pages.representative.*
     {
       case AddDetailsPage      => arbitrary[Boolean].map(JsBoolean)
-      case EoriPage            => Gen.alphaNumStr.map(JsString)
-      case NamePage            => Gen.alphaNumStr.map(JsString)
-      case TelephoneNumberPage => Gen.alphaNumStr.map(JsString)
+      case EoriPage            => Gen.alphaNumStr.map(JsString.apply)
+      case NamePage            => Gen.alphaNumStr.map(JsString.apply)
+      case TelephoneNumberPage => Gen.alphaNumStr.map(JsString.apply)
     }
   }
 
-  private def generateConsignmentAnswer: PartialFunction[Gettable[_], Gen[JsValue]] = {
-    import pages.consignment._
+  private def generateConsignmentAnswer: PartialFunction[Gettable[?], Gen[JsValue]] = {
+    import pages.consignment.*
     {
       generateConsignorAnswer orElse
         generateConsigneeAnswer orElse {
@@ -86,26 +86,26 @@ trait UserAnswersEntryGenerators {
     }
   }
 
-  private def generateConsignorAnswer: PartialFunction[Gettable[_], Gen[JsValue]] = {
-    import pages.consignment.consignor._
+  private def generateConsignorAnswer: PartialFunction[Gettable[?], Gen[JsValue]] = {
+    import pages.consignment.consignor.*
     {
       case EoriYesNoPage               => arbitrary[Boolean].map(JsBoolean)
-      case EoriPage                    => Gen.alphaNumStr.map(JsString)
-      case NamePage                    => Gen.alphaNumStr.map(JsString)
+      case EoriPage                    => Gen.alphaNumStr.map(JsString.apply)
+      case NamePage                    => Gen.alphaNumStr.map(JsString.apply)
       case CountryPage                 => arbitrary[Country].map(Json.toJson(_))
       case AddressPage                 => arbitrary[DynamicAddress].map(Json.toJson(_))
       case AddContactPage              => arbitrary[Boolean].map(JsBoolean)
-      case contact.NamePage            => Gen.alphaNumStr.map(JsString)
-      case contact.TelephoneNumberPage => Gen.alphaNumStr.map(JsString)
+      case contact.NamePage            => Gen.alphaNumStr.map(JsString.apply)
+      case contact.TelephoneNumberPage => Gen.alphaNumStr.map(JsString.apply)
     }
   }
 
-  private def generateConsigneeAnswer: PartialFunction[Gettable[_], Gen[JsValue]] = {
-    import pages.consignment.consignee._
+  private def generateConsigneeAnswer: PartialFunction[Gettable[?], Gen[JsValue]] = {
+    import pages.consignment.consignee.*
     {
       case EoriYesNoPage  => arbitrary[Boolean].map(JsBoolean)
-      case EoriNumberPage => Gen.alphaNumStr.map(JsString)
-      case NamePage       => Gen.alphaNumStr.map(JsString)
+      case EoriNumberPage => Gen.alphaNumStr.map(JsString.apply)
+      case NamePage       => Gen.alphaNumStr.map(JsString.apply)
       case CountryPage    => arbitrary[Country].map(Json.toJson(_))
       case AddressPage    => arbitrary[DynamicAddress].map(Json.toJson(_))
     }

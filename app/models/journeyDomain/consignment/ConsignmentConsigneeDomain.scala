@@ -16,10 +16,10 @@
 
 package models.journeyDomain.consignment
 
-import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, Read}
+import models.journeyDomain.*
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
-import pages.consignment.consignee._
+import pages.consignment.consignee.*
 
 sealed trait ConsignmentConsigneeDomain extends JourneyDomainModel
 

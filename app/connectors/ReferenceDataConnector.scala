@@ -23,7 +23,7 @@ import connectors.ReferenceDataConnector.NoReferenceDataFoundException
 import models.reference._
 import play.api.Logging
 import play.api.http.Status.OK
-import play.api.libs.json.{JsError, JsResultException, JsSuccess, Reads}
+import play.api.libs.json._
 import sttp.model.HeaderNames
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse, StringContextOps}
@@ -37,7 +37,7 @@ class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpCli
     val url = url"${config.referenceDataUrl}/lists/CountryCodesForAddress"
     http
       .get(url)
-      .setHeader(version2Header: _*)
+      .setHeader(version2Header *)
       .execute[NonEmptySet[Country]]
   }
 
@@ -46,7 +46,7 @@ class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpCli
     http
       .get(url)
       .transform(_.withQueryStringParameters("data.code" -> code))
-      .setHeader(version2Header: _*)
+      .setHeader(version2Header *)
       .execute[NonEmptySet[CountryCode]]
       .map(_.head)
   }
@@ -63,7 +63,7 @@ class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpCli
             case JsSuccess(Nil, _) =>
               throw new NoReferenceDataFoundException(url)
             case JsSuccess(head :: tail, _) =>
-              NonEmptySet.of(head, tail: _*)
+              NonEmptySet.of(head, tail *)
             case JsError(errors) =>
               throw JsResultException(errors)
           }

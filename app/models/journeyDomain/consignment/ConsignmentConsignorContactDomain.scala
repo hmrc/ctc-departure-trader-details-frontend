@@ -16,7 +16,7 @@
 
 package models.journeyDomain.consignment
 
-import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, Read}
+import models.journeyDomain.*
 import pages.consignment.consignor.contact.{NamePage, TelephoneNumberPage}
 
 case class ConsignmentConsignorContactDomain(
@@ -27,8 +27,10 @@ case class ConsignmentConsignorContactDomain(
 object ConsignmentConsignorContactDomain {
 
   implicit val userAnswersReader: Read[ConsignmentConsignorContactDomain] =
-    (
-      NamePage.reader,
-      TelephoneNumberPage.reader
+    RichTuple2(
+      (
+        NamePage.reader,
+        TelephoneNumberPage.reader
+      )
     ).map(ConsignmentConsignorContactDomain.apply)
 }

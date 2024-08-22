@@ -16,7 +16,7 @@
 
 package models.journeyDomain.holderOfTransit
 
-import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, Read}
+import models.journeyDomain.*
 import pages.holderOfTransit.contact.{NamePage, TelephoneNumberPage}
 
 case class AdditionalContactDomain(
@@ -27,8 +27,10 @@ case class AdditionalContactDomain(
 object AdditionalContactDomain {
 
   implicit val userAnswersReader: Read[AdditionalContactDomain] =
-    (
-      NamePage.reader,
-      TelephoneNumberPage.reader
+    RichTuple2(
+      (
+        NamePage.reader,
+        TelephoneNumberPage.reader
+      )
     ).map(AdditionalContactDomain.apply)
 }
