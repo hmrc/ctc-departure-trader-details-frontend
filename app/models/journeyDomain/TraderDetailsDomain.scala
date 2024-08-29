@@ -27,7 +27,7 @@ import pages.sections.{Section, TraderDetailsSection}
 trait TraderDetailsDomain extends JourneyDomainModel {
   val consignment: ConsignmentDomain
 
-  override def page: Option[Section[_]] = Some(TraderDetailsSection)
+  override def page: Option[Section[?]] = Some(TraderDetailsSection)
 }
 
 object TraderDetailsDomain {

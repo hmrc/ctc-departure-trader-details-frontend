@@ -16,7 +16,7 @@
 
 package models.journeyDomain.representative
 
-import models.journeyDomain.{GettableAsReaderOps, JourneyDomainModel, Read}
+import models.journeyDomain.*
 import pages.representative.{NamePage, TelephoneNumberPage}
 
 case class RepresentativeDetailsDomain(
@@ -27,8 +27,10 @@ case class RepresentativeDetailsDomain(
 object RepresentativeDetailsDomain {
 
   implicit val userAnswersReader: Read[RepresentativeDetailsDomain] =
-    (
-      NamePage.reader,
-      TelephoneNumberPage.reader
+    RichTuple2(
+      (
+        NamePage.reader,
+        TelephoneNumberPage.reader
+      )
     ).map(RepresentativeDetailsDomain.apply)
 }

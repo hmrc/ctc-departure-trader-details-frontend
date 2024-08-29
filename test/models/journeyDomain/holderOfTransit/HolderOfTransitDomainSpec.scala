@@ -217,7 +217,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
 
       "when a mandatory page is missing" in {
 
-        val mandatoryPages: Gen[QuestionPage[_]] = Gen.oneOf(
+        val mandatoryPages: Gen[QuestionPage[?]] = Gen.oneOf(
           EoriPage,
           AddContactPage,
           TirIdentificationPage
@@ -416,7 +416,7 @@ class HolderOfTransitDomainSpec extends SpecBase with UserAnswersSpecHelper with
 
       "when a mandatory page is missing" in {
 
-        val mandatoryPages: Gen[QuestionPage[_]] = Gen.oneOf(
+        val mandatoryPages: Gen[QuestionPage[?]] = Gen.oneOf(
           NamePage,
           CountryPage,
           AddressPage,

@@ -164,7 +164,7 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
 
       "when mandatory page is missing" in {
 
-        val mandatoryPages: Gen[QuestionPage[_]] = Gen.oneOf(
+        val mandatoryPages: Gen[QuestionPage[?]] = Gen.oneOf(
           NamePage,
           CountryPage,
           AddressPage

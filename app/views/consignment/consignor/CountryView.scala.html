@@ -31,7 +31,7 @@
     button: Button
 )
 
-@(form: Form[Country], lrn: LocalReferenceNumber, countries: Seq[Country], mode: Mode, name: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[Country], lrn: LocalReferenceNumber, countries: Seq[Country], mode: Mode, name: String)(implicit request: Request[?], messages: Messages)
 
 @mainTemplate(
     title = messages("traderDetails.consignment.consignor.country.title"),

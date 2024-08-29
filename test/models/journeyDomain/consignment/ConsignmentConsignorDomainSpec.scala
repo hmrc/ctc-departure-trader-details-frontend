@@ -166,7 +166,7 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
 
       "when mandatory page is missing" in {
 
-        val mandatoryPages: Gen[QuestionPage[_]] = Gen.oneOf(
+        val mandatoryPages: Gen[QuestionPage[?]] = Gen.oneOf(
           consignor.EoriPage,
           consignor.AddContactPage
         )
@@ -187,7 +187,7 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
 
       "when contact is defined and mandatory contact information is missing" in {
 
-        val mandatoryPages: Gen[QuestionPage[_]] = Gen.oneOf(
+        val mandatoryPages: Gen[QuestionPage[?]] = Gen.oneOf(
           consignor.contact.NamePage,
           consignor.contact.TelephoneNumberPage
         )
@@ -280,7 +280,7 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
 
       "when mandatory page is missing" in {
 
-        val mandatoryPages: Gen[QuestionPage[_]] = Gen.oneOf(
+        val mandatoryPages: Gen[QuestionPage[?]] = Gen.oneOf(
           consignor.NamePage,
           consignor.CountryPage,
           consignor.AddressPage,
@@ -305,7 +305,7 @@ class ConsignmentConsignorDomainSpec extends SpecBase with UserAnswersSpecHelper
 
       "when contact is defined and mandatory contact information is missing" in {
 
-        val mandatoryPages: Gen[QuestionPage[_]] = Gen.oneOf(
+        val mandatoryPages: Gen[QuestionPage[?]] = Gen.oneOf(
           consignor.contact.NamePage,
           consignor.contact.TelephoneNumberPage
         )
