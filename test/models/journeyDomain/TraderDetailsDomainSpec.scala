@@ -31,7 +31,7 @@ import org.scalacheck.Gen
 import pages.consignment._
 import pages.external.{DeclarationTypePage, SecurityDetailsTypePage}
 import pages.sections.TraderDetailsSection
-import pages.{ActingAsRepresentativePage, holderOfTransit => hot}
+import pages.{holderOfTransit => hot, ActingAsRepresentativePage}
 
 class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with Generators {
 

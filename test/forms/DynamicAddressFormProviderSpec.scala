@@ -41,7 +41,7 @@ class DynamicAddressFormProviderSpec extends StringFieldBehaviours with SpecBase
   "when postal code is required" - {
 
     val isPostalCodeRequired = true
-    val form                 = formProvider.apply(prefix, isPostalCodeRequired, args *)
+    val form                 = formProvider.apply(prefix, isPostalCodeRequired, args*)
 
     ".numberAndStreet" - {
       val fieldName = NumberAndStreet.field
@@ -77,7 +77,7 @@ class DynamicAddressFormProviderSpec extends StringFieldBehaviours with SpecBase
       "during transition" - {
         val app = transitionApplicationBuilder().build()
         running(app) {
-          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args *)
+          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args*)
           runTests(form, 35)
         }
       }
@@ -85,7 +85,7 @@ class DynamicAddressFormProviderSpec extends StringFieldBehaviours with SpecBase
       "post transition" - {
         val app = postTransitionApplicationBuilder().build()
         running(app) {
-          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args *)
+          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args*)
           runTests(form, 70)
         }
       }
@@ -162,7 +162,7 @@ class DynamicAddressFormProviderSpec extends StringFieldBehaviours with SpecBase
       "during transition" - {
         val app = transitionApplicationBuilder().build()
         running(app) {
-          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args *)
+          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args*)
           runTests(form, 9)
         }
       }
@@ -170,7 +170,7 @@ class DynamicAddressFormProviderSpec extends StringFieldBehaviours with SpecBase
       "post transition" - {
         val app = postTransitionApplicationBuilder().build()
         running(app) {
-          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args *)
+          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args*)
           runTests(form, 17)
         }
       }
@@ -180,7 +180,7 @@ class DynamicAddressFormProviderSpec extends StringFieldBehaviours with SpecBase
   "when postal code is not required" - {
 
     val isPostalCodeRequired = false
-    val form                 = formProvider.apply(prefix, isPostalCodeRequired, args *)
+    val form                 = formProvider.apply(prefix, isPostalCodeRequired, args*)
 
     ".numberAndStreet" - {
       val fieldName = NumberAndStreet.field
@@ -216,7 +216,7 @@ class DynamicAddressFormProviderSpec extends StringFieldBehaviours with SpecBase
       "during transition" - {
         val app = transitionApplicationBuilder().build()
         running(app) {
-          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args *)
+          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args*)
           runTests(form, 35)
         }
       }
@@ -224,7 +224,7 @@ class DynamicAddressFormProviderSpec extends StringFieldBehaviours with SpecBase
       "post transition" - {
         val app = postTransitionApplicationBuilder().build()
         running(app) {
-          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args *)
+          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args*)
           runTests(form, 70)
         }
       }
@@ -300,7 +300,7 @@ class DynamicAddressFormProviderSpec extends StringFieldBehaviours with SpecBase
       "during transition" - {
         val app = transitionApplicationBuilder().build()
         running(app) {
-          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args *)
+          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args*)
           runTests(form, 9)
         }
       }
@@ -308,7 +308,7 @@ class DynamicAddressFormProviderSpec extends StringFieldBehaviours with SpecBase
       "post transition" - {
         val app = postTransitionApplicationBuilder().build()
         running(app) {
-          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args *)
+          val form = app.injector.instanceOf[DynamicAddressFormProvider].apply(prefix, isPostalCodeRequired, args*)
           runTests(form, 17)
         }
       }
