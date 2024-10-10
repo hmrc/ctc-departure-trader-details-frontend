@@ -51,7 +51,8 @@ traderDetails.checkYourAnswers.consignee = Consignee
 
 traderDetails.holderOfTransit.eoriYesNo.title = Do you know the transit holder’s EORI number?
 traderDetails.holderOfTransit.eoriYesNo.heading = Do you know the transit holder’s EORI number?
-traderDetails.holderOfTransit.eoriYesNo.paragraph = The transit holder is the person responsible for the transit procedure. They can submit the declaration themselves or a third party can do it on their behalf.
+traderDetails.holderOfTransit.eoriYesNo.paragraph1 = EORI number stands for Economic Operators Registration and Identification number. It is a unique reference used to identify a business or individual that trades internationally in the EU.
+traderDetails.holderOfTransit.eoriYesNo.paragraph2 = The transit holder is the person responsible for the transit procedure. They can submit the declaration themselves or a third party can do it on their behalf.
 traderDetails.holderOfTransit.eoriYesNo.checkYourAnswersLabel = Do you know the transit holder’s EORI number?
 traderDetails.holderOfTransit.eoriYesNo.error.required = Select yes if you know the transit holder’s EORI number
 traderDetails.holderOfTransit.eoriYesNo.change.hidden = if you know the transit holder’s EORI number

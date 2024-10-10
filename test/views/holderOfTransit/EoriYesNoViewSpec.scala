@@ -39,6 +39,11 @@ class EoriYesNoViewSpec extends YesNoViewBehaviours {
 
   behave like pageWithContent(
     "p",
+    "EORI number stands for Economic Operators Registration and Identification number. It is a unique reference used to identify a business or individual that trades internationally in the EU."
+  )
+
+  behave like pageWithContent(
+    "p",
     "The transit holder is the person responsible for the transit procedure. They can submit the declaration themselves or a third party can do it on their behalf."
   )
 
