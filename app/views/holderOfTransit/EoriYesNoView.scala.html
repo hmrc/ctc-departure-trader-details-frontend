@@ -29,6 +29,11 @@
 
 @(form: Form[Boolean], lrn: LocalReferenceNumber, mode: Mode)(implicit request: Request[?], messages: Messages)
 
+@html = {
+    <p class="govuk-body">@messages("traderDetails.holderOfTransit.eoriYesNo.paragraph1")</p>
+    <p class="govuk-body">@messages("traderDetails.holderOfTransit.eoriYesNo.paragraph2")</p>
+}
+
 @mainTemplate(
     title = messages("traderDetails.holderOfTransit.eoriYesNo.title"),
     showBackLink = true,
@@ -44,7 +49,7 @@
             yesNoType = YesNoWithAdditionalHtml(
                 heading = messages("traderDetails.holderOfTransit.eoriYesNo.heading"),
                 caption = Some(messages("traderDetails.holderOfTransit.caption")),
-                additionalHtml = messages("traderDetails.holderOfTransit.eoriYesNo.paragraph").toParagraph
+                additionalHtml = html
             )
         )
 
