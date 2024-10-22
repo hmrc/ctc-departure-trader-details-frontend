@@ -30,14 +30,14 @@ class SubmissionStateSpec extends AnyFreeSpec with Generators with Matchers with
   "submissionState" - {
 
     "must deserialise" in {
-      forAll(arbitrary[SubmissionState]) {
+      forAll(arbitrary[SubmissionState](submissionState)) {
         state =>
           JsString(state.asString).as[SubmissionState] mustEqual state
       }
     }
 
     "must serialise" in {
-      forAll(arbitrary[SubmissionState]) {
+      forAll(arbitrary[SubmissionState](submissionState)) {
         state =>
           Json.toJson(state) mustEqual JsString(state.asString)
       }
