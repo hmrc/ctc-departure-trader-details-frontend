@@ -20,8 +20,8 @@ import models.DynamicAddress
 import models.reference.Country
 import play.api.i18n.Messages
 import play.api.mvc.Call
-import uk.gov.hmrc.govukfrontend.views.html.components._
-import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+import uk.gov.hmrc.govukfrontend.views.html.components.*
+import uk.gov.hmrc.govukfrontend.views.html.components.implicits.*
 
 private[utils] class SummaryListRowHelper(implicit messages: Messages) {
 

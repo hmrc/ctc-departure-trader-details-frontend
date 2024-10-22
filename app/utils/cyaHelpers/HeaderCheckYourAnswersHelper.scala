@@ -18,7 +18,7 @@ package utils.cyaHelpers
 
 import config.FrontendAppConfig
 import models.{Mode, UserAnswers}
-import pages.consignment._
+import pages.consignment.*
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.Aliases.SummaryListRow
 

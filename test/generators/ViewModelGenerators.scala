@@ -21,8 +21,8 @@ import org.scalacheck.{Arbitrary, Gen}
 import play.api.data.FormError
 import viewModels.Section
 import play.twirl.api.Html
-import uk.gov.hmrc.govukfrontend.views.Aliases._
-import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+import uk.gov.hmrc.govukfrontend.views.Aliases.*
+import uk.gov.hmrc.govukfrontend.views.html.components.implicits.*
 import viewModels.{Link, ListItem}
 
 trait ViewModelGenerators {

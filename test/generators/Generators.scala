@@ -17,12 +17,12 @@
 package generators
 
 import cats.data.NonEmptyList
-import org.scalacheck.Arbitrary._
-import org.scalacheck.Gen._
+import org.scalacheck.Arbitrary.*
+import org.scalacheck.Gen.*
 import org.scalacheck.{Arbitrary, Gen, Shrink}
 import wolfendale.scalacheck.regexp.RegexpGen
 
-import java.time._
+import java.time.*
 import scala.util.matching.Regex
 
 // scalastyle:off number.of.methods

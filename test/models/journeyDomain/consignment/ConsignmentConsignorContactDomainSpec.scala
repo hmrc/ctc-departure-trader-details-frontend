@@ -20,7 +20,7 @@ import base.SpecBase
 import commonTestUtils.UserAnswersSpecHelper
 import generators.Generators
 import org.scalacheck.Gen
-import pages.consignment.consignor.contact._
+import pages.consignment.consignor.contact.*
 
 class ConsignmentConsignorContactDomainSpec extends SpecBase with UserAnswersSpecHelper with Generators {
 

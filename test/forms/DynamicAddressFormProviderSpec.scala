@@ -18,7 +18,7 @@ package forms
 
 import base.{AppWithDefaultMockFixtures, SpecBase}
 import forms.behaviours.StringFieldBehaviours
-import models.AddressLine._
+import models.AddressLine.*
 import models.DynamicAddress
 import org.scalacheck.Gen
 import play.api.data.{Form, FormError}

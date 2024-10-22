@@ -18,7 +18,7 @@ package pages
 
 import org.scalacheck.Arbitrary.arbitrary
 import pages.behaviours.PageBehaviours
-import pages.representative._
+import pages.representative.*
 
 class ActingAsRepresentativePageSpec extends PageBehaviours {
 

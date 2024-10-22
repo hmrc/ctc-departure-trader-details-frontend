@@ -22,11 +22,11 @@ import org.jsoup.nodes.{Document, Element}
 import org.scalatest.Assertion
 import play.api.mvc.AnyContent
 import play.api.test.FakeRequest
-import play.twirl.api.TwirlHelperImports._
+import play.twirl.api.TwirlHelperImports.*
 import play.twirl.api.HtmlFormat
 import views.base.ViewSpecAssertions
 
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 trait ViewBehaviours extends SpecBase with ViewSpecAssertions {
 

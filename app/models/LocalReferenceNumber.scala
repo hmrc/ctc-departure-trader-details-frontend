@@ -16,7 +16,7 @@
 
 package models
 
-import play.api.libs.json._
+import play.api.libs.json.*
 import play.api.mvc.{JavascriptLiteral, PathBindable}
 
 final case class LocalReferenceNumber(value: String) {

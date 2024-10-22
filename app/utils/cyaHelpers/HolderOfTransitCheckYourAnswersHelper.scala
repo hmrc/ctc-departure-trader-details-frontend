@@ -19,7 +19,7 @@ package utils.cyaHelpers
 import config.FrontendAppConfig
 import models.reference.Country
 import models.{DynamicAddress, Mode, SubmissionState, UserAnswers}
-import pages.holderOfTransit._
+import pages.holderOfTransit.*
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.Aliases.SummaryListRow
 

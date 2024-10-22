@@ -17,7 +17,7 @@
 package models
 
 import pages.{QuestionPage, ReadOnlyPage}
-import play.api.libs.json._
+import play.api.libs.json.*
 import queries.Gettable
 
 import scala.util.{Failure, Success, Try}
@@ -71,7 +71,7 @@ final case class UserAnswers(
 
 object UserAnswers {
 
-  import play.api.libs.functional.syntax._
+  import play.api.libs.functional.syntax.*
 
   implicit lazy val reads: Reads[UserAnswers] =
     (

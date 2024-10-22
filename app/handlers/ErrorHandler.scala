@@ -18,9 +18,9 @@ package handlers
 
 import config.FrontendAppConfig
 import play.api.http.HttpErrorHandler
-import play.api.http.Status._
+import play.api.http.Status.*
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.Results._
+import play.api.mvc.Results.*
 import play.api.mvc.{RequestHeader, Result}
 import play.api.{Logging, PlayException}
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException

@@ -24,7 +24,7 @@ import org.scalacheck.Arbitrary.arbitrary
 import play.twirl.api.HtmlFormat
 import viewModels.ListItem
 
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 trait ListWithActionsViewBehaviours extends YesNoViewBehaviours with Generators {
 

@@ -17,7 +17,7 @@
 package models.journeyDomain.representative
 
 import models.EoriNumber
-import models.journeyDomain._
+import models.journeyDomain.*
 import pages.representative.{AddDetailsPage, EoriPage}
 
 case class RepresentativeDomain(

@@ -26,7 +26,7 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks.forAll
 import pages.QuestionPage
-import pages.consignment.consignee._
+import pages.consignment.consignee.*
 
 class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper with Generators {
 

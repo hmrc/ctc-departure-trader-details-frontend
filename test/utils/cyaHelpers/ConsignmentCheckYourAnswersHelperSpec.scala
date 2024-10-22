@@ -23,16 +23,16 @@ import controllers.consignment.consignee.{routes => consigneeRoutes}
 import controllers.consignment.consignor.contact.{routes => contactRoutes}
 import controllers.consignment.consignor.{routes => consignorRoutes}
 import controllers.consignment.{routes => consignmentRoutes}
-import pages.consignment._
+import pages.consignment.*
 import pages.consignment.consignor.CountryPage
 import models.{DynamicAddress, Mode}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import uk.gov.hmrc.govukfrontend.views.Aliases.HtmlContent
-import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+import uk.gov.hmrc.govukfrontend.views.html.components.implicits.*
 import uk.gov.hmrc.govukfrontend.views.html.components.{ActionItem, Actions}
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.*
 
 class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 

@@ -20,7 +20,7 @@ import config.FrontendAppConfig
 import models.{Mode, SubmissionState, UserAnswers}
 import pages.ActingAsRepresentativePage
 import play.api.i18n.Messages
-import pages.representative._
+import pages.representative.*
 import uk.gov.hmrc.govukfrontend.views.Aliases.SummaryListRow
 
 class RepresentativeCheckYourAnswersHelper(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages, config: FrontendAppConfig)

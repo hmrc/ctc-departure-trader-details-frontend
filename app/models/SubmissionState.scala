@@ -17,7 +17,7 @@
 package models
 
 import models.TaskStatus.{Amended, Completed}
-import play.api.libs.json._
+import play.api.libs.json.*
 
 sealed trait SubmissionState {
   val asString: String

@@ -17,7 +17,7 @@
 package views.behaviours
 
 import org.jsoup.nodes.Document
-import uk.gov.hmrc.govukfrontend.views.html.components._
+import uk.gov.hmrc.govukfrontend.views.html.components.*
 
 trait RadioViewBehaviours[T] extends QuestionViewBehaviours[T] {
 
