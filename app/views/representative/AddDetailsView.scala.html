@@ -45,7 +45,8 @@
                 heading = messages("traderDetails.representative.addDetails.heading"),
                 caption = Some(messages("traderDetails.representative.caption")),
                 additionalHtml = messages("traderDetails.representative.addDetails.paragraph").toParagraph
-            )
+            ),
+            hint = Some(Text(messages("traderDetails.representative.addDetails.hint")))
         )
 
         @button(attributes = Map("id" -> "submit"))

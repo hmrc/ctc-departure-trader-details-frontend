@@ -45,7 +45,8 @@
                 heading = messages("traderDetails.consignment.consignor.addContact.heading"),
                 caption = Some(messages("traderDetails.consignment.consignor.caption")),
                 additionalHtml = messages("traderDetails.consignment.consignor.addContact.paragraph").toParagraph
-            )
+            ),
+            hint = Some(Text(messages("traderDetails.consignment.consignor.addContact.hint")))
         )
 
         @button(attributes = Map("id" -> "submit"))
