@@ -27,7 +27,7 @@ import pages.ActingAsRepresentativePage
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.ActingAsRepresentativeView
 
 import scala.concurrent.Future

@@ -17,11 +17,11 @@
 package models.journeyDomain.holderOfTransit
 
 import config.Constants.DeclarationType.TIR
-import models.journeyDomain._
+import models.journeyDomain.*
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
 import pages.external.DeclarationTypePage
-import pages.holderOfTransit._
+import pages.holderOfTransit.*
 
 sealed trait HolderOfTransitDomain extends JourneyDomainModel {
   val tir: Option[String]

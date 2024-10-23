@@ -18,7 +18,7 @@ package viewModels
 
 import base.SpecBase
 import generators.Generators
-import pages.representative._
+import pages.representative.*
 import models.Mode
 import org.scalacheck.Arbitrary.arbitrary
 import pages.ActingAsRepresentativePage

@@ -20,15 +20,15 @@ lazy val microservice = Project(appName, file("."))
     RoutesKeys.routesImport ++= Seq("models._"),
     TwirlKeys.templateImports ++= Seq(
       "play.twirl.api.HtmlFormat",
-      "play.twirl.api.HtmlFormat._",
-      "uk.gov.hmrc.govukfrontend.views.html.components._",
-      "uk.gov.hmrc.hmrcfrontend.views.html.components._",
-      "uk.gov.hmrc.hmrcfrontend.views.html.helpers._",
+      "play.twirl.api.HtmlFormat.*",
+      "uk.gov.hmrc.govukfrontend.views.html.components.*",
+      "uk.gov.hmrc.hmrcfrontend.views.html.components.*",
+      "uk.gov.hmrc.hmrcfrontend.views.html.helpers.*",
       "models.Mode",
       "views.html.helper.CSPNonce",
       "viewModels.{InputSize, LabelSize, LegendSize}",
-      "templates._",
-      "views.utils.ViewUtils._"
+      "templates.*",
+      "views.utils.ViewUtils.*"
     ),
     PlayKeys.playDefaultPort := 10130,
     libraryDependencies ++= AppDependencies(),

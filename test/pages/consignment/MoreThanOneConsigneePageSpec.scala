@@ -20,7 +20,7 @@ import models.{DynamicAddress, EoriNumber, Index}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import pages.behaviours.PageBehaviours
-import pages.consignment.consignee._
+import pages.consignment.consignee.*
 import pages.external.{ConsignmentCountryOfDestinationInCL009Page, ItemConsigneeSection}
 import play.api.libs.json.Json
 

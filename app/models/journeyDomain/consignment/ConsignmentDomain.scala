@@ -20,7 +20,7 @@ import config.Constants.DeclarationType.TIR
 import config.Constants.SecurityType.NoSecurityDetails
 import config.PhaseConfig
 import models.Phase
-import models.journeyDomain._
+import models.journeyDomain.*
 import pages.consignment.{ApprovedOperatorPage, MoreThanOneConsigneePage}
 import pages.external.{DeclarationTypePage, SecurityDetailsTypePage}
 

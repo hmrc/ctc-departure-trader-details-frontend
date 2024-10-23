@@ -35,7 +35,7 @@ trait Constraints {
   protected def minimumValue[A](minimum: A, errorKey: String)(implicit ev: Ordering[A]): Constraint[A] =
     Constraint {
       input =>
-        import ev._
+        import ev.*
 
         if (input >= minimum) {
           Valid
@@ -47,44 +47,12 @@ trait Constraints {
   protected def maximumValue[A](maximum: A, errorKey: String)(implicit ev: Ordering[A]): Constraint[A] =
     Constraint {
       input =>
-        import ev._
+        import ev.*
 
         if (input <= maximum) {
           Valid
         } else {
           Invalid(errorKey, maximum)
-        }
-    }
-
-  protected def maximumIntValue(maximum: Int, errorKey: String): Constraint[String] =
-    Constraint {
-      input =>
-        if (input.toInt <= maximum) {
-          Valid
-        } else {
-          Invalid(errorKey, maximum)
-        }
-    }
-
-  protected def minimumIntValue(min: Int, errorKey: String): Constraint[String] =
-    Constraint {
-      input =>
-        if (input.toInt > min) {
-          Valid
-        } else {
-          Invalid(errorKey, min)
-        }
-    }
-
-  protected def inRange[A](itemIndex: A, minimum: A, maximum: A, errorKey: String)(implicit ev: Ordering[A]): Constraint[A] =
-    Constraint {
-      input =>
-        import ev._
-
-        if (input >= minimum && input <= maximum) {
-          Valid
-        } else {
-          Invalid(errorKey, itemIndex, minimum, maximum)
         }
     }
 
@@ -105,14 +73,8 @@ trait Constraints {
   protected def maxLength(maximum: Int, errorKey: String, args: Seq[Any], trim: Boolean = false): Constraint[String] =
     lengthConstraint(errorKey, x => (if (trim) x.replaceAll("\\s", "").length else x.length) <= maximum, args)
 
-  protected def minLength(minimum: Int, errorKey: String): Constraint[String] =
-    lengthConstraint(errorKey, _.length >= minimum, Seq(minimum))
-
   protected def minLength(minimum: Int, errorKey: String, args: Seq[Any], trim: Boolean = false): Constraint[String] =
     lengthConstraint(errorKey, x => (if (trim) x.replaceAll("\\s", "").length else x.length) >= minimum, args)
-
-  protected def exactLength(exact: Int, errorKey: String): Constraint[String] =
-    lengthConstraint(errorKey, _.length == exact, Seq(exact))
 
   private def lengthConstraint(errorKey: String, predicate: String => Boolean, args: Seq[Any]): Constraint[String] =
     Constraint {

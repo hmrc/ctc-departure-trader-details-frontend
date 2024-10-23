@@ -16,7 +16,7 @@
 
 package forms.mappings
 
-import models.{Enumerable, LocalReferenceNumber, RichString, Selectable, SelectableList}
+import models.{Enumerable, RichString, Selectable, SelectableList}
 import play.api.data.FormError
 import play.api.data.format.Formatter
 
@@ -33,22 +33,6 @@ trait Formatters {
         case Some(s) if g(s).isEmpty => Left(Seq(FormError(key, errorKey, args)))
         case Some(s)                 => Right(g(s))
       }
-    }
-
-    override def unbind(key: String, value: String): Map[String, String] =
-      Map(key -> value)
-  }
-
-  private[mappings] def postcodeFormatter(errorKey: String, args: Seq[Any] = Seq.empty): Formatter[String] = new Formatter[String] {
-
-    private def formattedPostcode(string: String) =
-      string.patch(string.length - 3, " ", 0)
-
-    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] = {
-
-      val result: Option[String] = data.get(key).map(_.replaceAll(" ", "")).filterNot(_.isEmpty)
-
-      Either.cond(result.isDefined, formattedPostcode(result.get), Seq(FormError(key, errorKey, args)))
     }
 
     override def unbind(key: String, value: String): Map[String, String] =
@@ -111,34 +95,6 @@ trait Formatters {
 
       override def unbind(key: String, value: A): Map[String, String] =
         baseFormatter.unbind(key, value.toString)
-    }
-
-  private[mappings] def lrnFormatter(
-    requiredKey: String,
-    lengthKey: String,
-    invalidCharactersKey: String,
-    invalidFormatKey: String
-  ): Formatter[LocalReferenceNumber] =
-    new Formatter[LocalReferenceNumber] {
-
-      override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], LocalReferenceNumber] =
-        stringFormatter(requiredKey)(_.removeSpaces())
-          .bind(key, data)
-          .flatMap {
-            str =>
-              if (str.length <= LocalReferenceNumber.maxLength) {
-                if (str.startsWith("-") || str.startsWith("_")) {
-                  Left(Seq(FormError(key, invalidFormatKey)))
-                } else {
-                  LocalReferenceNumber(str).map(Right.apply).getOrElse(Left(Seq(FormError(key, invalidCharactersKey))))
-                }
-              } else {
-                Left(Seq(FormError(key, lengthKey)))
-              }
-          }
-
-      override def unbind(key: String, value: LocalReferenceNumber): Map[String, String] =
-        Map(key -> value.toString)
     }
 
   private[mappings] def selectableFormatter[T <: Selectable](

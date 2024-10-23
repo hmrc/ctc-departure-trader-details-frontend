@@ -17,7 +17,7 @@
 package models.reference
 
 import cats.Order
-import play.api.libs.json._
+import play.api.libs.json.*
 
 case class CountryCode(code: String)
 

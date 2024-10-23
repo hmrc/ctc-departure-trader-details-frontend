@@ -16,7 +16,7 @@
 
 package forms.mappings
 
-import models.{Enumerable, LocalReferenceNumber, Selectable, SelectableList}
+import models.{Enumerable, Selectable, SelectableList}
 import play.api.data.FieldMapping
 import play.api.data.Forms.of
 
@@ -27,9 +27,6 @@ trait Mappings extends Formatters with Constraints {
 
   protected def adaptedText(errorKey: String = "error.required", args: Seq[Any] = Seq.empty)(f: String => String): FieldMapping[String] =
     of(stringFormatter(errorKey, args)(f))
-
-  protected def formattedPostcode(errorKey: String = "error.required", args: Seq[Any] = Seq.empty): FieldMapping[String] =
-    of(postcodeFormatter(errorKey, args))
 
   protected def int(
     requiredKey: String = "error.required",
@@ -44,14 +41,6 @@ trait Mappings extends Formatters with Constraints {
 
   protected def enumerable[A](requiredKey: String = "error.required", invalidKey: String = "error.invalid")(implicit ev: Enumerable[A]): FieldMapping[A] =
     of(enumerableFormatter[A](requiredKey, invalidKey))
-
-  protected def lrn(
-    requiredKey: String,
-    lengthKey: String,
-    invalidCharactersKey: String,
-    invalidFormatKey: String
-  ): FieldMapping[LocalReferenceNumber] =
-    of(lrnFormatter(requiredKey, lengthKey, invalidCharactersKey, invalidFormatKey))
 
   protected def selectable[T <: Selectable](
     selectableList: SelectableList[T],

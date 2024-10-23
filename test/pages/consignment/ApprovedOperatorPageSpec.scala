@@ -20,8 +20,8 @@ import config.Constants.SecurityType.NoSecurityDetails
 import models.DynamicAddress
 import org.scalacheck.Arbitrary.arbitrary
 import pages.behaviours.PageBehaviours
-import pages.consignment.consignor._
-import pages.external._
+import pages.consignment.consignor.*
+import pages.external.*
 import play.api.libs.json.{JsArray, Json}
 
 class ApprovedOperatorPageSpec extends PageBehaviours {

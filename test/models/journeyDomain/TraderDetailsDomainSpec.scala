@@ -28,7 +28,7 @@ import models.reference.Country
 import models.{DynamicAddress, EoriNumber, SubmissionState}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
-import pages.consignment._
+import pages.consignment.*
 import pages.external.{DeclarationTypePage, SecurityDetailsTypePage}
 import pages.sections.TraderDetailsSection
 import pages.{holderOfTransit => hot, ActingAsRepresentativePage}

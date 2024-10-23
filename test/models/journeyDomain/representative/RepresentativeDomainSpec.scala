@@ -22,7 +22,7 @@ import generators.Generators
 import models.EoriNumber
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
-import pages.representative._
+import pages.representative.*
 
 class RepresentativeDomainSpec extends SpecBase with UserAnswersSpecHelper with Generators {
 

@@ -16,10 +16,10 @@
 
 package models.journeyDomain.consignment
 
-import models.journeyDomain._
+import models.journeyDomain.*
 import models.reference.Country
 import models.{DynamicAddress, EoriNumber}
-import pages.consignment.consignor._
+import pages.consignment.consignor.*
 
 sealed trait ConsignmentConsignorDomain extends JourneyDomainModel {
   val contact: Option[ConsignmentConsignorContactDomain]

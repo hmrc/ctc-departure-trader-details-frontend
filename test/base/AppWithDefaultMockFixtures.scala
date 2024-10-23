@@ -17,9 +17,9 @@
 package base
 
 import config.{PostTransitionModule, TransitionModule}
-import controllers.actions._
+import controllers.actions.*
 import models.{LockCheck, Mode, UserAnswers}
-import navigation._
+import navigation.*
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, when}
 import org.scalatest.{BeforeAndAfterEach, TestSuite}

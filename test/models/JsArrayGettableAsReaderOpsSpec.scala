@@ -19,7 +19,7 @@ package models
 import base.SpecBase
 import models.journeyDomain.JsArrayGettableAsReaderOps
 import pages.sections.Section
-import play.api.libs.json._
+import play.api.libs.json.*
 import queries.Gettable
 
 class JsArrayGettableAsReaderOpsSpec extends SpecBase {

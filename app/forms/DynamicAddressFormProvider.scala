@@ -18,7 +18,7 @@ package forms
 
 import config.PhaseConfig
 import forms.mappings.Mappings
-import models.AddressLine._
+import models.AddressLine.*
 import models.DynamicAddress
 import play.api.data.Form
 import play.api.data.Forms.{mapping, optional}
