@@ -17,8 +17,9 @@
 package controllers.actions
 
 import config.FrontendAppConfig
+import models.UserAnswersResponse.Answers
 import models.requests.{DataRequest, OptionalDataRequest}
-import models.{LocalReferenceNumber, SubmissionState}
+import models.{LocalReferenceNumber, SubmissionState, UserAnswersResponse}
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{ActionRefiner, Result}
 
@@ -31,8 +32,9 @@ class DataRequiredAction(lrn: LocalReferenceNumber, config: FrontendAppConfig)(i
 
   override protected def refine[A](request: OptionalDataRequest[A]): Future[Either[Result, DataRequest[A]]] =
     request.userAnswers match {
-      case Some(userAnswers) if userAnswers.status != SubmissionState.Submitted =>
+      case Answers(userAnswers) if userAnswers.status != SubmissionState.Submitted =>
         Future.successful(Right(DataRequest(request.request, request.eoriNumber, userAnswers)))
+      case UserAnswersResponse.BadRequest => Future.successful(Left(Redirect(config.draftNotAvailableUrl)))
       case _ =>
         Future.successful(Left(Redirect(config.sessionExpiredUrl(lrn))))
     }

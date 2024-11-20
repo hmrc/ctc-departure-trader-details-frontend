@@ -16,37 +16,50 @@
 
 package config
 
+import com.typesafe.config.Config
+import config.PhaseConfig.Values
 import models.Phase
 import models.Phase.{PostTransition, Transition}
+import play.api.{ConfigLoader, Configuration}
+
+import javax.inject.Inject
 
 trait PhaseConfig {
   val phase: Phase
+  val values: Values
 
   def amendMessageKey(key: String): String
 
   def lengthError(prefix: String): String = amendMessageKey(s"$prefix.error.length")
-
-  val maxNameLength: Int
-  val maxNumberAndStreetLength: Int
-  val maxPostcodeLength: Int
 }
 
-class TransitionConfig() extends PhaseConfig {
-  override val phase: Phase = Transition
+object PhaseConfig {
 
+  case class Values(apiVersion: Double, maxNameLength: Int, maxNumberAndStreetLength: Int, maxPostcodeLength: Int)
+
+  object Values {
+
+    implicit val configLoader: ConfigLoader[Values] = (config: Config, path: String) =>
+      config.getConfig(path) match {
+        case phase =>
+          Values(
+            apiVersion = phase.getDouble("apiVersion"),
+            maxNameLength = phase.getInt("maxNameLength"),
+            maxNumberAndStreetLength = phase.getInt("maxNumberAndStreetLength"),
+            maxPostcodeLength = phase.getInt("maxPostcodeLength")
+          )
+      }
+  }
+}
+
+class TransitionConfig @Inject() (configuration: Configuration) extends PhaseConfig {
+  override val phase: Phase                         = Transition
+  override val values: Values                       = configuration.get[Values]("phase.transitional")
   override def amendMessageKey(key: String): String = s"$key.transition"
-
-  override val maxNameLength: Int            = 35
-  override val maxNumberAndStreetLength: Int = 35
-  override val maxPostcodeLength: Int        = 9
 }
 
-class PostTransitionConfig() extends PhaseConfig {
-  override val phase: Phase = PostTransition
-
+class PostTransitionConfig @Inject() (configuration: Configuration) extends PhaseConfig {
+  override val phase: Phase                         = PostTransition
+  override val values: Values                       = configuration.get[Values]("phase.final")
   override def amendMessageKey(key: String): String = s"$key.postTransition"
-
-  override val maxNameLength: Int            = 70
-  override val maxNumberAndStreetLength: Int = 70
-  override val maxPostcodeLength: Int        = 17
 }

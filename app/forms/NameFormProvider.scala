@@ -44,5 +44,5 @@ class StaticNameFormProvider extends NameFormProvider {
 }
 
 class DynamicNameFormProvider @Inject() (implicit phaseConfig: PhaseConfig) extends NameFormProvider {
-  override val maxNameLength: Int = phaseConfig.maxNameLength
+  override val maxNameLength: Int = phaseConfig.values.maxNameLength
 }

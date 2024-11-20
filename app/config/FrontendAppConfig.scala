@@ -48,6 +48,8 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
 
   val lockedUrl: String = s"$departureHubUrl/cannot-open"
 
+  val draftNotAvailableUrl: String = s"$departureHubUrl/draft-declarations/not-available"
+
   def keepAliveUrl(lrn: LocalReferenceNumber): String = s"$departureHubUrl/$lrn/keep-alive"
 
   def signOutUrl(lrn: LocalReferenceNumber): String = s"$departureHubUrl/$lrn/delete-lock"
