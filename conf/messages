@@ -190,6 +190,7 @@ traderDetails.consignment.approvedOperator.change.hidden = if you want to use a 
 
 traderDetails.consignment.moreThanOneConsignee.title = Is there more than one consignee?
 traderDetails.consignment.moreThanOneConsignee.heading = Is there more than one consignee?
+traderDetails.consignment.moreThanOneConsignee.paragraph = This means the person or organisation receiving the goods.
 traderDetails.consignment.moreThanOneConsignee.inset = If you have more than one consignee, we will ask you for their details in your Items section.
 traderDetails.consignment.moreThanOneConsignee.checkYourAnswersLabel = Is there more than one consignee?
 traderDetails.consignment.moreThanOneConsignee.error.required = Select yes if there is more than one consignee

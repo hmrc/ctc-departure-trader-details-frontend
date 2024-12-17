@@ -37,6 +37,8 @@ class MoreThanOneConsigneeViewSpec extends YesNoViewBehaviours {
 
   behave like pageWithHeading()
 
+  behave like pageWithContent("p", "This means the person or organisation receiving the goods.")
+
   behave like pageWithInsetText("If you have more than one consignee, we will ask you for their details in your Items section.")
 
   behave like pageWithRadioItems()
