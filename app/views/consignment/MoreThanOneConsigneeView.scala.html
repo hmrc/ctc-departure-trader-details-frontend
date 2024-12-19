@@ -17,17 +17,24 @@
 @import controllers.consignment.routes
 @import models.LocalReferenceNumber
 @import viewModels.components.InputYesNoViewModel.*
-@import views.html.components.{Button, ErrorSummary, InputYesNo}
+@import views.html.components.{Button, ErrorSummary, InputYesNo, InsetText}
 
 @this(
     mainTemplate: MainTemplate,
     formHelper: FormWithCSRF,
     inputYesNo: InputYesNo,
     errorSummary: ErrorSummary,
-    button: Button
+    button: Button,
+    insetText: InsetText
 )
 
 @(form: Form[Boolean], lrn: LocalReferenceNumber, mode: Mode)(implicit request: Request[?], messages: Messages)
+
+@html = {
+    @messages("traderDetails.consignment.moreThanOneConsignee.paragraph").toParagraph
+
+    @insetText(messages("traderDetails.consignment.moreThanOneConsignee.inset"))
+}
 
 @mainTemplate(
     title = messages("traderDetails.consignment.moreThanOneConsignee.title"),
@@ -41,9 +48,10 @@
 
         @inputYesNo(
             field = form("value"),
-            yesNoType = OrdinaryYesNo(
+            yesNoType = YesNoWithAdditionalHtml(
                 heading = messages("traderDetails.consignment.moreThanOneConsignee.heading"),
-                caption = Some(messages("traderDetails.consignment.consignee.caption"))
+                caption = Some(messages("traderDetails.consignment.consignee.caption")),
+                additionalHtml = html
             )
         )
 
