@@ -22,4 +22,6 @@ object Constants {
   lazy val minTelephoneNumberLength: Int = 6
   lazy val maxEoriNumberLength: Int      = 17
   lazy val tirNumberMaxLength: Int       = 17
+  lazy val maxNumberAndStreetLength: Int = 70
+  lazy val maxPostcodeLength: Int        = 17
 }

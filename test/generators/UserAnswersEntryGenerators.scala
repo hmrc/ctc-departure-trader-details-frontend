@@ -80,8 +80,7 @@ trait UserAnswersEntryGenerators {
     {
       generateConsignorAnswer orElse
         generateConsigneeAnswer orElse {
-          case ApprovedOperatorPage     => arbitrary[Boolean].map(JsBoolean)
-          case MoreThanOneConsigneePage => arbitrary[Boolean].map(JsBoolean)
+          case ApprovedOperatorPage => arbitrary[Boolean].map(JsBoolean)
         }
     }
   }

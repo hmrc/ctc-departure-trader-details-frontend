@@ -16,7 +16,6 @@
 
 package controllers.consignment.consignor
 
-import config.PhaseConfig
 import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
 import controllers.actions.{Actions, SpecificDataRequiredActionProvider}
 import forms.DynamicAddressFormProvider
@@ -46,7 +45,7 @@ class AddressController @Inject() (
   countriesService: CountriesService,
   val controllerComponents: MessagesControllerComponents,
   view: AddressView
-)(implicit ec: ExecutionContext, phaseConfig: PhaseConfig)
+)(implicit ec: ExecutionContext)
     extends FrontendBaseController
     with I18nSupport {
 
