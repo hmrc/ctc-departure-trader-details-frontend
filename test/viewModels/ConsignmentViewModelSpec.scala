@@ -58,7 +58,6 @@ class ConsignmentViewModelSpec extends SpecBase with ScalaCheckPropertyChecks wi
           .setValue(consignor.AddContactPage, true)
           .setValue(consignor.contact.NamePage, "contact name")
           .setValue(consignor.contact.TelephoneNumberPage, "phone number")
-          .setValue(MoreThanOneConsigneePage, false)
           .setValue(consignee.EoriYesNoPage, true)
           .setValue(consignee.EoriNumberPage, "eori2")
           .setValue(consignee.NamePage, "name2")
@@ -86,13 +85,12 @@ class ConsignmentViewModelSpec extends SpecBase with ScalaCheckPropertyChecks wi
         sections(1).rows(2).value.content.asHtml.toString() mustBe "phone number"
 
         sections(2).sectionTitle.get mustBe "Consignee"
-        sections(2).rows.size mustBe 6
-        sections(2).rows.head.value.content.asHtml.toString() mustBe "No"
-        sections(2).rows(1).value.content.asHtml.toString() mustBe "Yes"
-        sections(2).rows(2).value.content.asHtml.toString() mustBe "eori2"
-        sections(2).rows(3).value.content.asHtml.toString() mustBe "name2"
-        sections(2).rows(4).value.content.asHtml.toString() mustBe "Great Britain - GB"
-        sections(2).rows(5).value.content.asHtml.toString() mustBe "line11<br>line12<br>postal code2"
+        sections(2).rows.size mustBe 5
+        sections(2).rows.head.value.content.asHtml.toString() mustBe "Yes"
+        sections(2).rows(1).value.content.asHtml.toString() mustBe "eori2"
+        sections(2).rows(2).value.content.asHtml.toString() mustBe "name2"
+        sections(2).rows(3).value.content.asHtml.toString() mustBe "Great Britain - GB"
+        sections(2).rows(4).value.content.asHtml.toString() mustBe "line11<br>line12<br>postal code2"
       }
     }
   }

@@ -188,14 +188,6 @@ traderDetails.consignment.approvedOperator.hint = You can only use this if you a
 traderDetails.consignment.approvedOperator.label = Do you want to use a reduced data set?
 traderDetails.consignment.approvedOperator.change.hidden = if you want to use a reduced data set
 
-traderDetails.consignment.moreThanOneConsignee.title = Is there more than one consignee?
-traderDetails.consignment.moreThanOneConsignee.heading = Is there more than one consignee?
-traderDetails.consignment.moreThanOneConsignee.paragraph = This means the person or organisation receiving the goods.
-traderDetails.consignment.moreThanOneConsignee.inset = If you have more than one consignee, we will ask you for their details in your Items section.
-traderDetails.consignment.moreThanOneConsignee.checkYourAnswersLabel = Is there more than one consignee?
-traderDetails.consignment.moreThanOneConsignee.error.required = Select yes if there is more than one consignee
-traderDetails.consignment.moreThanOneConsignee.change.hidden = if there is more than one consignee
-
 # Trader details - Consignment - Consignor
 
 traderDetails.consignment.consignor.eoriYesNo.title = Do you know the consignor’s EORI number or Trader Identification Number (TIN)?
