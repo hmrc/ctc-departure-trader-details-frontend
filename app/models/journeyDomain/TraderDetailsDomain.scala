@@ -16,7 +16,6 @@
 
 package models.journeyDomain
 
-import config.PhaseConfig
 import models.journeyDomain.consignment.ConsignmentDomain
 import models.journeyDomain.holderOfTransit.HolderOfTransitDomain
 import models.journeyDomain.representative.RepresentativeDomain
@@ -32,7 +31,7 @@ trait TraderDetailsDomain extends JourneyDomainModel {
 
 object TraderDetailsDomain {
 
-  implicit def userAnswersReader(implicit phaseConfig: PhaseConfig): UserAnswersReader[TraderDetailsDomain] =
+  implicit val userAnswersReader: UserAnswersReader[TraderDetailsDomain] =
     UserAnswersReader
       .success {
         (userAnswers: UserAnswers) => userAnswers.status
@@ -52,7 +51,7 @@ case class TraderDetailsDomainDefault(
 
 object TraderDetailsDomainDefault {
 
-  implicit def userAnswersParser(implicit phaseConfig: PhaseConfig): Read[TraderDetailsDomain] =
+  implicit val userAnswersParser: Read[TraderDetailsDomain] =
     (
       HolderOfTransitDomain.userAnswersReader,
       ActingAsRepresentativePage.filterOptionalDependent(identity)(RepresentativeDomain.userAnswersReader),
@@ -66,6 +65,6 @@ case class TraderDetailsDomainAmending(
 
 object TraderDetailsDomainAmending {
 
-  implicit def userAnswersParser(implicit phaseConfig: PhaseConfig): Read[TraderDetailsDomain] =
+  implicit val userAnswersParser: Read[TraderDetailsDomain] =
     ConsignmentDomain.userAnswersReader.map(TraderDetailsDomainAmending.apply)
 }

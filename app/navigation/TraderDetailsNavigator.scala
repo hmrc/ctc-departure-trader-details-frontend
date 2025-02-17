@@ -16,14 +16,14 @@
 
 package navigation
 
-import config.{FrontendAppConfig, PhaseConfig}
+import config.FrontendAppConfig
 import models.Mode
 import models.journeyDomain.{TraderDetailsDomain, UserAnswersReader}
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class TraderDetailsNavigatorProviderImpl @Inject() (implicit appConfig: FrontendAppConfig, phaseConfig: PhaseConfig) extends TraderDetailsNavigatorProvider {
+class TraderDetailsNavigatorProviderImpl @Inject() (implicit appConfig: FrontendAppConfig) extends TraderDetailsNavigatorProvider {
 
   override def apply(mode: Mode): UserAnswersNavigator =
     new TraderDetailsNavigator(mode)
@@ -34,8 +34,7 @@ trait TraderDetailsNavigatorProvider {
 }
 
 class TraderDetailsNavigator(override val mode: Mode)(implicit
-  override val appConfig: FrontendAppConfig,
-  override val phaseConfig: PhaseConfig
+  override val appConfig: FrontendAppConfig
 ) extends UserAnswersNavigator {
 
   override type T = TraderDetailsDomain

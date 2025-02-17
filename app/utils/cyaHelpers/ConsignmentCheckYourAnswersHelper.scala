@@ -82,13 +82,6 @@ class ConsignmentCheckYourAnswersHelper(userAnswers: UserAnswers, mode: Mode)(im
     id = Some("change-consignor-contact-phone-number")
   )
 
-  def moreThanOneConsignee: Option[SummaryListRow] = getAnswerAndBuildRow[Boolean](
-    page = MoreThanOneConsigneePage,
-    formatAnswer = formatAsYesOrNo,
-    prefix = "traderDetails.consignment.moreThanOneConsignee",
-    id = Some("change-has-more-than-one-consignee")
-  )
-
   def consigneeEoriYesNo: Option[SummaryListRow] = getAnswerAndBuildRow[Boolean](
     page = consignee.EoriYesNoPage,
     formatAnswer = formatAsYesOrNo,

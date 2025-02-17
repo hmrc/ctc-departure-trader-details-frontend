@@ -18,10 +18,8 @@ package models.journeyDomain.consignment
 
 import config.Constants.DeclarationType.TIR
 import config.Constants.SecurityType.NoSecurityDetails
-import config.PhaseConfig
-import models.Phase
 import models.journeyDomain.*
-import pages.consignment.{ApprovedOperatorPage, MoreThanOneConsigneePage}
+import pages.consignment.ApprovedOperatorPage
 import pages.external.{DeclarationTypePage, SecurityDetailsTypePage}
 
 case class ConsignmentDomain(
@@ -31,7 +29,7 @@ case class ConsignmentDomain(
 
 object ConsignmentDomain {
 
-  implicit def userAnswersReader(implicit phaseConfig: PhaseConfig): Read[ConsignmentDomain] =
+  implicit val userAnswersReader: Read[ConsignmentDomain] =
     (
       consignorReader,
       consigneeReader
@@ -54,11 +52,5 @@ object ConsignmentDomain {
     }
   }
 
-  private def consigneeReader(implicit phaseConfig: PhaseConfig): Read[Option[ConsignmentConsigneeDomain]] =
-    phaseConfig.phase match {
-      case Phase.Transition =>
-        MoreThanOneConsigneePage.filterOptionalDependent(!_)(ConsignmentConsigneeDomain.userAnswersReader)
-      case Phase.PostTransition =>
-        ConsignmentConsigneeDomain.userAnswersReader.toOption
-    }
+  private def consigneeReader: Read[Option[ConsignmentConsigneeDomain]] = ConsignmentConsigneeDomain.userAnswersReader.toOption
 }

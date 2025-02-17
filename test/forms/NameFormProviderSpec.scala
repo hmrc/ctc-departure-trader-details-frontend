@@ -21,7 +21,7 @@ import models.domain.StringFieldRegex.stringFieldRegex
 import org.scalacheck.Gen
 import play.api.data.FormError
 
-class StaticNameFormProviderSpec extends StringFieldBehaviours {
+class NameFormProviderSpec extends StringFieldBehaviours {
 
   private val prefix = Gen.alphaNumStr.sample.value
 
@@ -31,7 +31,7 @@ class StaticNameFormProviderSpec extends StringFieldBehaviours {
 
   private val maxNameLength = 70
 
-  private val form = new StaticNameFormProvider()(prefix)
+  private val form = new NameFormProvider()(prefix)
 
   ".value" - {
 

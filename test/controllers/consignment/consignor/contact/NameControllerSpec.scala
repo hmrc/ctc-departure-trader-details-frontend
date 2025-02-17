@@ -17,7 +17,7 @@
 package controllers.consignment.consignor.contact
 
 import base.{AppWithDefaultMockFixtures, SpecBase}
-import forms.StaticNameFormProvider
+import forms.NameFormProvider
 import models.NormalMode
 import navigation.TraderDetailsNavigatorProvider
 import org.mockito.ArgumentMatchers.any
@@ -33,7 +33,7 @@ import scala.concurrent.Future
 
 class NameControllerSpec extends SpecBase with AppWithDefaultMockFixtures {
 
-  private val formProvider          = new StaticNameFormProvider()
+  private val formProvider          = new NameFormProvider()
   private val form                  = formProvider("traderDetails.consignment.consignor.contact.name")
   private val mode                  = NormalMode
   private lazy val contactNameRoute = routes.NameController.onPageLoad(lrn, mode).url

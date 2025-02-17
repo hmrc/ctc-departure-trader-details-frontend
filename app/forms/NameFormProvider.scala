@@ -16,16 +16,14 @@
 
 package forms
 
-import config.PhaseConfig
+import Constants.maxNameLength
 import forms.mappings.Mappings
 import models.domain.StringFieldRegex.stringFieldRegex
 import play.api.data.Form
 
 import javax.inject.Inject
 
-sealed trait NameFormProvider extends Mappings {
-
-  val maxNameLength: Int
+class NameFormProvider @Inject() extends Mappings {
 
   def apply(prefix: String): Form[String] =
     Form(
@@ -37,12 +35,4 @@ sealed trait NameFormProvider extends Mappings {
           )
         )
     )
-}
-
-class StaticNameFormProvider extends NameFormProvider {
-  override val maxNameLength: Int = Constants.maxNameLength
-}
-
-class DynamicNameFormProvider @Inject() (implicit phaseConfig: PhaseConfig) extends NameFormProvider {
-  override val maxNameLength: Int = phaseConfig.values.maxNameLength
 }

@@ -92,7 +92,6 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
             .unsafeSetVal(hot.AddContactPage)(false)
             .unsafeSetVal(ActingAsRepresentativePage)(false)
             .unsafeSetVal(ApprovedOperatorPage)(true)
-            .unsafeSetVal(MoreThanOneConsigneePage)(false)
             .unsafeSetVal(consignee.EoriYesNoPage)(true)
             .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
 
@@ -122,7 +121,6 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
             hot.AddContactPage,
             ActingAsRepresentativePage,
             ApprovedOperatorPage,
-            MoreThanOneConsigneePage,
             consignee.EoriYesNoPage,
             consignee.EoriNumberPage,
             TraderDetailsSection
@@ -290,7 +288,6 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
           .setValue(DeclarationTypePage, someSecurityType)
           .setValue(SecurityDetailsTypePage, NoSecurityDetails)
           .unsafeSetVal(ApprovedOperatorPage)(true)
-          .unsafeSetVal(MoreThanOneConsigneePage)(false)
           .unsafeSetVal(consignee.EoriYesNoPage)(true)
           .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
 
@@ -306,7 +303,6 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
         result.value.value mustBe expectedResult
         result.value.pages mustBe Seq(
           ApprovedOperatorPage,
-          MoreThanOneConsigneePage,
           consignee.EoriYesNoPage,
           consignee.EoriNumberPage,
           TraderDetailsSection
@@ -320,7 +316,6 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
             .setValue(DeclarationTypePage, someSecurityType)
             .setValue(SecurityDetailsTypePage, NoSecurityDetails)
             .unsafeSetVal(ApprovedOperatorPage)(true)
-            .unsafeSetVal(MoreThanOneConsigneePage)(false)
             .unsafeSetVal(consignee.EoriNumberPage)(eoriNumber)
             .unsafeSetVal(consignor.EoriYesNoPage)(true)
             .unsafeSetVal(consignor.EoriPage)(eoriNumber)
@@ -331,7 +326,6 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
           result.left.value.page mustBe consignee.EoriYesNoPage
           result.left.value.pages mustBe Seq(
             ApprovedOperatorPage,
-            MoreThanOneConsigneePage,
             consignee.EoriYesNoPage
           )
         }

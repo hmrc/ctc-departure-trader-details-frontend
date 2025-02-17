@@ -15,7 +15,7 @@
  */
 
 import cats.data.ReaderT
-import config.{FrontendAppConfig, PhaseConfig}
+import config.FrontendAppConfig
 import models.TaskStatus.InProgress
 import models.journeyDomain.OpsError.WriterError
 import models.journeyDomain.TraderDetailsDomain
@@ -61,7 +61,7 @@ package object controllers {
 
   implicit class SettableOpsRunner[A](userAnswersWriter: UserAnswersWriter[Write[A]]) {
 
-    def updateTask()(implicit phaseConfig: PhaseConfig): UserAnswersWriter[Write[A]] =
+    def updateTask(): UserAnswersWriter[Write[A]] =
       userAnswersWriter.flatMapF {
         case (page, userAnswers) =>
           page.path.path.headOption.map(_.toJsonString) match {

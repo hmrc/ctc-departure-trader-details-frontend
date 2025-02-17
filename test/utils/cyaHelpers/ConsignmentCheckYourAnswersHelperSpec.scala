@@ -390,50 +390,6 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
       }
     }
 
-    "moreThanOneConsignee" - {
-      "must return None" - {
-        s"when $MoreThanOneConsigneePage is undefined" in {
-          forAll(arbitrary[Mode]) {
-            mode =>
-              val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
-              val result = helper.moreThanOneConsignee
-              result mustBe None
-          }
-        }
-      }
-
-      "must return Some(Row)" - {
-        s"when $MoreThanOneConsigneePage is defined" in {
-          forAll(arbitrary[Mode]) {
-            mode =>
-              val answers = emptyUserAnswers.setValue(MoreThanOneConsigneePage, true)
-
-              val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
-              val result = helper.moreThanOneConsignee
-
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Is there more than one consignee?".toText),
-                  value = Value("Yes".toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consignmentRoutes.MoreThanOneConsigneeController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("if there is more than one consignee"),
-                          attributes = Map("id" -> "change-has-more-than-one-consignee")
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-          }
-        }
-      }
-    }
-
     "consigneeEoriYesNo" - {
       "must return None" - {
         s"when ${consignee.EoriYesNoPage} is undefined" in {

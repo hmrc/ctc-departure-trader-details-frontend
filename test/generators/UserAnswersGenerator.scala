@@ -16,7 +16,6 @@
 
 package generators
 
-import config.PhaseConfig
 import models.journeyDomain.OpsError.ReaderError
 import models.journeyDomain.consignment.{ConsignmentConsigneeDomain, ConsignmentConsignorDomain, ConsignmentDomain}
 import models.journeyDomain.holderOfTransit.HolderOfTransitDomain
@@ -29,7 +28,7 @@ import org.scalacheck.{Arbitrary, Gen}
 trait UserAnswersGenerator extends UserAnswersEntryGenerators {
   self: Generators =>
 
-  implicit def arbitraryUserAnswers(implicit phaseConfig: PhaseConfig): Arbitrary[UserAnswers] =
+  implicit def arbitraryUserAnswers: Arbitrary[UserAnswers] =
     Arbitrary {
       for {
         lrn        <- arbitrary[LocalReferenceNumber]
@@ -61,7 +60,7 @@ trait UserAnswersGenerator extends UserAnswersEntryGenerators {
     rec(initialUserAnswers)
   }
 
-  def arbitraryTraderDetailsAnswers(userAnswers: UserAnswers)(implicit phaseConfig: PhaseConfig): Gen[UserAnswers] =
+  def arbitraryTraderDetailsAnswers(userAnswers: UserAnswers): Gen[UserAnswers] =
     buildUserAnswers[TraderDetailsDomain](userAnswers)
 
   def arbitraryHolderOfTransitAnswers(userAnswers: UserAnswers): Gen[UserAnswers] =
@@ -74,7 +73,7 @@ trait UserAnswersGenerator extends UserAnswersEntryGenerators {
       RepresentativeDomain.userAnswersReader.apply(Nil)
     }
 
-  def arbitraryConsignmentAnswers(userAnswers: UserAnswers)(implicit phaseConfig: PhaseConfig): Gen[UserAnswers] =
+  def arbitraryConsignmentAnswers(userAnswers: UserAnswers): Gen[UserAnswers] =
     buildUserAnswers[ConsignmentDomain](userAnswers) {
       ConsignmentDomain.userAnswersReader.apply(Nil)
     }

@@ -16,7 +16,7 @@
 
 package models
 
-import config.PhaseConfig
+import forms.Constants.{maxNumberAndStreetLength, maxPostcodeLength}
 import models.domain.StringFieldRegex.{alphaNumericWithSpacesRegex, stringFieldRegex}
 import play.api.i18n.Messages
 
@@ -34,25 +34,25 @@ object AddressLine {
   }
 
   sealed trait AddressLineWithValidation extends AddressLine {
-    def length(implicit phaseConfig: PhaseConfig): Int
+    def length: Int
     val regex: Regex
   }
 
   case object NumberAndStreet extends AddressLineWithValidation {
-    override val field: String                                  = "numberAndStreet"
-    override def length(implicit phaseConfig: PhaseConfig): Int = phaseConfig.values.maxNumberAndStreetLength
-    override val regex: Regex                                   = stringFieldRegex
+    override val field: String = "numberAndStreet"
+    override def length: Int   = maxNumberAndStreetLength
+    override val regex: Regex  = stringFieldRegex
   }
 
   case object City extends AddressLineWithValidation {
-    override val field: String                                  = "city"
-    override def length(implicit phaseConfig: PhaseConfig): Int = 35
-    override val regex: Regex                                   = stringFieldRegex
+    override val field: String = "city"
+    override def length: Int   = 35
+    override val regex: Regex  = stringFieldRegex
   }
 
   case object PostalCode extends AddressLineWithValidation {
-    override val field: String                                  = "postalCode"
-    override def length(implicit phaseConfig: PhaseConfig): Int = phaseConfig.values.maxPostcodeLength
-    override val regex: Regex                                   = alphaNumericWithSpacesRegex
+    override val field: String = "postalCode"
+    override def length: Int   = maxPostcodeLength
+    override val regex: Regex  = alphaNumericWithSpacesRegex
   }
 }

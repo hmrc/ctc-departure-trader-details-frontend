@@ -16,7 +16,6 @@
 
 package controllers.representative
 
-import config.PhaseConfig
 import controllers.actions.Actions
 import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
 import forms.TelephoneNumberFormProvider
@@ -40,7 +39,7 @@ class TelephoneNumberController @Inject() (
   actions: Actions,
   val controllerComponents: MessagesControllerComponents,
   view: TelephoneNumberView
-)(implicit ec: ExecutionContext, phaseConfig: PhaseConfig)
+)(implicit ec: ExecutionContext)
     extends FrontendBaseController
     with I18nSupport {
 

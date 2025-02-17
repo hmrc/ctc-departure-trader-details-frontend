@@ -16,12 +16,10 @@
 
 package controllers
 
-import config.PhaseConfig
 import controllers.actions.Actions
 import forms.YesNoFormProvider
 import models.{LocalReferenceNumber, Mode}
-import navigation.UserAnswersNavigator
-import navigation.TraderDetailsNavigatorProvider
+import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
 import pages.ActingAsRepresentativePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -40,7 +38,7 @@ class ActingAsRepresentativeController @Inject() (
   formProvider: YesNoFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: ActingAsRepresentativeView
-)(implicit ec: ExecutionContext, phaseConfig: PhaseConfig)
+)(implicit ec: ExecutionContext)
     extends FrontendBaseController
     with I18nSupport {
 

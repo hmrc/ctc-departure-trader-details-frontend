@@ -28,7 +28,7 @@ class AddressViewSpec extends DynamicAddressViewBehaviours with Generators {
 
   private val name = nonEmptyString.sample.value
 
-  private val formProvider = new DynamicAddressFormProvider()(phaseConfig)
+  private val formProvider = new DynamicAddressFormProvider()
 
   override def form: Form[DynamicAddress] = formProvider(prefix, isPostalCodeRequired, name)
 

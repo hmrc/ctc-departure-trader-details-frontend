@@ -16,10 +16,9 @@
 
 package controllers.consignment.consignee
 
-import config.PhaseConfig
 import controllers.actions.Actions
 import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
-import forms.DynamicNameFormProvider
+import forms.NameFormProvider
 import models.{LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
 import pages.consignment.consignee.NamePage
@@ -36,11 +35,11 @@ class NameController @Inject() (
   override val messagesApi: MessagesApi,
   sessionRepository: SessionRepository,
   navigatorProvider: TraderDetailsNavigatorProvider,
-  formProvider: DynamicNameFormProvider,
+  formProvider: NameFormProvider,
   actions: Actions,
   val controllerComponents: MessagesControllerComponents,
   view: NameView
-)(implicit ec: ExecutionContext, phaseConfig: PhaseConfig)
+)(implicit ec: ExecutionContext)
     extends FrontendBaseController
     with I18nSupport {
 
