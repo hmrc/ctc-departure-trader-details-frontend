@@ -20,6 +20,7 @@ import config.PhaseConfig
 import controllers.actions.{Actions, SpecificDataRequiredActionProvider}
 import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
 import forms.SelectableFormProvider
+import forms.SelectableFormProvider.CountryFormProvider
 import models.{LocalReferenceNumber, Mode}
 import navigation.{TraderDetailsNavigatorProvider, UserAnswersNavigator}
 import pages.consignment.consignor.{CountryPage, NamePage}
@@ -38,7 +39,7 @@ class CountryController @Inject() (
   sessionRepository: SessionRepository,
   navigatorProvider: TraderDetailsNavigatorProvider,
   actions: Actions,
-  formProvider: SelectableFormProvider,
+  formProvider: CountryFormProvider,
   service: CountriesService,
   val controllerComponents: MessagesControllerComponents,
   view: CountryView,
