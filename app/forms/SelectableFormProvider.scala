@@ -20,9 +20,7 @@ import forms.mappings.Mappings
 import models.{Selectable, SelectableList}
 import play.api.data.Form
 
-import javax.inject.Inject
-
-trait SelectableFormProvider @Inject() extends Mappings {
+trait SelectableFormProvider extends Mappings {
 
   val field: String
 
