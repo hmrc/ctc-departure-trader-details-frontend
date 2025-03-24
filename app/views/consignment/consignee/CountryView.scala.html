@@ -21,6 +21,7 @@
 @import models.Selectable.*
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits.*
 @import viewModels.components.InputSelectViewModel.*
+@import forms.SelectableFormProvider.CountryFormProvider.field
 @import views.html.components.{Button, ErrorSummary, InputSelect}
 
 @this(
@@ -44,7 +45,7 @@
         @errorSummary(form.errors)
 
         @inputSelect(
-            field = form("value"),
+            field = form(field),
             selectType = OrdinarySelect(
                 heading = messages("traderDetails.consignment.consignee.country.heading", name),
                 caption = Some(messages("traderDetails.consignment.consignee.caption"))
