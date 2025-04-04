@@ -16,7 +16,6 @@
 
 package controllers.consignment.consignor
 
-import config.PhaseConfig
 import controllers.actions.{Actions, SpecificDataRequiredActionProvider}
 import controllers.{NavigatorOps, SettableOps, SettableOpsRunner}
 import forms.SelectableFormProvider
@@ -44,7 +43,7 @@ class CountryController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: CountryView,
   getMandatoryPage: SpecificDataRequiredActionProvider
-)(implicit ec: ExecutionContext, phaseConfig: PhaseConfig)
+)(implicit ec: ExecutionContext)
     extends FrontendBaseController
     with I18nSupport {
 
