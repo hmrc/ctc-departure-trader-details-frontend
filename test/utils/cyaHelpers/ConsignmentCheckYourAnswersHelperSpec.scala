@@ -17,18 +17,17 @@
 package utils.cyaHelpers
 
 import base.SpecBase
+import controllers.consignment.consignee.routes as consigneeRoutes
+import controllers.consignment.consignor.contact.routes as contactRoutes
+import controllers.consignment.consignor.routes as consignorRoutes
 import generators.Generators
 import models.reference.Country
-import controllers.consignment.consignee.{routes => consigneeRoutes}
-import controllers.consignment.consignor.contact.{routes => contactRoutes}
-import controllers.consignment.consignor.{routes => consignorRoutes}
-import controllers.consignment.{routes => consignmentRoutes}
-import pages.consignment.*
-import pages.consignment.consignor.CountryPage
 import models.{DynamicAddress, Mode}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import pages.consignment.*
+import pages.consignment.consignor.CountryPage
 import uk.gov.hmrc.govukfrontend.views.Aliases.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits.*
 import uk.gov.hmrc.govukfrontend.views.html.components.{ActionItem, Actions}
