@@ -21,5 +21,5 @@ import play.api.libs.json.{JsArray, JsPath}
 
 case object ItemsSection extends ReadOnlySection[JsArray] {
 
-  override def path: JsPath = JsPath \ "items"
+  override def path: JsPath = JsPath \ "items" \ "items"
 }
