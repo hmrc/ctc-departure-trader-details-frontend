@@ -37,7 +37,7 @@ class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpCli
     val url = url"${config.referenceDataUrl}/lists/CountryCodesForAddress"
     http
       .get(url)
-      .setHeader(version2Header*)
+      .setHeader(version1Header*)
       .execute[Responses[Country]]
   }
 
@@ -46,13 +46,13 @@ class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpCli
     val url             = url"${config.referenceDataUrl}/lists/CountryWithoutZip?$queryParameters"
     http
       .get(url)
-      .setHeader(version2Header*)
+      .setHeader(version1Header*)
       .execute[Responses[CountryCode]]
       .map(_.map(_.head))
   }
 
-  private def version2Header: Seq[(String, String)] = Seq(
-    HeaderNames.Accept -> "application/vnd.hmrc.2.0+json"
+  private def version1Header: Seq[(String, String)] = Seq(
+    HeaderNames.Accept -> "application/vnd.hmrc.1.0+json"
   )
 
   implicit def responseHandlerGeneric[A](implicit reads: Reads[A], order: Order[A]): HttpReads[Either[Exception, NonEmptySet[A]]] =

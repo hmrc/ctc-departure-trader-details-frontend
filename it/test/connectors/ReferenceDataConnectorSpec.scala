@@ -17,7 +17,7 @@
 package connectors
 
 import cats.data.NonEmptySet
-import com.github.tomakehurst.wiremock.client.WireMock.{aResponse, get, okJson, urlEqualTo}
+import com.github.tomakehurst.wiremock.client.WireMock.{aResponse, equalTo, get, okJson, urlEqualTo}
 import connectors.ReferenceDataConnector.NoReferenceDataFoundException
 import itbase.{ItSpecBase, WireMockServerHandler}
 import models.reference.*
@@ -110,6 +110,7 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
       "must return Seq of Country when successful" in {
         server.stubFor(
           get(urlEqualTo(url))
+            .withHeader("Accept", equalTo("application/vnd.hmrc.1.0+json"))
             .willReturn(okJson(countryCodesForAddressResponseJson))
         )
 
@@ -137,6 +138,7 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
         val countryId = "GB"
         server.stubFor(
           get(urlEqualTo(url(countryId)))
+            .withHeader("Accept", equalTo("application/vnd.hmrc.1.0+json"))
             .willReturn(okJson(countryWithoutZipResponseJson))
         )
 
@@ -160,6 +162,7 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
   private def checkNoReferenceDataFoundResponse(url: String, result: => Future[Either[Exception, ?]]): Assertion = {
     server.stubFor(
       get(urlEqualTo(url))
+        .withHeader("Accept", equalTo("application/vnd.hmrc.1.0+json"))
         .willReturn(okJson(emptyResponseJson))
     )
     result.futureValue.left.value mustBe a[NoReferenceDataFoundException]
@@ -172,6 +175,7 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
       errorResponse =>
         server.stubFor(
           get(urlEqualTo(url))
+            .withHeader("Accept", equalTo("application/vnd.hmrc.1.0+json"))
             .willReturn(
               aResponse()
                 .withStatus(errorResponse)
