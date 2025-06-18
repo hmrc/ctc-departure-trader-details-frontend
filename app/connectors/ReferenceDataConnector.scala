@@ -28,32 +28,31 @@ import sttp.model.HeaderNames
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse, StringContextOps}
 
+import java.net.URL
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpClientV2) extends Logging {
 
-  def getCountriesFullList()(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[Responses[Country]] = {
-    val url = url"${config.referenceDataUrl}/lists/CountryCodesForAddress"
+  private def get[T](url: URL)(implicit ec: ExecutionContext, hc: HeaderCarrier, reads: HttpReads[Responses[T]]): Future[Responses[T]] =
     http
       .get(url)
-      .setHeader(version1Header*)
-      .execute[Responses[Country]]
+      .setHeader(HeaderNames.Accept -> "application/vnd.hmrc.1.0+json")
+      .execute[Responses[T]]
+
+  private def getOne[T](url: URL)(implicit ec: ExecutionContext, hc: HeaderCarrier, reads: HttpReads[Responses[T]]): Future[Response[T]] =
+    get[T](url).map(_.map(_.head))
+
+  def getCountriesFullList()(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[Responses[Country]] = {
+    val url = url"${config.referenceDataUrl}/lists/CountryCodesForAddress"
+    get[Country](url)
   }
 
   def getCountriesWithoutZipCountry(code: String)(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[Response[CountryCode]] = {
     val queryParameters = Seq("data.code" -> code)
     val url             = url"${config.referenceDataUrl}/lists/CountryWithoutZip?$queryParameters"
-    http
-      .get(url)
-      .setHeader(version1Header*)
-      .execute[Responses[CountryCode]]
-      .map(_.map(_.head))
+    getOne[CountryCode](url)
   }
-
-  private def version1Header: Seq[(String, String)] = Seq(
-    HeaderNames.Accept -> "application/vnd.hmrc.1.0+json"
-  )
 
   implicit def responseHandlerGeneric[A](implicit reads: Reads[A], order: Order[A]): HttpReads[Either[Exception, NonEmptySet[A]]] =
     (_: String, url: String, response: HttpResponse) =>
