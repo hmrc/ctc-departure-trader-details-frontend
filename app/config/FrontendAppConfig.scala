@@ -29,6 +29,7 @@ class FrontendAppConfig @Inject() (configuration: Configuration, servicesConfig:
   val eccEnrolmentSplashPage: String      = configuration.get[String]("urls.eccEnrolmentSplashPage")
   lazy val enrolmentKey: String           = configuration.get[String]("enrolment.key")
   lazy val enrolmentIdentifierKey: String = configuration.get[String]("enrolment.identifierKey")
+  val isPhase6Enabled: Boolean            = configuration.get[Boolean]("feature-flags.phase-6-enabled")
 
   lazy val referenceDataUrl: String = servicesConfig.fullServiceUrl("customs-reference-data")
 

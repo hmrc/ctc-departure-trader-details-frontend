@@ -25,6 +25,7 @@ import org.scalacheck.Gen
 import org.scalatest.{Assertion, EitherValues}
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.inject.guice.GuiceApplicationBuilder
+import play.api.test.Helpers.running
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -39,7 +40,11 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
       conf = "microservice.services.customs-reference-data.port" -> server.port()
     )
 
-  private lazy val connector: ReferenceDataConnector = app.injector.instanceOf[ReferenceDataConnector]
+  private val phase5App: GuiceApplicationBuilder => GuiceApplicationBuilder =
+    _ => guiceApplicationBuilder().configure("feature-flags.phase-6-enabled" -> false)
+
+  private val phase6App: GuiceApplicationBuilder => GuiceApplicationBuilder =
+    _ => guiceApplicationBuilder().configure("feature-flags.phase-6-enabled" -> true)
 
   private def countryCodesForAddressResponseJson: String =
     s"""
@@ -71,6 +76,20 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
        |}
        |""".stripMargin
 
+  private val countryCodesForAddressResponseP6Json: String =
+    s"""
+       |[
+       |    {
+       |      "key": "GB",
+       |      "value": "United Kingdom"
+       |    },
+       |    {
+       |      "key": "AD",
+       |      "value": "Andorra"
+       |    }
+       |]
+       |""".stripMargin
+
   private def countryWithoutZipResponseJson: String =
     s"""
        |{
@@ -95,11 +114,26 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
        |}
        |""".stripMargin
 
-  private val emptyResponseJson: String =
+  private def countryWithoutZipResponseP6Json: String =
+    s"""
+       |[
+       |  {
+       |    "key": "GB",
+       |    "value": "United Kingdom"
+       |  }
+       |]
+       |""".stripMargin
+
+  private val emptyPhase5ResponseJson: String =
     """
       |{
       |  "data": []
       |}
+      |""".stripMargin
+
+  private val emptyPhase6ResponseJson: String =
+    """
+      |[]
       |""".stripMargin
 
   "Reference Data" - {
@@ -107,64 +141,168 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
     "getCountries" - {
       val url = s"/$baseUrl/lists/CountryCodesForAddress"
 
-      "must return Seq of Country when successful" in {
-        server.stubFor(
-          get(urlEqualTo(url))
-            .withHeader("Accept", equalTo("application/vnd.hmrc.1.0+json"))
-            .willReturn(okJson(countryCodesForAddressResponseJson))
-        )
+      "when phase 5" - {
+        "must return Seq of Country when successful" in {
+          running(phase5App) {
+            app =>
+              val connector = app.injector.instanceOf[ReferenceDataConnector]
+              server.stubFor(
+                get(urlEqualTo(url))
+                  .withHeader("Accept", equalTo("application/vnd.hmrc.1.0+json"))
+                  .willReturn(okJson(countryCodesForAddressResponseJson))
+              )
 
-        val expectedResult = NonEmptySet.of(
-          Country(CountryCode("GB"), "United Kingdom"),
-          Country(CountryCode("AD"), "Andorra")
-        )
+              val expectedResult = NonEmptySet.of(
+                Country(CountryCode("GB"), "United Kingdom"),
+                Country(CountryCode("AD"), "Andorra")
+              )
 
-        connector.getCountriesFullList().futureValue.value mustEqual expectedResult
+              connector.getCountriesFullList().futureValue.value mustEqual expectedResult
+          }
+        }
+
+        "must throw a NoReferenceDataFoundException for an empty response" in {
+          running(phase5App) {
+            app =>
+              val connector = app.injector.instanceOf[ReferenceDataConnector]
+              checkNoReferenceDataFoundResponse(url, emptyPhase5ResponseJson, connector.getCountriesFullList())
+          }
+        }
+
+        "must return an exception when an error response is returned" in {
+          running(phase5App) {
+            app =>
+              val connector = app.injector.instanceOf[ReferenceDataConnector]
+              checkErrorResponse(url, connector.getCountriesFullList())
+          }
+        }
       }
 
-      "must throw a NoReferenceDataFoundException for an empty response" in {
-        checkNoReferenceDataFoundResponse(url, connector.getCountriesFullList())
-      }
+      "when phase 6" - {
+        "must return Seq of Country when successful" in {
+          running(phase6App) {
+            app =>
+              val connector = app.injector.instanceOf[ReferenceDataConnector]
+              server.stubFor(
+                get(urlEqualTo(url))
+                  .withHeader("Accept", equalTo("application/vnd.hmrc.2.0+json"))
+                  .willReturn(okJson(countryCodesForAddressResponseP6Json))
+              )
 
-      "must return an exception when an error response is returned" in {
-        checkErrorResponse(url, connector.getCountriesFullList())
+              val expectedResult = NonEmptySet.of(
+                Country(CountryCode("GB"), "United Kingdom"),
+                Country(CountryCode("AD"), "Andorra")
+              )
+
+              connector.getCountriesFullList().futureValue.value mustEqual expectedResult
+          }
+        }
+
+        "must throw a NoReferenceDataFoundException for an empty response" in {
+          running(phase6App) {
+            app =>
+              val connector = app.injector.instanceOf[ReferenceDataConnector]
+              checkNoReferenceDataFoundResponse(url, emptyPhase6ResponseJson, connector.getCountriesFullList())
+          }
+        }
+
+        "must return an exception when an error response is returned" in {
+          running(phase6App) {
+            app =>
+              val connector = app.injector.instanceOf[ReferenceDataConnector]
+              checkErrorResponse(url, connector.getCountriesFullList())
+          }
+        }
       }
     }
 
     "getCountriesWithoutZipCountry" - {
-      def url(countryId: String) = s"/$baseUrl/lists/CountryWithoutZip?data.code=$countryId"
+      "when phase 5" - {
+        def url(countryId: String) = s"/$baseUrl/lists/CountryWithoutZip?data.code=$countryId"
 
-      "must return Seq of Country when successful" in {
-        val countryId = "GB"
-        server.stubFor(
-          get(urlEqualTo(url(countryId)))
-            .withHeader("Accept", equalTo("application/vnd.hmrc.1.0+json"))
-            .willReturn(okJson(countryWithoutZipResponseJson))
-        )
+        "must return Seq of Country when successful" in {
+          running(phase5App) {
+            app =>
+              val connector = app.injector.instanceOf[ReferenceDataConnector]
+              val countryId = "GB"
+              server.stubFor(
+                get(urlEqualTo(url(countryId)))
+                  .withHeader("Accept", equalTo("application/vnd.hmrc.1.0+json"))
+                  .willReturn(okJson(countryWithoutZipResponseJson))
+              )
 
-        val expectedResult = CountryCode(countryId)
+              val expectedResult = CountryCode(countryId)
 
-        connector.getCountriesWithoutZipCountry(countryId).futureValue.value mustEqual expectedResult
+              connector.getCountriesWithoutZipCountry(countryId).futureValue.value mustEqual expectedResult
+          }
+        }
+
+        "must throw a NoReferenceDataFoundException for an empty response" in {
+          running(phase5App) {
+            app =>
+              val connector = app.injector.instanceOf[ReferenceDataConnector]
+              val countryId = "FR"
+              checkNoReferenceDataFoundResponse(url(countryId), emptyPhase5ResponseJson, connector.getCountriesWithoutZipCountry(countryId))
+          }
+        }
+
+        "must return an exception when an error response is returned" in {
+          running(phase5App) {
+            app =>
+              val connector = app.injector.instanceOf[ReferenceDataConnector]
+              val countryId = "FR"
+              checkErrorResponse(url(countryId), connector.getCountriesWithoutZipCountry(countryId))
+          }
+        }
       }
 
-      "must throw a NoReferenceDataFoundException for an empty response" in {
-        val countryId = "FR"
-        checkNoReferenceDataFoundResponse(url(countryId), connector.getCountriesWithoutZipCountry(countryId))
-      }
+      "when phase 6" - {
+        def url(countryId: String) = s"/$baseUrl/lists/CountryWithoutZip?keys=$countryId"
 
-      "must return an exception when an error response is returned" in {
-        val countryId = "FR"
-        checkErrorResponse(url(countryId), connector.getCountriesWithoutZipCountry(countryId))
+        "must return Seq of Country when successful" in {
+          running(phase6App) {
+            app =>
+              val connector = app.injector.instanceOf[ReferenceDataConnector]
+              val countryId = "GB"
+              server.stubFor(
+                get(urlEqualTo(url(countryId)))
+                  .withHeader("Accept", equalTo("application/vnd.hmrc.2.0+json"))
+                  .willReturn(okJson(countryWithoutZipResponseP6Json))
+              )
+
+              val expectedResult = CountryCode(countryId)
+
+              connector.getCountriesWithoutZipCountry(countryId).futureValue.value mustEqual expectedResult
+          }
+        }
+
+        "must throw a NoReferenceDataFoundException for an empty response" in {
+          running(phase6App) {
+            app =>
+              val connector = app.injector.instanceOf[ReferenceDataConnector]
+              val countryId = "FR"
+              checkNoReferenceDataFoundResponse(url(countryId), emptyPhase6ResponseJson, connector.getCountriesWithoutZipCountry(countryId))
+          }
+        }
+
+        "must return an exception when an error response is returned" in {
+          running(phase6App) {
+            app =>
+              val connector = app.injector.instanceOf[ReferenceDataConnector]
+              val countryId = "FR"
+              checkErrorResponse(url(countryId), connector.getCountriesWithoutZipCountry(countryId))
+          }
+        }
       }
     }
   }
 
-  private def checkNoReferenceDataFoundResponse(url: String, result: => Future[Either[Exception, ?]]): Assertion = {
+  private def checkNoReferenceDataFoundResponse(url: String, json: String, result: => Future[Either[Exception, ?]]): Assertion = {
     server.stubFor(
       get(urlEqualTo(url))
-        .withHeader("Accept", equalTo("application/vnd.hmrc.1.0+json"))
-        .willReturn(okJson(emptyResponseJson))
+        .willReturn(okJson(json))
     )
+
     result.futureValue.left.value mustBe a[NoReferenceDataFoundException]
   }
 
@@ -175,7 +313,6 @@ class ReferenceDataConnectorSpec extends ItSpecBase with WireMockServerHandler w
       errorResponse =>
         server.stubFor(
           get(urlEqualTo(url))
-            .withHeader("Accept", equalTo("application/vnd.hmrc.1.0+json"))
             .willReturn(
               aResponse()
                 .withStatus(errorResponse)
