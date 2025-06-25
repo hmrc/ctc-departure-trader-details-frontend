@@ -18,7 +18,9 @@ package models.reference
 
 import base.SpecBase
 import org.scalacheck.Gen
+import config.FrontendAppConfig
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import play.api.test.Helpers.running
 import play.api.libs.json.{JsString, Json}
 
 class CountryCodeSpec extends SpecBase with ScalaCheckPropertyChecks {
@@ -33,13 +35,50 @@ class CountryCodeSpec extends SpecBase with ScalaCheckPropertyChecks {
       }
     }
 
-    "must deserialise" in {
-      forAll(Gen.alphaNumStr) {
-        code =>
-          val countryCode = CountryCode(code)
-          JsString(code).as[CountryCode] mustBe countryCode
+    "must deserialise" - {
+      "when reading from mongo" in {
+        forAll(Gen.alphaNumStr) {
+          code =>
+            val countryCode = CountryCode(code)
+            JsString(code).as[CountryCode] mustEqual countryCode
+        }
+      }
+
+      "when reading from reference data" - {
+        "when phase 5" in {
+          running(_.configure("feature-flags.phase-6-enabled" -> false)) {
+            app =>
+              val config = app.injector.instanceOf[FrontendAppConfig]
+              forAll(Gen.alphaNumStr) {
+                code =>
+                  Json
+                    .parse(s"""
+                         |{
+                         |  "code": "$code"
+                         |}
+                         |""".stripMargin)
+                    .as[CountryCode](CountryCode.reads(config)) mustEqual CountryCode(code)
+              }
+          }
+        }
+
+        "when phase 6" in {
+          running(_.configure("feature-flags.phase-6-enabled" -> true)) {
+            app =>
+              val config = app.injector.instanceOf[FrontendAppConfig]
+              forAll(Gen.alphaNumStr) {
+                code =>
+                  Json
+                    .parse(s"""
+                         |{
+                         |  "key": "$code"
+                         |}
+                         |""".stripMargin)
+                    .as[CountryCode](CountryCode.reads(config)) mustEqual CountryCode(code)
+              }
+          }
+        }
       }
     }
   }
-
 }
