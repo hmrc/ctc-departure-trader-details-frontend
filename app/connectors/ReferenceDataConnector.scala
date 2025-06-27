@@ -37,20 +37,25 @@ class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpCli
   private def get[T](url: URL)(implicit ec: ExecutionContext, hc: HeaderCarrier, reads: HttpReads[Responses[T]]): Future[Responses[T]] =
     http
       .get(url)
-      .setHeader(HeaderNames.Accept -> "application/vnd.hmrc.1.0+json")
+      .setHeader(HeaderNames.Accept -> {
+        val version = if (config.isPhase6Enabled) "2.0" else "1.0"
+        s"application/vnd.hmrc.$version+json"
+      })
       .execute[Responses[T]]
 
   private def getOne[T](url: URL)(implicit ec: ExecutionContext, hc: HeaderCarrier, reads: HttpReads[Responses[T]]): Future[Response[T]] =
     get[T](url).map(_.map(_.head))
 
   def getCountriesFullList()(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[Responses[Country]] = {
-    val url = url"${config.referenceDataUrl}/lists/CountryCodesForAddress"
+    val url                            = url"${config.referenceDataUrl}/lists/CountryCodesForAddress"
+    implicit val reads: Reads[Country] = Country.reads(config)
     get[Country](url)
   }
 
   def getCountriesWithoutZipCountry(code: String)(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[Response[CountryCode]] = {
-    val queryParameters = Seq("data.code" -> code)
-    val url             = url"${config.referenceDataUrl}/lists/CountryWithoutZip?$queryParameters"
+    val queryParameters                    = CountryCode.queryParams(code)(config)
+    implicit val reads: Reads[CountryCode] = CountryCode.reads(config)
+    val url                                = url"${config.referenceDataUrl}/lists/CountryWithoutZip?$queryParameters"
     getOne[CountryCode](url)
   }
 
@@ -58,7 +63,8 @@ class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpCli
     (_: String, url: String, response: HttpResponse) =>
       response.status match {
         case OK =>
-          (response.json \ "data").validate[List[A]] match {
+          val json = if (config.isPhase6Enabled) response.json else response.json \ "data"
+          json.validate[List[A]] match {
             case JsSuccess(Nil, _) =>
               Left(NoReferenceDataFoundException(url))
             case JsSuccess(head :: tail, _) =>
