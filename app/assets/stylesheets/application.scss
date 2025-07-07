@@ -1,6 +1,2 @@
+$govuk-include-default-font-face: false;
 @import "lib/govuk-frontend/dist/govuk/base";
-
-.autocomplete__wrapper .autocomplete__dropdown-arrow-down {
-  z-index: 0;
-  pointer-events: none;
-}
