@@ -44,7 +44,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.consignorEoriYesNo
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -58,7 +58,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.consignorEoriYesNo
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Do you know the consignor’s EORI number or Trader Identification Number (TIN)?".toText),
                   value = Value("Yes".toText),
@@ -75,7 +75,6 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -88,7 +87,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.consignorEori
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -102,19 +101,17 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.consignorEori
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Consignor’s EORI number or Trader Identification Number (TIN)".toText),
-                  value = Value(eori.toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consignorRoutes.EoriController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("consignor’s EORI number or Trader Identification Number (TIN)"),
-                          attributes = Map("id" -> "change-consignor-eori-number")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Consignor’s EORI number or Trader Identification Number (TIN)".toText),
+                value = Value(eori.toText),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = consignorRoutes.EoriController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("consignor’s EORI number or Trader Identification Number (TIN)"),
+                        attributes = Map("id" -> "change-consignor-eori-number")
                       )
                     )
                   )
@@ -132,7 +129,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.consignorName
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -146,19 +143,17 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.consignorName
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Consignor’s name".toText),
-                  value = Value(name.toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consignorRoutes.NameController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("consignor’s name"),
-                          attributes = Map("id" -> "change-consignor-name")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Consignor’s name".toText),
+                value = Value(name.toText),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = consignorRoutes.NameController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("consignor’s name"),
+                        attributes = Map("id" -> "change-consignor-name")
                       )
                     )
                   )
@@ -176,7 +171,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.consignorCountry
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -190,19 +185,17 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.consignorCountry
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Consignor’s country".toText),
-                  value = Value(country.toString.toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consignorRoutes.CountryController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("consignor’s country"),
-                          attributes = Map("id" -> "change-consignor-country")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Consignor’s country".toText),
+                value = Value(country.toString.toText),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = consignorRoutes.CountryController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("consignor’s country"),
+                        attributes = Map("id" -> "change-consignor-country")
                       )
                     )
                   )
@@ -220,7 +213,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.consignorAddress
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -234,19 +227,17 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.consignorAddress
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Consignor’s address".toText),
-                  value = Value(HtmlContent(Seq(Some(address.numberAndStreet), Some(address.city), address.postalCode).flatten.mkString("<br>"))),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consignorRoutes.AddressController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("consignor’s address"),
-                          attributes = Map("id" -> "change-consignor-address")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Consignor’s address".toText),
+                value = Value(HtmlContent(Seq(Some(address.numberAndStreet), Some(address.city), address.postalCode).flatten.mkString("<br>"))),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = consignorRoutes.AddressController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("consignor’s address"),
+                        attributes = Map("id" -> "change-consignor-address")
                       )
                     )
                   )
@@ -264,7 +255,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.addConsignorContact
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -278,19 +269,17 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.addConsignorContact
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Do you want to add a contact for the consignor?".toText),
-                  value = Value("Yes".toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consignorRoutes.AddContactController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("if you want to add a contact for the consignor"),
-                          attributes = Map("id" -> "change-has-consignor-contact")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Do you want to add a contact for the consignor?".toText),
+                value = Value("Yes".toText),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = consignorRoutes.AddContactController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("if you want to add a contact for the consignor"),
+                        attributes = Map("id" -> "change-has-consignor-contact")
                       )
                     )
                   )
@@ -308,7 +297,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.consignorContactName
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -322,19 +311,17 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.consignorContactName
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Contact for the consignor".toText),
-                  value = Value(contactName.toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = contactRoutes.NameController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("contact for the consignor"),
-                          attributes = Map("id" -> "change-consignor-contact-name")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Contact for the consignor".toText),
+                value = Value(contactName.toText),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = contactRoutes.NameController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("contact for the consignor"),
+                        attributes = Map("id" -> "change-consignor-contact-name")
                       )
                     )
                   )
@@ -352,7 +339,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.consignorContactTelephoneNumber
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -366,19 +353,17 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.consignorContactTelephoneNumber
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Consignor contact’s phone number".toText),
-                  value = Value(contactTelephoneNumber.toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = contactRoutes.TelephoneNumberController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("consignor contact’s phone number"),
-                          attributes = Map("id" -> "change-consignor-contact-phone-number")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Consignor contact’s phone number".toText),
+                value = Value(contactTelephoneNumber.toText),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = contactRoutes.TelephoneNumberController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("consignor contact’s phone number"),
+                        attributes = Map("id" -> "change-consignor-contact-phone-number")
                       )
                     )
                   )
@@ -396,7 +381,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.consigneeEoriYesNo
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -410,19 +395,17 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.consigneeEoriYesNo
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Do you know the consignee’s EORI number or Trader Identification Number (TIN)?".toText),
-                  value = Value("Yes".toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consigneeRoutes.EoriYesNoController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("if you know the consignee’s EORI number or Trader Identification Number (TIN)"),
-                          attributes = Map("id" -> "change-has-consignee-eori")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Do you know the consignee’s EORI number or Trader Identification Number (TIN)?".toText),
+                value = Value("Yes".toText),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = consigneeRoutes.EoriYesNoController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("if you know the consignee’s EORI number or Trader Identification Number (TIN)"),
+                        attributes = Map("id" -> "change-has-consignee-eori")
                       )
                     )
                   )
@@ -440,7 +423,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.consigneeEori
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -454,19 +437,17 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.consigneeEori
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Consignee’s EORI number or Trader Identification Number (TIN)".toText),
-                  value = Value(eori.toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consigneeRoutes.EoriNumberController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("consignee’s EORI number or Trader Identification Number (TIN)"),
-                          attributes = Map("id" -> "change-consignee-eori-number")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Consignee’s EORI number or Trader Identification Number (TIN)".toText),
+                value = Value(eori.toText),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = consigneeRoutes.EoriNumberController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("consignee’s EORI number or Trader Identification Number (TIN)"),
+                        attributes = Map("id" -> "change-consignee-eori-number")
                       )
                     )
                   )
@@ -484,7 +465,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.consigneeName
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -498,19 +479,17 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.consigneeName
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Consignee’s name".toText),
-                  value = Value(name.toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consigneeRoutes.NameController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("consignee’s name"),
-                          attributes = Map("id" -> "change-consignee-name")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Consignee’s name".toText),
+                value = Value(name.toText),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = consigneeRoutes.NameController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("consignee’s name"),
+                        attributes = Map("id" -> "change-consignee-name")
                       )
                     )
                   )
@@ -528,7 +507,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.consigneeCountry
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -542,19 +521,17 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.consigneeCountry
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Consignee’s country".toText),
-                  value = Value(country.toString.toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consigneeRoutes.CountryController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("consignee’s country"),
-                          attributes = Map("id" -> "change-consignee-country")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Consignee’s country".toText),
+                value = Value(country.toString.toText),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = consigneeRoutes.CountryController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("consignee’s country"),
+                        attributes = Map("id" -> "change-consignee-country")
                       )
                     )
                   )
@@ -572,7 +549,7 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
             mode =>
               val helper = new ConsignmentCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.consigneeAddress
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -586,19 +563,17 @@ class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckProp
               val helper = new ConsignmentCheckYourAnswersHelper(answers, mode)
               val result = helper.consigneeAddress
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Consignee’s address".toText),
-                  value = Value(HtmlContent(Seq(Some(address.numberAndStreet), Some(address.city), address.postalCode).flatten.mkString("<br>"))),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consigneeRoutes.AddressController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("consignee’s address"),
-                          attributes = Map("id" -> "change-consignee-address")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Consignee’s address".toText),
+                value = Value(HtmlContent(Seq(Some(address.numberAndStreet), Some(address.city), address.postalCode).flatten.mkString("<br>"))),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = consigneeRoutes.AddressController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("consignee’s address"),
+                        attributes = Map("id" -> "change-consignee-address")
                       )
                     )
                   )

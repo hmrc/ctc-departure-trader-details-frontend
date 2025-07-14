@@ -40,7 +40,7 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
             mode =>
               val helper = new RepresentativeCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.actingAsRepresentative
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -54,7 +54,7 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
               val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
               val result = helper.actingAsRepresentative
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Are you acting as a representative?".toText),
                   value = Value("Yes".toText),
@@ -71,7 +71,6 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -84,7 +83,7 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
             mode =>
               val helper = new RepresentativeCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.eori
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -98,7 +97,7 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
               val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
               val result = helper.eori
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("EORI number or Trader Identification Number (TIN)".toText),
                   value = Value(eori.toText),
@@ -115,7 +114,6 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -128,7 +126,7 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
             mode =>
               val helper = new RepresentativeCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.addDetails
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -142,7 +140,7 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
               val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
               val result = helper.addDetails
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Do you want to add your details?".toText),
                   value = Value("Yes".toText),
@@ -159,7 +157,6 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -172,7 +169,7 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
             mode =>
               val helper = new RepresentativeCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.name
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -186,7 +183,7 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
               val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
               val result = helper.name
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Name".toText),
                   value = Value(representativeName.toText),
@@ -203,7 +200,6 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -216,7 +212,7 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
             mode =>
               val helper = new RepresentativeCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.phoneNumber
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -230,7 +226,7 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
               val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
               val result = helper.phoneNumber
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Phone number".toText),
                   value = Value(representativePhoneNumber.toText),
@@ -247,7 +243,6 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -267,7 +262,7 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
               val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
               val result = helper.actingAsRepresentative
 
-              result mustBe Some(
+              result.value mustEqual (
                 SummaryListRow(
                   key = Key("Are you acting as a representative?".toText),
                   value = Value("Yes".toText),
@@ -290,7 +285,7 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
               val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
               val result = helper.eori
 
-              result mustBe Some(
+              result.value mustEqual (
                 SummaryListRow(
                   key = Key("EORI number or Trader Identification Number (TIN)".toText),
                   value = Value(eori.toText),
@@ -313,13 +308,13 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
               val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
               val result = helper.addDetails
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Do you want to add your details?".toText),
                   value = Value("Yes".toText),
                   actions = None
                 )
-              )
+
           }
         }
       }
@@ -336,13 +331,12 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
               val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
               val result = helper.name
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Name".toText),
                   value = Value(representativeName.toText),
                   actions = None
                 )
-              )
           }
         }
       }
@@ -359,13 +353,12 @@ class RepresentativeCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckP
               val helper = new RepresentativeCheckYourAnswersHelper(answers, mode)
               val result = helper.phoneNumber
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Phone number".toText),
                   value = Value(representativePhoneNumber.toText),
                   actions = None
                 )
-              )
           }
         }
       }

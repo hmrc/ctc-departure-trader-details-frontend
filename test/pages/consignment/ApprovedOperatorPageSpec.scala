@@ -55,12 +55,12 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
 
               val result = userAnswers.setValue(ApprovedOperatorPage, true)
 
-              result.get(EoriPage).isDefined mustBe false
-              result.get(EoriYesNoPage).isDefined mustBe false
-              result.get(NamePage).isDefined mustBe false
-              result.get(AddressPage).isDefined mustBe false
-              result.get(AuthorisationsAndLimitSection).isDefined mustBe false
-              result.get(ItemsSection).isDefined mustBe false
+              result.get(EoriPage).isDefined mustEqual false
+              result.get(EoriYesNoPage).isDefined mustEqual false
+              result.get(NamePage).isDefined mustEqual false
+              result.get(AddressPage).isDefined mustEqual false
+              result.get(AuthorisationsAndLimitSection).isDefined mustEqual false
+              result.get(ItemsSection).isDefined mustEqual false
           }
         }
       }
@@ -81,12 +81,12 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
 
               val result = userAnswers.setValue(ApprovedOperatorPage, false)
 
-              result.get(EoriPage).isDefined mustBe true
-              result.get(EoriYesNoPage).isDefined mustBe true
-              result.get(NamePage).isDefined mustBe true
-              result.get(AddressPage).isDefined mustBe true
-              result.get(AuthorisationsAndLimitSection).isDefined mustBe false
-              result.get(ItemsSection).isDefined mustBe false
+              result.get(EoriPage).isDefined mustEqual true
+              result.get(EoriYesNoPage).isDefined mustEqual true
+              result.get(NamePage).isDefined mustEqual true
+              result.get(AddressPage).isDefined mustEqual true
+              result.get(AuthorisationsAndLimitSection).isDefined mustEqual false
+              result.get(ItemsSection).isDefined mustEqual false
           }
         }
       }
@@ -107,12 +107,12 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
 
               val result = userAnswers.setValue(ApprovedOperatorPage, true)
 
-              result.get(EoriPage).isDefined mustBe true
-              result.get(EoriYesNoPage).isDefined mustBe true
-              result.get(NamePage).isDefined mustBe true
-              result.get(AddressPage).isDefined mustBe true
-              result.get(AuthorisationsAndLimitSection).isDefined mustBe false
-              result.get(ItemsSection).isDefined mustBe false
+              result.get(EoriPage).isDefined mustEqual true
+              result.get(EoriYesNoPage).isDefined mustEqual true
+              result.get(NamePage).isDefined mustEqual true
+              result.get(AddressPage).isDefined mustEqual true
+              result.get(AuthorisationsAndLimitSection).isDefined mustEqual false
+              result.get(ItemsSection).isDefined mustEqual false
           }
         }
       }
@@ -132,12 +132,12 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
 
               val result = userAnswers.setValue(ApprovedOperatorPage, true)
 
-              result.get(EoriPage).isDefined mustBe true
-              result.get(EoriYesNoPage).isDefined mustBe true
-              result.get(NamePage).isDefined mustBe true
-              result.get(AddressPage).isDefined mustBe true
-              result.get(AuthorisationsAndLimitSection).isDefined mustBe false
-              result.get(ItemsSection).isDefined mustBe false
+              result.get(EoriPage).isDefined mustEqual true
+              result.get(EoriYesNoPage).isDefined mustEqual true
+              result.get(NamePage).isDefined mustEqual true
+              result.get(AddressPage).isDefined mustEqual true
+              result.get(AuthorisationsAndLimitSection).isDefined mustEqual false
+              result.get(ItemsSection).isDefined mustEqual false
           }
         }
 
@@ -152,8 +152,8 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
 
                 val result = userAnswers.setValue(ApprovedOperatorPage, !bool)
 
-                result.get(AuthorisationsAndLimitSection).isDefined mustBe false
-                result.get(ItemsSection).isDefined mustBe false
+                result.get(AuthorisationsAndLimitSection).isDefined mustEqual false
+                result.get(ItemsSection).isDefined mustEqual false
             }
           }
         }
@@ -169,8 +169,8 @@ class ApprovedOperatorPageSpec extends PageBehaviours {
 
                 val result = userAnswers.setValue(ApprovedOperatorPage, bool)
 
-                result.get(AuthorisationsAndLimitSection).isDefined mustBe true
-                result.get(ItemsSection).isDefined mustBe true
+                result.get(AuthorisationsAndLimitSection).isDefined mustEqual true
+                result.get(ItemsSection).isDefined mustEqual true
             }
           }
         }

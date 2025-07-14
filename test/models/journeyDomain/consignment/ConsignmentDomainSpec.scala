@@ -62,7 +62,7 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
 
         val result = ConsignmentDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value.value mustBe expectedResult
+        result.value.value mustEqual expectedResult
         result.value.pages mustBe Seq(
           ApprovedOperatorPage,
           consignee.EoriYesNoPage,

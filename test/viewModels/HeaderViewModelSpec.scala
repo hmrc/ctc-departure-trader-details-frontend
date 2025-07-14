@@ -34,7 +34,7 @@ class HeaderViewModelSpec extends SpecBase with Generators {
 
         sections.size mustBe 1
 
-        sections.head.sectionTitle mustBe None
+        sections.head.sectionTitle must not be defined
         sections.head.rows must be(empty)
       }
     }
@@ -50,7 +50,7 @@ class HeaderViewModelSpec extends SpecBase with Generators {
 
         sections.size mustBe 1
 
-        sections.head.sectionTitle mustBe None
+        sections.head.sectionTitle must not be defined
         sections.head.rows.size mustBe 1
         sections.head.rows.head.value.content.asHtml.toString() mustBe "No"
       }

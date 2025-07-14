@@ -42,7 +42,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
             mode =>
               val helper = new HolderOfTransitCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.tirIdentification
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -56,7 +56,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.tirIdentification
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("TIR holder’s identification number".toText),
                   value = Value(eori.toText),
@@ -73,7 +73,6 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -86,7 +85,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
             mode =>
               val helper = new HolderOfTransitCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.eoriYesNo
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -100,7 +99,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.eoriYesNo
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Do you know the transit holder’s EORI number?".toText),
                   value = Value("Yes".toText),
@@ -117,7 +116,6 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -130,7 +128,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
             mode =>
               val helper = new HolderOfTransitCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.eori
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -144,7 +142,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.eori
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("EORI number".toText),
                   value = Value(eori.toText),
@@ -161,7 +159,6 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -174,7 +171,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
             mode =>
               val helper = new HolderOfTransitCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.name
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -188,7 +185,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.name
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Transit holder’s name".toText),
                   value = Value(name.toText),
@@ -205,7 +202,6 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -218,7 +214,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
             mode =>
               val helper = new HolderOfTransitCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.country
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -232,7 +228,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.country
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Transit holder’s country".toText),
                   value = Value(country.toString.toText),
@@ -249,7 +245,6 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -262,7 +257,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
             mode =>
               val helper = new HolderOfTransitCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.address
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -276,7 +271,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.address
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Transit holder’s address".toText),
                   value = Value(HtmlContent(Seq(Some(address.numberAndStreet), Some(address.city), address.postalCode).flatten.mkString("<br>"))),
@@ -293,7 +288,6 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -306,7 +300,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
             mode =>
               val helper = new HolderOfTransitCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.addContact
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -320,7 +314,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.addContact
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Do you want to add a contact?".toText),
                   value = Value("Yes".toText),
@@ -337,7 +331,6 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -350,7 +343,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
             mode =>
               val helper = new HolderOfTransitCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.contactName
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -364,7 +357,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.contactName
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Contact’s name".toText),
                   value = Value(contactName.toText),
@@ -381,7 +374,6 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -394,7 +386,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
             mode =>
               val helper = new HolderOfTransitCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.contactTelephoneNumber
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -408,7 +400,7 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.contactTelephoneNumber
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Transit holder’s contact phone number".toText),
                   value = Value(contactTelephoneNumber.toText),
@@ -425,7 +417,6 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
                     )
                   )
                 )
-              )
           }
         }
       }
@@ -445,13 +436,12 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.tirIdentification
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("TIR holder’s identification number".toText),
                   value = Value(eori.toText),
                   actions = None
                 )
-              )
           }
         }
       }
@@ -468,13 +458,12 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.eoriYesNo
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Do you know the transit holder’s EORI number?".toText),
                   value = Value("Yes".toText),
                   actions = None
                 )
-              )
           }
         }
       }
@@ -491,13 +480,12 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.eori
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("EORI number".toText),
                   value = Value(eori.toText),
                   actions = None
                 )
-              )
           }
         }
       }
@@ -514,13 +502,12 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.name
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Transit holder’s name".toText),
                   value = Value(name.toText),
                   actions = None
                 )
-              )
           }
         }
       }
@@ -537,13 +524,12 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.country
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Transit holder’s country".toText),
                   value = Value(country.toString.toText),
                   actions = None
                 )
-              )
           }
         }
       }
@@ -560,13 +546,12 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.address
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Transit holder’s address".toText),
                   value = Value(HtmlContent(Seq(Some(address.numberAndStreet), Some(address.city), address.postalCode).flatten.mkString("<br>"))),
                   actions = None
                 )
-              )
           }
         }
       }
@@ -583,13 +568,12 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.addContact
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Do you want to add a contact?".toText),
                   value = Value("Yes".toText),
                   actions = None
                 )
-              )
           }
         }
       }
@@ -606,13 +590,12 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.contactName
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Contact’s name".toText),
                   value = Value(contactName.toText),
                   actions = None
                 )
-              )
           }
         }
       }
@@ -629,13 +612,12 @@ class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheck
               val helper = new HolderOfTransitCheckYourAnswersHelper(answers, mode)
               val result = helper.contactTelephoneNumber
 
-              result mustBe Some(
+              result.value mustEqual
                 SummaryListRow(
                   key = Key("Transit holder’s contact phone number".toText),
                   value = Value(contactTelephoneNumber.toText),
                   actions = None
                 )
-              )
           }
         }
       }

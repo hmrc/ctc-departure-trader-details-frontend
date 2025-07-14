@@ -31,7 +31,7 @@ class TraderDetailsViewModelSpec extends SpecBase with ScalaCheckPropertyChecks 
           val sections          = viewModelProvider.apply(answers).sections
 
           sections.size mustBe 7
-          sections.head.sectionTitle mustBe None
+          sections.head.sectionTitle must not be defined
           sections(1).sectionTitle.get mustBe "Transit holder"
           sections(2).sectionTitle.get mustBe "Additional contact"
           sections(3).sectionTitle.get mustBe "Representative"
