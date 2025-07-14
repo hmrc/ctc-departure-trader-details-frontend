@@ -30,7 +30,7 @@ trait CheckboxFieldBehaviours extends FormSpec {
       )
       val result = form.bind(data)
       result.get mustEqual Set(value)
-      result.errors mustEqual empty
+      result.errors mustBe empty
     }
 
     "fail to bind when the answer is invalid" in {

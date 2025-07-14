@@ -28,7 +28,7 @@ class OptionFieldBehaviours extends FieldBehaviours {
 
         val result = form.bind(Map(fieldName -> value.toString)).apply(fieldName)
         result.value.value mustEqual value.toString
-        result.errors mustEqual empty
+        result.errors mustBe empty
       }
     }
 
