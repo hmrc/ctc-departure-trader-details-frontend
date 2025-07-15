@@ -107,14 +107,14 @@ class CountrySpec extends SpecBase with ScalaCheckPropertyChecks with Generators
     "must convert to select item" in {
       forAll(arbitrary[Country], arbitrary[Boolean]) {
         (country, selected) =>
-          country.toSelectItem(selected) mustBe SelectItem(Some(country.code.code), s"${country.description} - ${country.code.code}", selected)
+          country.toSelectItem(selected) mustEqual SelectItem(Some(country.code.code), s"${country.description} - ${country.code.code}", selected)
       }
     }
 
     "must format as string" in {
       forAll(arbitrary[Country]) {
         country =>
-          country.toString mustBe s"${country.description} - ${country.code.code}"
+          country.toString mustEqual s"${country.description} - ${country.code.code}"
       }
     }
 

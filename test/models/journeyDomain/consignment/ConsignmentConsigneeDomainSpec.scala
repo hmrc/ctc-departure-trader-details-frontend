@@ -48,8 +48,8 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
         val expectedResult = ConsigneeWithEori(eori)
 
         val result = ConsignmentConsigneeDomain.userAnswersReader.apply(Nil).run(userAnswers)
-        result.value.value mustBe expectedResult
-        result.value.pages mustBe Seq(
+        result.value.value mustEqual expectedResult
+        result.value.pages mustEqual Seq(
           EoriYesNoPage,
           EoriNumberPage
         )
@@ -70,8 +70,8 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
         )
 
         val result = ConsignmentConsigneeDomain.userAnswersReader.apply(Nil).run(userAnswers)
-        result.value.value mustBe expectedResult
-        result.value.pages mustBe Seq(
+        result.value.value mustEqual expectedResult
+        result.value.pages mustEqual Seq(
           EoriYesNoPage,
           NamePage,
           CountryPage,
@@ -88,8 +88,8 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
 
         val result = ConsignmentConsigneeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.left.value.page mustBe EoriYesNoPage
-        result.left.value.pages mustBe Seq(
+        result.left.value.page mustEqual EoriYesNoPage
+        result.left.value.pages mustEqual Seq(
           EoriYesNoPage
         )
       }
@@ -109,8 +109,8 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
 
         val result = ConsigneeWithEori.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value.value mustBe expectedResult
-        result.value.pages mustBe Seq(
+        result.value.value mustEqual expectedResult
+        result.value.pages mustEqual Seq(
           EoriNumberPage
         )
       }
@@ -124,8 +124,8 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
 
         val result = ConsigneeWithEori.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.left.value.page mustBe EoriNumberPage
-        result.left.value.pages mustBe Seq(
+        result.left.value.page mustEqual EoriNumberPage
+        result.left.value.pages mustEqual Seq(
           EoriNumberPage
         )
       }

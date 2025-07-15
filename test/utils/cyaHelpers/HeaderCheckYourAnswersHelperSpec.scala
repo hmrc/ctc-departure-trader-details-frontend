@@ -38,7 +38,7 @@ class HeaderCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckPropertyC
             mode =>
               val helper = new HeaderCheckYourAnswersHelper(emptyUserAnswers, mode)
               val result = helper.approvedOperator
-              result mustBe None
+              result must not be defined
           }
         }
       }
@@ -52,19 +52,17 @@ class HeaderCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckPropertyC
               val helper = new HeaderCheckYourAnswersHelper(answers, mode)
               val result = helper.approvedOperator
 
-              result mustBe Some(
-                SummaryListRow(
-                  key = Key("Do you want to use a reduced data set?".toText),
-                  value = Value("Yes".toText),
-                  actions = Some(
-                    Actions(
-                      items = List(
-                        ActionItem(
-                          content = "Change".toText,
-                          href = consignmentRoutes.ApprovedOperatorController.onPageLoad(answers.lrn, mode).url,
-                          visuallyHiddenText = Some("if you want to use a reduced data set"),
-                          attributes = Map("id" -> "change-has-reduced-data-set")
-                        )
+              result.value mustEqual SummaryListRow(
+                key = Key("Do you want to use a reduced data set?".toText),
+                value = Value("Yes".toText),
+                actions = Some(
+                  Actions(
+                    items = List(
+                      ActionItem(
+                        content = "Change".toText,
+                        href = consignmentRoutes.ApprovedOperatorController.onPageLoad(answers.lrn, mode).url,
+                        visuallyHiddenText = Some("if you want to use a reduced data set"),
+                        attributes = Map("id" -> "change-has-reduced-data-set")
                       )
                     )
                   )
