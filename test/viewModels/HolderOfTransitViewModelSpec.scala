@@ -33,12 +33,12 @@ class HolderOfTransitViewModelSpec extends SpecBase with Generators {
         val viewModelProvider = injector.instanceOf[HolderOfTransitViewModelProvider]
         val sections          = viewModelProvider.apply(emptyUserAnswers, mode).sections
 
-        sections.size mustBe 2
+        sections.size mustEqual 2
 
-        sections.head.sectionTitle.get mustBe "Transit holder"
+        sections.head.sectionTitle.get mustEqual "Transit holder"
         sections.head.rows must be(empty)
 
-        sections(1).sectionTitle.get mustBe "Additional contact"
+        sections(1).sectionTitle.get mustEqual "Additional contact"
         sections(1).rows must be(empty)
       }
     }
@@ -61,22 +61,22 @@ class HolderOfTransitViewModelSpec extends SpecBase with Generators {
         val viewModelProvider = injector.instanceOf[HolderOfTransitViewModelProvider]
         val sections          = viewModelProvider.apply(answers, mode).sections
 
-        sections.size mustBe 2
+        sections.size mustEqual 2
 
-        sections.head.sectionTitle.get mustBe "Transit holder"
-        sections.head.rows.size mustBe 6
-        sections.head.rows.head.value.content.asHtml.toString() mustBe "Yes"
-        sections.head.rows(1).value.content.asHtml.toString() mustBe "eori"
-        sections.head.rows(2).value.content.asHtml.toString() mustBe "name"
-        sections.head.rows(3).value.content.asHtml.toString() mustBe "Great Britain - GB"
-        sections.head.rows(4).value.content.asHtml.toString() mustBe "line1<br>line2<br>postal code"
-        sections.head.rows(5).value.content.asHtml.toString() mustBe "tir id"
+        sections.head.sectionTitle.get mustEqual "Transit holder"
+        sections.head.rows.size mustEqual 6
+        sections.head.rows.head.value.content.asHtml.toString() mustEqual "Yes"
+        sections.head.rows(1).value.content.asHtml.toString() mustEqual "eori"
+        sections.head.rows(2).value.content.asHtml.toString() mustEqual "name"
+        sections.head.rows(3).value.content.asHtml.toString() mustEqual "Great Britain - GB"
+        sections.head.rows(4).value.content.asHtml.toString() mustEqual "line1<br>line2<br>postal code"
+        sections.head.rows(5).value.content.asHtml.toString() mustEqual "tir id"
 
-        sections(1).sectionTitle.get mustBe "Additional contact"
-        sections(1).rows.size mustBe 3
-        sections(1).rows.head.value.content.asHtml.toString() mustBe "Yes"
-        sections(1).rows(1).value.content.asHtml.toString() mustBe "contact name"
-        sections(1).rows(2).value.content.asHtml.toString() mustBe "phone number"
+        sections(1).sectionTitle.get mustEqual "Additional contact"
+        sections(1).rows.size mustEqual 3
+        sections(1).rows.head.value.content.asHtml.toString() mustEqual "Yes"
+        sections(1).rows(1).value.content.asHtml.toString() mustEqual "contact name"
+        sections(1).rows(2).value.content.asHtml.toString() mustEqual "phone number"
       }
     }
   }

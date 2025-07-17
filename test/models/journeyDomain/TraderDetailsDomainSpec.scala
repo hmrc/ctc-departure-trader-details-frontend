@@ -47,7 +47,7 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
         val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
         result.left.value.page mustEqual consignor.EoriYesNoPage
-        result.left.value.pages mustBe Seq(
+        result.left.value.pages mustEqual Seq(
           consignor.EoriYesNoPage
         )
       }
@@ -59,8 +59,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
 
         val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
-        result.left.value.page mustBe hot.EoriYesNoPage
-        result.left.value.pages mustBe Seq(
+        result.left.value.page mustEqual hot.EoriYesNoPage
+        result.left.value.pages mustEqual Seq(
           hot.EoriYesNoPage
         )
       }
@@ -112,8 +112,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
 
           val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
-          result.value.value mustBe expectedResult
-          result.value.pages mustBe Seq(
+          result.value.value mustEqual expectedResult
+          result.value.pages mustEqual Seq(
             hot.EoriYesNoPage,
             hot.NamePage,
             hot.CountryPage,
@@ -144,8 +144,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
 
           val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
-          result.left.value.page mustBe ActingAsRepresentativePage
-          result.left.value.pages mustBe Seq(
+          result.left.value.page mustEqual ActingAsRepresentativePage
+          result.left.value.pages mustEqual Seq(
             hot.EoriYesNoPage,
             hot.NamePage,
             hot.CountryPage,
@@ -172,8 +172,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
 
             val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
-            result.left.value.page mustBe consignor.EoriYesNoPage
-            result.left.value.pages mustBe Seq(
+            result.left.value.page mustEqual consignor.EoriYesNoPage
+            result.left.value.pages mustEqual Seq(
               hot.EoriYesNoPage,
               hot.NamePage,
               hot.CountryPage,
@@ -201,8 +201,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
 
             val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
-            result.left.value.page mustBe ApprovedOperatorPage
-            result.left.value.pages mustBe Seq(
+            result.left.value.page mustEqual ApprovedOperatorPage
+            result.left.value.pages mustEqual Seq(
               hot.EoriYesNoPage,
               hot.NamePage,
               hot.CountryPage,
@@ -231,8 +231,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
 
                 val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
-                result.left.value.page mustBe consignor.EoriYesNoPage
-                result.left.value.pages mustBe Seq(
+                result.left.value.page mustEqual consignor.EoriYesNoPage
+                result.left.value.pages mustEqual Seq(
                   hot.EoriYesNoPage,
                   hot.NamePage,
                   hot.CountryPage,
@@ -262,8 +262,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
 
               val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
-              result.left.value.page mustBe consignor.EoriYesNoPage
-              result.left.value.pages mustBe Seq(
+              result.left.value.page mustEqual consignor.EoriYesNoPage
+              result.left.value.pages mustEqual Seq(
                 hot.EoriYesNoPage,
                 hot.NamePage,
                 hot.CountryPage,
@@ -300,8 +300,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
 
         val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
-        result.value.value mustBe expectedResult
-        result.value.pages mustBe Seq(
+        result.value.value mustEqual expectedResult
+        result.value.pages mustEqual Seq(
           ApprovedOperatorPage,
           consignee.EoriYesNoPage,
           consignee.EoriNumberPage,
@@ -323,8 +323,8 @@ class TraderDetailsDomainSpec extends SpecBase with UserAnswersSpecHelper with G
 
           val result = TraderDetailsDomain.userAnswersReader.run(userAnswers)
 
-          result.left.value.page mustBe consignee.EoriYesNoPage
-          result.left.value.pages mustBe Seq(
+          result.left.value.page mustEqual consignee.EoriYesNoPage
+          result.left.value.pages mustEqual Seq(
             ApprovedOperatorPage,
             consignee.EoriYesNoPage
           )

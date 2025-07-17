@@ -127,7 +127,7 @@ class CountrySpec extends SpecBase with ScalaCheckPropertyChecks with Generators
 
       val result = SelectableList(countries).values
 
-      result mustBe Seq(
+      result mustEqual Seq(
         country3,
         country1,
         country2

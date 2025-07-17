@@ -35,7 +35,7 @@ class TraderDetailsNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks 
 
             navigator
               .nextPage(answers, None)
-              .mustBe(controllers.routes.CheckYourAnswersController.onPageLoad(answers.lrn))
+              .mustEqual(controllers.routes.CheckYourAnswersController.onPageLoad(answers.lrn))
         }
       }
     }

@@ -47,8 +47,8 @@ class RepresentativeDomainSpec extends SpecBase with UserAnswersSpecHelper with 
 
         val result = RepresentativeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value.value mustBe expectedResult
-        result.value.pages mustBe Seq(
+        result.value.value mustEqual expectedResult
+        result.value.pages mustEqual Seq(
           EoriPage,
           AddDetailsPage
         )
@@ -69,8 +69,8 @@ class RepresentativeDomainSpec extends SpecBase with UserAnswersSpecHelper with 
 
         val result = RepresentativeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value.value mustBe expectedResult
-        result.value.pages mustBe Seq(
+        result.value.value mustEqual expectedResult
+        result.value.pages mustEqual Seq(
           EoriPage,
           AddDetailsPage,
           NamePage,
@@ -87,8 +87,8 @@ class RepresentativeDomainSpec extends SpecBase with UserAnswersSpecHelper with 
 
         val result = RepresentativeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.left.value.page mustBe EoriPage
-        result.left.value.pages mustBe Seq(
+        result.left.value.page mustEqual EoriPage
+        result.left.value.pages mustEqual Seq(
           EoriPage
         )
       }
@@ -101,8 +101,8 @@ class RepresentativeDomainSpec extends SpecBase with UserAnswersSpecHelper with 
 
         val result = RepresentativeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.left.value.page mustBe NamePage
-        result.left.value.pages mustBe Seq(
+        result.left.value.page mustEqual NamePage
+        result.left.value.pages mustEqual Seq(
           EoriPage,
           AddDetailsPage,
           NamePage
@@ -118,8 +118,8 @@ class RepresentativeDomainSpec extends SpecBase with UserAnswersSpecHelper with 
 
         val result = RepresentativeDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.left.value.page mustBe TelephoneNumberPage
-        result.left.value.pages mustBe Seq(
+        result.left.value.page mustEqual TelephoneNumberPage
+        result.left.value.pages mustEqual Seq(
           EoriPage,
           AddDetailsPage,
           NamePage,

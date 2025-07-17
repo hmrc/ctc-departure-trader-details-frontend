@@ -151,8 +151,8 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
 
         val result = ConsigneeWithoutEori.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value.value mustBe expectedResult
-        result.value.pages mustBe Seq(
+        result.value.value mustEqual expectedResult
+        result.value.pages mustEqual Seq(
           NamePage,
           CountryPage,
           AddressPage
@@ -181,7 +181,7 @@ class ConsignmentConsigneeDomainSpec extends SpecBase with UserAnswersSpecHelper
 
             val result = ConsigneeWithoutEori.userAnswersReader.apply(Nil).run(invalidUserAnswers)
 
-            result.left.value.page mustBe mandatoryPage
+            result.left.value.page mustEqual mandatoryPage
         }
       }
     }
