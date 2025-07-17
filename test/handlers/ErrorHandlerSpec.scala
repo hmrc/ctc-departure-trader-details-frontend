@@ -35,8 +35,8 @@ class ErrorHandlerSpec extends SpecBase with AppWithDefaultMockFixtures with Res
 
       val result: Future[Result] = handler.onClientError(fakeRequest, 404)
 
-      status(result) mustBe SEE_OTHER
-      redirectLocation(result).value mustBe frontendAppConfig.notFoundUrl
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual frontendAppConfig.notFoundUrl
     }
 
     "must redirect to BadRequest page when given a client error (400-499)" in {
@@ -47,8 +47,8 @@ class ErrorHandlerSpec extends SpecBase with AppWithDefaultMockFixtures with Res
 
           val result: Future[Result] = handler.onClientError(fakeRequest, clientErrorCode)
 
-          status(result) mustBe SEE_OTHER
-          redirectLocation(result).value mustBe s"${frontendAppConfig.departureHubUrl}/bad-request"
+          status(result) mustEqual SEE_OTHER
+          redirectLocation(result).value mustEqual s"${frontendAppConfig.departureHubUrl}/bad-request"
       }
     }
 
@@ -60,8 +60,8 @@ class ErrorHandlerSpec extends SpecBase with AppWithDefaultMockFixtures with Res
 
           val result: Future[Result] = handler.onClientError(fakeRequest, serverErrorCode)
 
-          status(result) mustBe SEE_OTHER
-          redirectLocation(result).value mustBe frontendAppConfig.technicalDifficultiesUrl
+          status(result) mustEqual SEE_OTHER
+          redirectLocation(result).value mustEqual frontendAppConfig.technicalDifficultiesUrl
       }
     }
   }
@@ -74,7 +74,7 @@ class ErrorHandlerSpec extends SpecBase with AppWithDefaultMockFixtures with Res
             val redirect  = Redirect(url)
             val exception = ApplicationException(redirect, message)
             val result    = handler.onServerError(fakeRequest, exception)
-            redirectLocation(result).value `mustBe` url
+            redirectLocation(result).value mustEqual url
         }
       }
     }
@@ -85,7 +85,7 @@ class ErrorHandlerSpec extends SpecBase with AppWithDefaultMockFixtures with Res
           message =>
             val exception = Exception(message)
             val result    = handler.onServerError(fakeRequest, exception)
-            redirectLocation(result).value `mustBe` s"${frontendAppConfig.departureHubUrl}/internal-server-error"
+            redirectLocation(result).value mustEqual s"${frontendAppConfig.departureHubUrl}/internal-server-error"
         }
       }
     }

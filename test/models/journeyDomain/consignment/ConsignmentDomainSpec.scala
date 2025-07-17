@@ -63,7 +63,7 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
         val result = ConsignmentDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
         result.value.value mustEqual expectedResult
-        result.value.pages mustBe Seq(
+        result.value.pages mustEqual Seq(
           ApprovedOperatorPage,
           consignee.EoriYesNoPage,
           consignee.EoriNumberPage
@@ -100,8 +100,8 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
 
         val result = ConsignmentDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value.value mustBe expectedResult
-        result.value.pages mustBe Seq(
+        result.value.value mustEqual expectedResult
+        result.value.pages mustEqual Seq(
           ApprovedOperatorPage,
           consignor.EoriYesNoPage,
           consignor.NamePage,
@@ -131,8 +131,8 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
 
         val result = ConsignmentDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value.value mustBe expectedResult
-        result.value.pages mustBe Seq(
+        result.value.value mustEqual expectedResult
+        result.value.pages mustEqual Seq(
           ApprovedOperatorPage,
           consignee.EoriYesNoPage,
           consignee.EoriNumberPage
@@ -169,8 +169,8 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
 
         val result = ConsignmentDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value.value mustBe expectedResult
-        result.value.pages mustBe Seq(
+        result.value.value mustEqual expectedResult
+        result.value.pages mustEqual Seq(
           ApprovedOperatorPage,
           consignor.EoriYesNoPage,
           consignor.NamePage,
@@ -211,8 +211,8 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
 
         val result = ConsignmentDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.value.value mustBe expectedResult
-        result.value.pages mustBe Seq(
+        result.value.value mustEqual expectedResult
+        result.value.pages mustEqual Seq(
           consignor.EoriYesNoPage,
           consignor.NamePage,
           consignor.CountryPage,
@@ -234,8 +234,8 @@ class ConsignmentDomainSpec extends SpecBase with UserAnswersSpecHelper with Gen
 
         val result = ConsignmentDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.left.value.page mustBe ApprovedOperatorPage
-        result.left.value.pages mustBe Seq(
+        result.left.value.page mustEqual ApprovedOperatorPage
+        result.left.value.pages mustEqual Seq(
           ApprovedOperatorPage
         )
       }

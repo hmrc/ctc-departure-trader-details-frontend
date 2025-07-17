@@ -53,7 +53,7 @@ class DataRetrievalActionSpec extends SpecBase with AppWithDefaultMockFixtures {
         when(mockSessionRepository.get(any())(any())).thenReturn(Future.successful(NoAnswers))
 
         harness(lrn) {
-          _.userAnswers mustBe NoAnswers
+          _.userAnswers mustEqual NoAnswers
         }
       }
     }
@@ -67,7 +67,7 @@ class DataRetrievalActionSpec extends SpecBase with AppWithDefaultMockFixtures {
           .thenReturn(Future.successful(expectedAnswers))
 
         harness(lrn) {
-          _.userAnswers mustBe expectedAnswers
+          _.userAnswers mustEqual expectedAnswers
         }
       }
     }

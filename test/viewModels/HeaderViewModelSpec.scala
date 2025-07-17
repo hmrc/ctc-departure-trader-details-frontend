@@ -32,7 +32,7 @@ class HeaderViewModelSpec extends SpecBase with Generators {
         val viewModelProvider = injector.instanceOf[HeaderViewModelProvider]
         val sections          = viewModelProvider.apply(emptyUserAnswers, mode).sections
 
-        sections.size mustBe 1
+        sections.size mustEqual 1
 
         sections.head.sectionTitle must not be defined
         sections.head.rows must be(empty)
@@ -48,11 +48,11 @@ class HeaderViewModelSpec extends SpecBase with Generators {
         val viewModelProvider = injector.instanceOf[HeaderViewModelProvider]
         val sections          = viewModelProvider.apply(answers, mode).sections
 
-        sections.size mustBe 1
+        sections.size mustEqual 1
 
         sections.head.sectionTitle must not be defined
-        sections.head.rows.size mustBe 1
-        sections.head.rows.head.value.content.asHtml.toString() mustBe "No"
+        sections.head.rows.size mustEqual 1
+        sections.head.rows.head.value.content.asHtml.toString() mustEqual "No"
       }
     }
   }

@@ -33,9 +33,9 @@ class RepresentativeViewModelSpec extends SpecBase with Generators {
         val viewModelProvider = injector.instanceOf[RepresentativeViewModelProvider]
         val sections          = viewModelProvider.apply(emptyUserAnswers, mode).sections
 
-        sections.size mustBe 1
+        sections.size mustEqual 1
 
-        sections.head.sectionTitle.get mustBe "Representative"
+        sections.head.sectionTitle.get mustEqual "Representative"
         sections.head.rows must be(empty)
       }
     }
@@ -53,15 +53,15 @@ class RepresentativeViewModelSpec extends SpecBase with Generators {
         val viewModelProvider = injector.instanceOf[RepresentativeViewModelProvider]
         val sections          = viewModelProvider.apply(answers, mode).sections
 
-        sections.size mustBe 1
+        sections.size mustEqual 1
 
-        sections.head.sectionTitle.get mustBe "Representative"
-        sections.head.rows.size mustBe 5
-        sections.head.rows.head.value.content.asHtml.toString() mustBe "Yes"
-        sections.head.rows(1).value.content.asHtml.toString() mustBe "eori"
-        sections.head.rows(2).value.content.asHtml.toString() mustBe "Yes"
-        sections.head.rows(3).value.content.asHtml.toString() mustBe "name"
-        sections.head.rows(4).value.content.asHtml.toString() mustBe "phone"
+        sections.head.sectionTitle.get mustEqual "Representative"
+        sections.head.rows.size mustEqual 5
+        sections.head.rows.head.value.content.asHtml.toString() mustEqual "Yes"
+        sections.head.rows(1).value.content.asHtml.toString() mustEqual "eori"
+        sections.head.rows(2).value.content.asHtml.toString() mustEqual "Yes"
+        sections.head.rows(3).value.content.asHtml.toString() mustEqual "name"
+        sections.head.rows(4).value.content.asHtml.toString() mustEqual "phone"
       }
     }
   }

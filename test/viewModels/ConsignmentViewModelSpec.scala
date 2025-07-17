@@ -34,15 +34,15 @@ class ConsignmentViewModelSpec extends SpecBase with ScalaCheckPropertyChecks wi
         val viewModelProvider = injector.instanceOf[ConsignmentViewModelProvider]
         val sections          = viewModelProvider.apply(emptyUserAnswers, mode).sections
 
-        sections.size mustBe 3
+        sections.size mustEqual 3
 
-        sections.head.sectionTitle.get mustBe "Consignor"
+        sections.head.sectionTitle.get mustEqual "Consignor"
         sections.head.rows must be(empty)
 
-        sections(1).sectionTitle.get mustBe "Consignor contact"
+        sections(1).sectionTitle.get mustEqual "Consignor contact"
         sections(1).rows must be(empty)
 
-        sections(2).sectionTitle.get mustBe "Consignee"
+        sections(2).sectionTitle.get mustEqual "Consignee"
         sections(2).rows must be(empty)
       }
     }
@@ -68,29 +68,29 @@ class ConsignmentViewModelSpec extends SpecBase with ScalaCheckPropertyChecks wi
         val viewModelProvider = injector.instanceOf[ConsignmentViewModelProvider]
         val sections          = viewModelProvider.apply(answers, mode).sections
 
-        sections.size mustBe 3
+        sections.size mustEqual 3
 
-        sections.head.sectionTitle.get mustBe "Consignor"
-        sections.head.rows.size mustBe 5
-        sections.head.rows.head.value.content.asHtml.toString() mustBe "Yes"
-        sections.head.rows(1).value.content.asHtml.toString() mustBe "eori"
-        sections.head.rows(2).value.content.asHtml.toString() mustBe "name"
-        sections.head.rows(3).value.content.asHtml.toString() mustBe "Great Britain - GB"
-        sections.head.rows(4).value.content.asHtml.toString() mustBe "line1<br>line2<br>postal code"
+        sections.head.sectionTitle.get mustEqual "Consignor"
+        sections.head.rows.size mustEqual 5
+        sections.head.rows.head.value.content.asHtml.toString() mustEqual "Yes"
+        sections.head.rows(1).value.content.asHtml.toString() mustEqual "eori"
+        sections.head.rows(2).value.content.asHtml.toString() mustEqual "name"
+        sections.head.rows(3).value.content.asHtml.toString() mustEqual "Great Britain - GB"
+        sections.head.rows(4).value.content.asHtml.toString() mustEqual "line1<br>line2<br>postal code"
 
-        sections(1).sectionTitle.get mustBe "Consignor contact"
-        sections(1).rows.size mustBe 3
-        sections(1).rows.head.value.content.asHtml.toString() mustBe "Yes"
-        sections(1).rows(1).value.content.asHtml.toString() mustBe "contact name"
-        sections(1).rows(2).value.content.asHtml.toString() mustBe "phone number"
+        sections(1).sectionTitle.get mustEqual "Consignor contact"
+        sections(1).rows.size mustEqual 3
+        sections(1).rows.head.value.content.asHtml.toString() mustEqual "Yes"
+        sections(1).rows(1).value.content.asHtml.toString() mustEqual "contact name"
+        sections(1).rows(2).value.content.asHtml.toString() mustEqual "phone number"
 
-        sections(2).sectionTitle.get mustBe "Consignee"
-        sections(2).rows.size mustBe 5
-        sections(2).rows.head.value.content.asHtml.toString() mustBe "Yes"
-        sections(2).rows(1).value.content.asHtml.toString() mustBe "eori2"
-        sections(2).rows(2).value.content.asHtml.toString() mustBe "name2"
-        sections(2).rows(3).value.content.asHtml.toString() mustBe "Great Britain - GB"
-        sections(2).rows(4).value.content.asHtml.toString() mustBe "line11<br>line12<br>postal code2"
+        sections(2).sectionTitle.get mustEqual "Consignee"
+        sections(2).rows.size mustEqual 5
+        sections(2).rows.head.value.content.asHtml.toString() mustEqual "Yes"
+        sections(2).rows(1).value.content.asHtml.toString() mustEqual "eori2"
+        sections(2).rows(2).value.content.asHtml.toString() mustEqual "name2"
+        sections(2).rows(3).value.content.asHtml.toString() mustEqual "Great Britain - GB"
+        sections(2).rows(4).value.content.asHtml.toString() mustEqual "line11<br>line12<br>postal code2"
       }
     }
   }

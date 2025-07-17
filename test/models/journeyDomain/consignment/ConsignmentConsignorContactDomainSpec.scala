@@ -75,8 +75,8 @@ class ConsignmentConsignorContactDomainSpec extends SpecBase with UserAnswersSpe
 
         val result = ConsignmentConsignorContactDomain.userAnswersReader.apply(Nil).run(userAnswers)
 
-        result.left.value.page mustBe TelephoneNumberPage
-        result.left.value.pages mustBe Seq(
+        result.left.value.page mustEqual TelephoneNumberPage
+        result.left.value.pages mustEqual Seq(
           NamePage,
           TelephoneNumberPage
         )
