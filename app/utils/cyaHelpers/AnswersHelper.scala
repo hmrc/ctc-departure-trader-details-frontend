@@ -31,6 +31,8 @@ import viewModels.ListItem
 
 class AnswersHelper(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages, config: FrontendAppConfig) extends SummaryListRowHelper {
 
+  val showChangeLink: Boolean = true
+
   protected def lrn: LocalReferenceNumber = userAnswers.lrn
 
   protected def getAnswerAndBuildRow[T](
@@ -43,37 +45,19 @@ class AnswersHelper(userAnswers: UserAnswers, mode: Mode)(implicit messages: Mes
     for {
       answer <- userAnswers.get(page)
       call   <- page.route(userAnswers, mode)
-    } yield buildRow(
-      prefix = prefix,
-      answer = formatAnswer(answer),
-      id = id,
-      call = call,
-      args = args*
-    )
-
-  protected def getAnswerAndBuildRowWithDynamicLink[T](
-    page: QuestionPage[T],
-    formatAnswer: T => Content,
-    prefix: String,
-    id: Option[String],
-    args: Any*
-  )(implicit rds: Reads[T], predicate: ProvideChangeLink): Option[SummaryListRow] =
-    for {
-      answer <- userAnswers.get(page)
-      call   <- page.route(userAnswers, mode)
     } yield
-      if (predicate.value) {
-        buildRowWithNoChangeLink(
-          prefix = prefix,
-          answer = formatAnswer(answer),
-          args = args*
-        )
-      } else {
+      if (showChangeLink) {
         buildRow(
           prefix = prefix,
           answer = formatAnswer(answer),
           id = id,
           call = call,
+          args = args*
+        )
+      } else {
+        buildRowWithNoChangeLink(
+          prefix = prefix,
+          answer = formatAnswer(answer),
           args = args*
         )
       }

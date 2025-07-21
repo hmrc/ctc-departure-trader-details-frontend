@@ -19,44 +19,44 @@ package utils.cyaHelpers
 import config.FrontendAppConfig
 import models.{Mode, SubmissionState, UserAnswers}
 import pages.ActingAsRepresentativePage
-import play.api.i18n.Messages
 import pages.representative.*
+import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.Aliases.SummaryListRow
 
 class RepresentativeCheckYourAnswersHelper(userAnswers: UserAnswers, mode: Mode)(implicit messages: Messages, config: FrontendAppConfig)
     extends AnswersHelper(userAnswers, mode) {
 
-  implicit val changeLinkPredicate: ProvideChangeLink = ProvideChangeLink(userAnswers.status == SubmissionState.Amendment)
+  override val showChangeLink: Boolean = userAnswers.status != SubmissionState.Amendment
 
-  def actingAsRepresentative: Option[SummaryListRow] = getAnswerAndBuildRowWithDynamicLink[Boolean](
+  def actingAsRepresentative: Option[SummaryListRow] = getAnswerAndBuildRow[Boolean](
     page = ActingAsRepresentativePage,
     formatAnswer = formatAsYesOrNo,
     prefix = "traderDetails.actingRepresentative",
     id = Some("change-has-acting-representative")
   )
 
-  def eori: Option[SummaryListRow] = getAnswerAndBuildRowWithDynamicLink[String](
+  def eori: Option[SummaryListRow] = getAnswerAndBuildRow[String](
     page = EoriPage,
     formatAnswer = formatAsText,
     prefix = "traderDetails.representative.eori",
     id = Some("change-representative-eori-number")
   )
 
-  def addDetails: Option[SummaryListRow] = getAnswerAndBuildRowWithDynamicLink[Boolean](
+  def addDetails: Option[SummaryListRow] = getAnswerAndBuildRow[Boolean](
     page = AddDetailsPage,
     formatAnswer = formatAsYesOrNo,
     prefix = "traderDetails.representative.addDetails",
     id = Some("change-add-details")
   )
 
-  def name: Option[SummaryListRow] = getAnswerAndBuildRowWithDynamicLink[String](
+  def name: Option[SummaryListRow] = getAnswerAndBuildRow[String](
     page = NamePage,
     formatAnswer = formatAsText,
     prefix = "traderDetails.representative.name",
     id = Some("change-representative-name")
   )
 
-  def phoneNumber: Option[SummaryListRow] = getAnswerAndBuildRowWithDynamicLink[String](
+  def phoneNumber: Option[SummaryListRow] = getAnswerAndBuildRow[String](
     page = TelephoneNumberPage,
     formatAnswer = formatAsText,
     prefix = "traderDetails.representative.telephoneNumber",
