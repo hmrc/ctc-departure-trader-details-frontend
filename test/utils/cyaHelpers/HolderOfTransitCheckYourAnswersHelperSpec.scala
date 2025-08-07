@@ -16,12 +16,12 @@
 
 package utils.cyaHelpers
 
-import base.SpecBase
+import base.{AppWithDefaultMockFixtures, SpecBase}
 import generators.Generators
 import models.reference.Country
 import models.{DynamicAddress, Mode}
-import controllers.holderOfTransit.contact.{routes => contactRoutes}
-import controllers.holderOfTransit.{routes => hotRoutes}
+import controllers.holderOfTransit.contact.routes as contactRoutes
+import controllers.holderOfTransit.routes as hotRoutes
 import pages.holderOfTransit.*
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
@@ -31,7 +31,7 @@ import uk.gov.hmrc.govukfrontend.views.html.components.implicits.*
 import uk.gov.hmrc.govukfrontend.views.html.components.{ActionItem, Actions}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.*
 
-class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
+class HolderOfTransitCheckYourAnswersHelperSpec extends SpecBase with AppWithDefaultMockFixtures with ScalaCheckPropertyChecks with Generators {
 
   "HolderOfTransitCheckYourAnswersHelper" - {
 

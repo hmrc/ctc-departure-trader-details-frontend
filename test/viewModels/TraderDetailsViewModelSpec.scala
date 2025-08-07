@@ -16,18 +16,18 @@
 
 package viewModels
 
-import base.SpecBase
+import base.{AppWithDefaultMockFixtures, SpecBase}
 import generators.Generators
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import viewModels.traderDetails.TraderDetailsViewModel.TraderDetailsViewModelProvider
 
-class TraderDetailsViewModelSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
+class TraderDetailsViewModelSpec extends SpecBase with AppWithDefaultMockFixtures with ScalaCheckPropertyChecks with Generators {
 
   "apply" - {
     "must return all sections" in {
       forAll(arbitraryTraderDetailsAnswers(emptyUserAnswers)) {
         answers =>
-          val viewModelProvider = injector.instanceOf[TraderDetailsViewModelProvider]
+          val viewModelProvider = app.injector.instanceOf[TraderDetailsViewModelProvider]
           val sections          = viewModelProvider.apply(answers).sections
 
           sections.size mustEqual 7

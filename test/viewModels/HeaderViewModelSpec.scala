@@ -16,20 +16,20 @@
 
 package viewModels
 
-import base.SpecBase
+import base.{AppWithDefaultMockFixtures, SpecBase}
 import generators.Generators
 import models.Mode
 import org.scalacheck.Arbitrary.arbitrary
 import pages.consignment.ApprovedOperatorPage
 import viewModels.traderDetails.HeaderViewModel.HeaderViewModelProvider
 
-class HeaderViewModelSpec extends SpecBase with Generators {
+class HeaderViewModelSpec extends SpecBase with AppWithDefaultMockFixtures with Generators {
 
   "apply" - {
     "when user answers empty" - {
       "must return empty rows" in {
         val mode              = arbitrary[Mode].sample.value
-        val viewModelProvider = injector.instanceOf[HeaderViewModelProvider]
+        val viewModelProvider = new HeaderViewModelProvider()
         val sections          = viewModelProvider.apply(emptyUserAnswers, mode).sections
 
         sections.size mustEqual 1

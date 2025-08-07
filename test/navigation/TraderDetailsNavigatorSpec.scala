@@ -17,6 +17,7 @@
 package navigation
 
 import base.SpecBase
+import config.FrontendAppConfig
 import generators.Generators
 import models.Mode
 import org.scalacheck.Arbitrary.arbitrary
@@ -24,13 +25,15 @@ import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
 class TraderDetailsNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 
+  private val mockFrontendAppConfig = mock[FrontendAppConfig]
+
   "Trader Details Navigator" - {
 
     "when answers complete" - {
       "must redirect to check your answers" in {
         forAll(arbitraryTraderDetailsAnswers(emptyUserAnswers), arbitrary[Mode]) {
           (answers, mode) =>
-            val navigatorProvider = new TraderDetailsNavigatorProviderImpl()
+            val navigatorProvider = new TraderDetailsNavigatorProviderImpl()(mockFrontendAppConfig)
             val navigator         = navigatorProvider.apply(mode)
 
             navigator

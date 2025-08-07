@@ -21,14 +21,16 @@ import cats.data.NonEmptySet
 import config.FrontendAppConfig
 import generators.Generators
 import models.SelectableList
+import org.mockito.Mockito.when
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{Json, Reads}
-import play.api.test.Helpers.running
 import uk.gov.hmrc.govukfrontend.views.viewmodels.select.SelectItem
 
 class CountrySpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
+
+  private val mockFrontendAppConfig = mock[FrontendAppConfig]
 
   "Country" - {
 
@@ -37,70 +39,64 @@ class CountrySpec extends SpecBase with ScalaCheckPropertyChecks with Generators
         (code, description) =>
           val country = Country(CountryCode(code), description)
           Json.toJson(country) mustEqual Json.parse(s"""
-              |{
-              |  "code": "$code",
-              |  "description": "$description"
-              |}
-              |""".stripMargin)
+               |{
+               |  "code": "$code",
+               |  "description": "$description"
+               |}
+               |""".stripMargin)
       }
     }
 
     "must deserialise" - {
       "when reading from reference data" - {
         "when phase 5" in {
-          running(_.configure("feature-flags.phase-6-enabled" -> false)) {
-            app =>
-              val config                         = app.injector.instanceOf[FrontendAppConfig]
-              implicit val reads: Reads[Country] = Country.reads(config)
-              forAll(Gen.alphaNumStr, Gen.alphaNumStr) {
-                (code, description) =>
-                  val country = Country(CountryCode(code), description)
-                  Json
-                    .parse(s"""
-                              |{
-                              |  "code": "$code",
-                              |  "description": "$description"
-                              |}
-                              |""".stripMargin)
-                    .as[Country] mustEqual country
-              }
+          when(mockFrontendAppConfig.isPhase6Enabled).thenReturn(false)
+          implicit val reads: Reads[Country] = Country.reads(mockFrontendAppConfig)
+          forAll(Gen.alphaNumStr, Gen.alphaNumStr) {
+            (code, description) =>
+              val country = Country(CountryCode(code), description)
+              Json
+                .parse(s"""
+                     |{
+                     |  "code": "$code",
+                     |  "description": "$description"
+                     |}
+                     |""".stripMargin)
+                .as[Country] mustEqual country
           }
         }
 
         "when phase 6" in {
-          running(_.configure("feature-flags.phase-6-enabled" -> true)) {
-            app =>
-              val config                         = app.injector.instanceOf[FrontendAppConfig]
-              implicit val reads: Reads[Country] = Country.reads(config)
-              forAll(Gen.alphaNumStr, Gen.alphaNumStr) {
-                (code, description) =>
-                  val country = Country(CountryCode(code), description)
-                  Json
-                    .parse(s"""
-                              |{
-                              |  "key": "$code",
-                              |  "value": "$description"
-                              |}
-                              |""".stripMargin)
-                    .as[Country] mustEqual country
-              }
+          when(mockFrontendAppConfig.isPhase6Enabled).thenReturn(true)
+          implicit val reads: Reads[Country] = Country.reads(mockFrontendAppConfig)
+          forAll(Gen.alphaNumStr, Gen.alphaNumStr) {
+            (code, description) =>
+              val country = Country(CountryCode(code), description)
+              Json
+                .parse(s"""
+                     |{
+                     |  "key": "$code",
+                     |  "value": "$description"
+                     |}
+                     |""".stripMargin)
+                .as[Country] mustEqual country
           }
         }
       }
+    }
 
-      "when reading from mongo" in {
-        forAll(Gen.alphaNumStr, Gen.alphaNumStr) {
-          (code, description) =>
-            val country = Country(CountryCode(code), description)
-            Json
-              .parse(s"""
-                        |{
-                        |  "code": "$code",
-                        |  "description": "$description"
-                        |}
-                        |""".stripMargin)
-              .as[Country] mustEqual country
-        }
+    "when reading from mongo" in {
+      forAll(Gen.alphaNumStr, Gen.alphaNumStr) {
+        (code, description) =>
+          val country = Country(CountryCode(code), description)
+          Json
+            .parse(s"""
+                     |{
+                     |  "code": "$code",
+                     |  "description": "$description"
+                     |}
+                     |""".stripMargin)
+            .as[Country] mustEqual country
       }
     }
 
@@ -134,5 +130,4 @@ class CountrySpec extends SpecBase with ScalaCheckPropertyChecks with Generators
       )
     }
   }
-
 }

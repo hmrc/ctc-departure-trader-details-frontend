@@ -16,7 +16,7 @@
 
 package utils.cyaHelpers
 
-import base.SpecBase
+import base.{AppWithDefaultMockFixtures, SpecBase}
 import controllers.consignment.consignee.routes as consigneeRoutes
 import controllers.consignment.consignor.contact.routes as contactRoutes
 import controllers.consignment.consignor.routes as consignorRoutes
@@ -33,7 +33,7 @@ import uk.gov.hmrc.govukfrontend.views.html.components.implicits.*
 import uk.gov.hmrc.govukfrontend.views.html.components.{ActionItem, Actions}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.*
 
-class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
+class ConsignmentCheckYourAnswersHelperSpec extends SpecBase with AppWithDefaultMockFixtures with ScalaCheckPropertyChecks with Generators {
 
   "ConsignmentCheckYourAnswersHelper" - {
 
