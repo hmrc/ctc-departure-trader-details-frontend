@@ -16,8 +16,8 @@
 
 package utils.cyaHelpers
 
-import base.SpecBase
-import controllers.consignment.{routes => consignmentRoutes}
+import base.{AppWithDefaultMockFixtures, SpecBase}
+import controllers.consignment.routes as consignmentRoutes
 import generators.Generators
 import models.Mode
 import org.scalacheck.Arbitrary.arbitrary
@@ -27,7 +27,7 @@ import uk.gov.hmrc.govukfrontend.views.html.components.implicits.*
 import uk.gov.hmrc.govukfrontend.views.html.components.{ActionItem, Actions}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.*
 
-class HeaderCheckYourAnswersHelperSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
+class HeaderCheckYourAnswersHelperSpec extends SpecBase with AppWithDefaultMockFixtures with ScalaCheckPropertyChecks with Generators {
 
   "HeaderCheckYourAnswersHelper" - {
 

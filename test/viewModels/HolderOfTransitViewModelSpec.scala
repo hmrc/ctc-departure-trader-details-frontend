@@ -16,21 +16,21 @@
 
 package viewModels
 
-import base.SpecBase
+import base.{AppWithDefaultMockFixtures, SpecBase}
 import generators.Generators
-import pages.holderOfTransit._
+import pages.holderOfTransit.*
 import models.reference.{Country, CountryCode}
 import models.{DynamicAddress, Mode}
 import org.scalacheck.Arbitrary.arbitrary
 import viewModels.traderDetails.HolderOfTransitViewModel.HolderOfTransitViewModelProvider
 
-class HolderOfTransitViewModelSpec extends SpecBase with Generators {
+class HolderOfTransitViewModelSpec extends SpecBase with AppWithDefaultMockFixtures with Generators {
 
   "apply" - {
     "when user answers empty" - {
       "must return empty rows" in {
         val mode              = arbitrary[Mode].sample.value
-        val viewModelProvider = injector.instanceOf[HolderOfTransitViewModelProvider]
+        val viewModelProvider = new HolderOfTransitViewModelProvider()
         val sections          = viewModelProvider.apply(emptyUserAnswers, mode).sections
 
         sections.size mustEqual 2
@@ -58,7 +58,7 @@ class HolderOfTransitViewModelSpec extends SpecBase with Generators {
           .setValue(contact.TelephoneNumberPage, "phone number")
 
         val mode              = arbitrary[Mode].sample.value
-        val viewModelProvider = injector.instanceOf[HolderOfTransitViewModelProvider]
+        val viewModelProvider = new HolderOfTransitViewModelProvider()
         val sections          = viewModelProvider.apply(answers, mode).sections
 
         sections.size mustEqual 2
