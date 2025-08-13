@@ -16,22 +16,22 @@
 
 package viewModels
 
-import base.SpecBase
+import base.{AppWithDefaultMockFixtures, SpecBase}
 import generators.Generators
-import pages.consignment._
+import pages.consignment.*
 import models.reference.{Country, CountryCode}
 import models.{DynamicAddress, Mode}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import viewModels.traderDetails.ConsignmentViewModel.ConsignmentViewModelProvider
 
-class ConsignmentViewModelSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
+class ConsignmentViewModelSpec extends SpecBase with AppWithDefaultMockFixtures with ScalaCheckPropertyChecks with Generators {
 
   "apply" - {
     "when user answers empty" - {
       "must return empty rows" in {
         val mode              = arbitrary[Mode].sample.value
-        val viewModelProvider = injector.instanceOf[ConsignmentViewModelProvider]
+        val viewModelProvider = new ConsignmentViewModelProvider()
         val sections          = viewModelProvider.apply(emptyUserAnswers, mode).sections
 
         sections.size mustEqual 3

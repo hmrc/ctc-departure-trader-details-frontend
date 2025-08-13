@@ -16,7 +16,7 @@
 
 package viewModels
 
-import base.SpecBase
+import base.{AppWithDefaultMockFixtures, SpecBase}
 import generators.Generators
 import pages.representative.*
 import models.Mode
@@ -24,13 +24,13 @@ import org.scalacheck.Arbitrary.arbitrary
 import pages.ActingAsRepresentativePage
 import viewModels.traderDetails.RepresentativeViewModel.RepresentativeViewModelProvider
 
-class RepresentativeViewModelSpec extends SpecBase with Generators {
+class RepresentativeViewModelSpec extends SpecBase with AppWithDefaultMockFixtures with Generators {
 
   "apply" - {
     "when user answers empty" - {
       "must return empty rows" in {
         val mode              = arbitrary[Mode].sample.value
-        val viewModelProvider = injector.instanceOf[RepresentativeViewModelProvider]
+        val viewModelProvider = new RepresentativeViewModelProvider()
         val sections          = viewModelProvider.apply(emptyUserAnswers, mode).sections
 
         sections.size mustEqual 1
