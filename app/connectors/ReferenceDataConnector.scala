@@ -38,8 +38,7 @@ class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpCli
     http
       .get(url)
       .setHeader(HeaderNames.Accept -> {
-        val version = if (config.isPhase6Enabled) "2.0" else "1.0"
-        s"application/vnd.hmrc.$version+json"
+        s"application/vnd.hmrc.2.0+json"
       })
       .execute[Responses[T]]
 
@@ -48,13 +47,13 @@ class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpCli
 
   def getCountriesFullList()(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[Responses[Country]] = {
     val url                            = url"${config.referenceDataUrl}/lists/CountryCodesForAddress"
-    implicit val reads: Reads[Country] = Country.reads(config)
+    implicit val reads: Reads[Country] = Country.reads()
     get[Country](url)
   }
 
   def getCountriesWithoutZipCountry(code: String)(implicit ec: ExecutionContext, hc: HeaderCarrier): Future[Response[CountryCode]] = {
-    val queryParameters                    = CountryCode.queryParams(code)(config)
-    implicit val reads: Reads[CountryCode] = CountryCode.reads(config)
+    val queryParameters                    = CountryCode.queryParams(code)
+    implicit val reads: Reads[CountryCode] = CountryCode.reads()
     val url                                = url"${config.referenceDataUrl}/lists/CountryWithoutZip?$queryParameters"
     getOne[CountryCode](url)
   }
@@ -63,7 +62,7 @@ class ReferenceDataConnector @Inject() (config: FrontendAppConfig, http: HttpCli
     (_: String, url: String, response: HttpResponse) =>
       response.status match {
         case OK =>
-          val json = if (config.isPhase6Enabled) response.json else response.json \ "data"
+          val json = response.json
           json.validate[List[A]] match {
             case JsSuccess(Nil, _) =>
               Left(NoReferenceDataFoundException(url))
