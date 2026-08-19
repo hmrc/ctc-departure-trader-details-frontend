@@ -17,7 +17,6 @@
 package models.reference
 
 import cats.Order
-import config.FrontendAppConfig
 import models.Selectable
 import play.api.libs.functional.syntax.*
 import play.api.libs.json.{__, Json, OFormat, Reads}
@@ -30,15 +29,11 @@ case class Country(code: CountryCode, description: String) extends Selectable {
 
 object Country {
 
-  def reads(config: FrontendAppConfig): Reads[Country] =
-    if (config.isPhase6Enabled) {
-      (
-        (__ \ "key").read[CountryCode] and
-          (__ \ "value").read[String]
-      )(Country.apply)
-    } else {
-      Json.reads[Country]
-    }
+  def reads(): Reads[Country] =
+    (
+      (__ \ "key").read[CountryCode] and
+        (__ \ "value").read[String]
+    )(Country.apply)
 
   implicit val format: OFormat[Country] = Json.format[Country]
 
